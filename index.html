@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Playlist harmonique</title>
+        <link rel="stylesheet" href="css/style.css" media="all">
+    </head>
+    <body>
+        <form>
+            <input type="text" id="deezer-selection" placeholder="Entrez un nom de morceau">
+            <button id="go">Go!</button>
+        </form>
+        <div id="test"></div>
+        <div id="dz-root"></div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://cdns-files.dzcdn.net/js/min/dz.js"></script>
+        <script>
+            DZ.init({
+                appId  : '95a754773864b313d25c009ebc18bd96',
+                channelUrl : 'http://localhost:8000'
+            });
+        </script>
+        <script>
+            $( document ).ready(function() {
+                $( "#go" ).click(function(e) {
+                    e.preventDefault();
+                    searchTracks();
+                    // getTopTracksInfos("3135556");
+                });
+            });
+        </script>
+        <script>
+            // Recherche de morceaux (Deezer)
+            var searchTracks = function() {
+                var urlDeezer = "http://api.deezer.com/search/track";
+                var keyword = $( "#deezer-selection" ).val();
+                var params = {
+                    "q": keyword,
+                    "limit": 10,
+                    "output": "jsonp"
+                };
+                $.ajax({
+                    type: "GET",
+                    url: urlDeezer,
+                    dataType: "jsonp",
+                    data: params,
+                    success: function(response) {
+                        console.log(response);
+                        for (var i = 0; i < response.data.length; i++) {
+                            var track = response.data[i];
+                            $( "#test" ).append("<a href=\"#\" id=\"" + track.id + "\" class=\"tracks\">" + track.title + "</a>");
+                            $( "#" + track.id ).click(function(e) {
+                                getTrackInfos(track.id);
+                            });
+                        }
+                    }
+                });
+            }
+            
+            // Récupération des informations sur un morceau (Deezer)
+            var getTrackInfos = function(trackId) {
+                var urlDeezer = "http://api.deezer.com/track/" + trackId;
+                var params = {
+                    "output": "jsonp"
+                };
+                $.ajax({
+                    type: "GET",
+                    url: urlDeezer,
+                    dataType: "jsonp",
+                    data: params,
+                    success: function(response) {
+                        console.log(response);
+                        var artistId = response.artist.id;
+                        getSimilarArtists(artistId);
+                    }
+                });
+            }
+            
+            // Récupération des artistes similaires (Deezer)
+            var getSimilarArtists = function(artistId) {
+                var urlDeezer = "http://api.deezer.com/artist/" + artistId + "/related";
+                var params = {
+                    "limit": 10,
+                    "output": "jsonp"
+                };
+                $.ajax({
+                    type: "GET",
+                    url: urlDeezer,
+                    dataType: "jsonp",
+                    data: params,
+                    success: function(response) {
+                        console.log(response);
+                        var artists = [];
+                        for (var i = 0; i < response.data.length; i++) {
+                            artists.push({
+                                "request_method":"get",
+                                "relative_url":"artist/" + response.data[i].id + "/top"
+                            });
+                        }
+                        artists = JSON.stringify(artists);
+                        getTopTracks(artists);
+                    }
+                });
+            }
+            
+            // Récupération des 10 chansons les plus populaires de chaque artiste similaire (Deezer)
+            var getTopTracks = function(similarArtists) {
+                var urlDeezer = "http://api.deezer.com/batch";
+                var params = {
+                    "limit": 10,
+                    "output": "jsonp",
+                    "methods": similarArtists
+                };
+                $.ajax({
+                    type: "GET",
+                    url: urlDeezer,
+                    dataType: "jsonp",
+                    data: params,
+                    success: function(response) {
+                        console.log(response);
+                        // var topTracksIds = [];
+                        for (var i = 0; i < response.batch_result.length; i++) {
+                            var artist = response.batch_result[i];
+                            for (var j = 0; j < artist.data.length; j++) {
+                                var topTrack = artist.data[j];
+                                getTopTrackInfos(topTrack.id);
+                                // topTracksIds.push(topTrack.id);
+                            }
+                        }
+                        // getTopTracksInfos(topTracksIds);
+                    }
+                });
+            }
+            
+            // Récupération des informations de tempo et de tonalité pour tous les top morceaux (Echo Nest)
+            var getTopTrackInfos = function(topTrackId) {
+                var urlEchoNest = "http://developer.echonest.com/api/v4/track/profile";
+                var params = {
+                    "api_key": "VUSUA1HN4HMWUIN5P",
+                    "id": "deezer:track:" + topTrackId,
+                    "format": "jsonp",
+                    "bucket": "audio_summary"
+                };
+                $.ajax({
+                    type: "GET",
+                    url: urlEchoNest,
+                    dataType: "jsonp",
+                    data: params,
+                    success: function(response) {
+                        console.log(response);
+                        // console.log(response.status.message);
+                        if (response.status.message == "Success") {
+                            var audio = response.track.audio_summary;
+                            var key = audio.key;
+                            var mode = audio.mode;
+                            var tempo = audio.tempo;
+                            $( "#test" ).append( "<ul><li>Morceau : " + response.track.title + "</li><li>Tonalité : " + key + "</li><li>Mode : " + mode + "</li><li>Tempo : " + tempo + "</li></ul>" );
+                        }
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
