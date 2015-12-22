@@ -1,5 +1,7 @@
-* {
-    border: 0;
-    padding: 0;
-    margin: 0;
+body {
+    background-color: #F2F2F2;
+}
+
+#deezer-selection {
+    margin: 15px;
 }
