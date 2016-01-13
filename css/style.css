@@ -1,7 +1,51 @@
+/* ========================================== */
+/* ================= Reset ================= */
+/* ======================================== */
+
+* {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* ========================================== */
+/* ================ Polices ================ */
+/* ======================================== */
+
+
+
+/* ========================================== */
+/* ================= Global ================ */
+/* ======================================== */
+
 body {
-    background-color: #F2F2F2;
+    background-image: url('../images/equalizer.png') !important;
 }
 
 #deezer-selection {
     margin: 15px;
+}
+
+video {
+    position: fixed; right: 0; bottom: 0;
+    min-width: 100%; min-height: 100%;
+    width: auto; height: auto; z-index: -100;
+    background: url('../images/equalizer.png') no-repeat;
+    background-size: cover;
+}
+
+@media screen and (max-device-width: 800px) {
+    html { background: url('../images/equalizer.png') #000 no-repeat center center fixed; }
+    video { display: none; }
+}
+
+#test {
+    color: black;
+    background-color: white;
+    padding: 15px;
+    width: 600px;
+}
+
+#test ul {
+    margin: 25px 0;
 }

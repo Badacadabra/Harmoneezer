@@ -5,34 +5,37 @@
         <title>Playlist harmonique</title>
         <link rel="stylesheet" href="css/style.css" media="all">
         <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
     </head>
-    <body>
-        <form id="search">
-            <div class="ui massive icon input">
-                <input type="text" id="deezer-selection" placeholder="Vous cherchez un morceau ?">
-                <i class="search icon"></i>
-            </div>
-        </form>
+    <body class="mCustomScrollbar" data-mcs-theme="light">
+<!--
+        <video autoplay loop poster="../images/equalizer.png">
+            <source src="../videos/concert.mp4" type="video/mp4">
+            <source src="../videos/concert.webm" type="video/webm">
+        </video>
+-->
+        <div id="main-wrapper">
+            <form id="search">
+                <div class="ui massive icon input">
+                    <input type="text" id="deezer-selection" placeholder="Vous cherchez un morceau ?">
+                    <i class="search icon"></i>
+                </div>
+            </form>
+        </div>
         <div id="test"></div>
         <div id="dz-root"></div>
+        <div class="ui page dimmer">
+            <div class="content">
+                <div id="main-loader" class="ui large indeterminate text loader">Chargement de la playlist</div>
+            </div>
+        </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="https://cdns-files.dzcdn.net/js/min/dz.js"></script>
         <script src="semantic/dist/semantic.min.js"></script>
-        <script>
-            DZ.init({
-                appId  : '95a754773864b313d25c009ebc18bd96',
-                channelUrl : 'http://localhost:8000'
-            });
-        </script>
-        <script>
-            $( document ).ready(function() {
-                $( "#search" ).submit(function(e) {
-                    e.preventDefault();
-                    searchTracks();
-                    // getTopTrackInfos("3135556");
-                });
-            });
-        </script>
+        <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="js/musicVocabulary.js"></script>
+        <script src="js/deezer.js"></script>
+        <script src="js/AjaxRequest.js"></script>
         <script src="js/ajaxRequests.js"></script>
     </body>
 </html>
