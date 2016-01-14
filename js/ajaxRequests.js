@@ -7,16 +7,13 @@ $( document ).ready(function() {
 });
 
 // Recherche de morceaux (Deezer)
-var searchTracks = function() {
+function searchTracks() {
 
     var keyword = $( "#deezer-selection" ).val();
-    var params = {
-        "q": keyword,
-        "limit": 20,
-        "output": "jsonp"
-    };
 
-    request = new AjaxRequest("GET", "http://api.deezer.com/search/track", "jsonp", params);
+    request = new AjaxRequestFactory().getAjaxRequest("deezer", "/search/track");
+    request.addParam("q", keyword);
+    request.addParam("limit", 20);
     request.send(success, null);
 
     function success(response) {
@@ -39,30 +36,26 @@ function selectedTrack(id) {
 }
 
 // Récupération des informations de tempo et de tonalité pour le morceau sélectionné (Echo Nest)
-var getInitialAudioSummary = function(trackId) {
+function getInitialAudioSummary(trackId) {
 
-    var params = {
-        "api_key": "VUSUA1HN4HMWUIN5P",
-        "id": "deezer:track:" + trackId,
-        "format": "jsonp",
-        "bucket": "audio_summary"
-    };
-
-    request = new AjaxRequest("GET", "http://developer.echonest.com/api/v4/track/profile", "jsonp", params);
+    request = new AjaxRequestFactory().getAjaxRequest("echonest", "/track/profile");
+    request.addParam("id", "deezer:track:" + trackId);
     request.send(success, null);
 
     function success(final) {
         if (final.response.track != undefined) {
             if (!$.isEmptyObject(final.response.track.audio_summary)) {
                 console.log(final.response);
-                var track = final.response.track;
-                var title = track.title;
-                var artist = track.artist;
-                var keyIndex = track.audio_summary.key;
-                var key = keys[keyIndex];
-                var modeIndex = track.audio_summary.mode;
-                var mode = modes[modeIndex];
-                var tempo = track.audio_summary.tempo;
+
+                var track = final.response.track,
+                    title = track.title,
+                    artist = track.artist,
+                    keyIndex = track.audio_summary.key,
+                    key = keys[keyIndex],
+                    modeIndex = track.audio_summary.mode,
+                    mode = modes[modeIndex],
+                    tempo = Math.round(track.audio_summary.tempo);
+
                 buildRefTrackProfile(title, artist, key, mode, tempo);
             }
         }
@@ -71,35 +64,28 @@ var getInitialAudioSummary = function(trackId) {
 }
 
 // Fonction construisant le profil du morceau de référence
-var refTrackTitle;
-var refTrackArtist;
-var refTrackKey;
-var refTrackMode;
-var refTrackTempo;
-var refTrackTempoMin;
-var refTrackTempoMax;
-var refTrackCamelotTag;
-var tempoTolerance = 0.05;
+var refTrack;
+refTrack = new Track("Inconnu", "Inconnu", "Inconnu", "Inconnu", 0, "Inconnu", []);
 
 function buildRefTrackProfile(title, artist, key, mode, tempo) {
-    refTrackTitle = title;
-    refTrackArtist = artist;
-    refTrackKey = key;
-    refTrackMode = mode;
-    refTrackTempo = Math.round(tempo);
-    refTrackTempoMin = Math.round(refTrackTempo - (refTrackTempo * tempoTolerance));
-    refTrackTempoMax = Math.round(refTrackTempo + (refTrackTempo * tempoTolerance));
-    refTrackCamelotTag = harmonicMix[refTrackMode][refTrackKey]["tag"];
+    var camelotTag = harmonicMix[mode][key]["tag"];
+    var harmonies = camelotWheel[camelotTag]["matches"];
+    refTrack = new Track(title, artist, key, mode, tempo, camelotTag, harmonies);
+    buildHarmonyProfile(refTrack);
+}
+
+// Fonction construisant le profil de l'harmonie recherchée
+var harmony;
+harmony = new Harmony(refTrack);
+
+function buildHarmonyProfile(track) {
+    harmony = new Harmony(track);
 }
 
 // Récupération des informations sur un morceau (Deezer)
-var getTrackInfos = function(trackId) {
+function getTrackInfos(trackId) {
 
-    var params = {
-        "output": "jsonp"
-    };
-
-    request = new AjaxRequest("GET", "http://api.deezer.com/track/" + trackId, "jsonp", params);
+    request = new AjaxRequestFactory().getAjaxRequest("deezer", "/track/" + trackId);
     request.send(success, null);
 
     function success(response) {
@@ -111,14 +97,10 @@ var getTrackInfos = function(trackId) {
 }
 
 // Récupération des artistes similaires (Deezer)
-var getSimilarArtists = function(artistId) {
+function getSimilarArtists(artistId) {
 
-    var params = {
-        "limit": 20,
-        "output": "jsonp"
-    };
-
-    request = new AjaxRequest("GET", "http://api.deezer.com/artist/" + artistId + "/related", "jsonp", params);
+    request = new AjaxRequestFactory().getAjaxRequest("deezer", "/artist/" + artistId + "/related");
+    request.addParam("limit", 20);
     request.send(success, null);
 
     function success(response) {
@@ -137,15 +119,11 @@ var getSimilarArtists = function(artistId) {
 }
 
 // Récupération des 10 chansons les plus populaires de chaque artiste similaire (Deezer)
-var getTopTracks = function(similarArtists) {
+function getTopTracks(similarArtists) {
 
-    var params = {
-        "limit": 20,
-        "output": "jsonp",
-        "methods": similarArtists
-    };
-
-    request = new AjaxRequest("GET", "http://api.deezer.com/batch", "jsonp", params);
+    request = new AjaxRequestFactory().getAjaxRequest("deezer", "/batch");
+    request.addParam("limit", 20);
+    request.addParam("methods", similarArtists);
     request.send(success, null);
 
     function success(response) {
@@ -166,61 +144,49 @@ var getTopTracks = function(similarArtists) {
 }
 
 // Récupération des informations de tempo et de tonalité pour tous les top morceaux (Echo Nest)
-var getTopTrackInfos = function(topTrackId) {
+function getTopTrackInfos(topTrackId) {
 
-    var params = {
-        "api_key": "VUSUA1HN4HMWUIN5P",
-        "id": "deezer:track:" + topTrackId,
-        "format": "jsonp",
-        "bucket": "audio_summary"
-    };
-
-    request = new AjaxRequest("GET", "http://developer.echonest.com/api/v4/track/profile", "jsonp", params);
+    request = new AjaxRequestFactory().getAjaxRequest("echonest", "/track/profile");
+    request.addParam("id", "deezer:track:" + topTrackId);
     request.send(success, null);
 
     function success(final) {
         if (final.response.track != undefined) {
             if (!$.isEmptyObject(final.response.track.audio_summary)) {
                 console.log(final.response);
-                var track = final.response.track;
-                var title = track.title;
-                var artist = track.artist;
-                var keyIndex = track.audio_summary.key;
-                var key = keys[keyIndex];
-                var modeIndex = track.audio_summary.mode;
-                var mode = modes[modeIndex];
-                var tempo = "" + track.audio_summary.tempo;
-                var camelotTag = harmonicMix[mode][key]["tag"];
-                var matchingHarmonies = camelotWheel[camelotTag]["matches"];
+
+                var track = final.response.track,
+                    title = track.title,
+                    artist = track.artist,
+                    keyIndex = track.audio_summary.key,
+                    key = keys[keyIndex],
+                    modeIndex = track.audio_summary.mode,
+                    mode = modes[modeIndex],
+                    tempo = Math.round(track.audio_summary.tempo),
+                    camelotTag = harmonicMix[mode][key]["tag"];
+
                 // if (parseInt(tempo) >= refTrackTempoMin
                 //        && parseInt(tempo) <= refTrackTempoMax
                 //        && $.inArray(refTrackCamelotTag, matchingHarmonies) != -1) {
                     str = "<ul>";
                     str += "<li>Morceau : " + title + "</li>";
                     str += "<li>Artiste : " + artist + "</li>";
+                    str += "<li>Mode : " + mode + "</li>";
                     str += "<li>Tonalité : " + key + "</li>";
                     str += "<li>Tag (Camelot) du morceau courant : " + camelotTag + "</li>";
-                    str += "<li>Tag (Camelot) du morceau de référence : " + refTrackCamelotTag;
-                    str += "<li>Mode : " + mode + "</li>";
-                    str += "<li>Tempo : " + tempo.substr(0, tempo.indexOf(".")) + " BPM</li>";
-                    str += "<li>Tempo du morceau de référence : " + refTrackTempo;
-                    str += "<li>Tempo min (pour le mix harmonique) : " + refTrackTempoMin;
-                    str += "<li>Tempo max (pour le mix harmonique) : " + refTrackTempoMax;
-                    str += "<li>Harmonies possibles : " + matchingHarmonies;
-                    if (parseInt(tempo) >= refTrackTempoMin
-                        && parseInt(tempo) <= refTrackTempoMax
-                        && $.inArray(refTrackCamelotTag, matchingHarmonies) != -1) {
+                    str += "<li>Tag (Camelot) du morceau de référence : " + refTrack.getCamelotTag();
+                    str += "<li>Tempo : " + tempo + " BPM</li>";
+                    str += "<li>Tempo du morceau de référence : " + refTrack.getTempo() + " BPM";
+                    str += "<li>Tempo min (pour le mix harmonique) : " + harmony.tempoMin() + " BPM";
+                    str += "<li>Tempo max (pour le mix harmonique) : " + harmony.tempoMax() + " BPM";
+                    str += "<li>Harmonies possibles : " + refTrack.getHarmonies();
+                    if (parseInt(tempo) >= harmony.tempoMin()
+                        && parseInt(tempo) <= harmony.tempoMax()
+                        && $.inArray(camelotTag, refTrack.getHarmonies()) != -1) {
                         str += "<li style=\"color:red;\">Ce morceau devrait faire partie de la playlist !</li>";
                     }
                     str += "</ul>";
                     $( "#test" ).append( str );
-
-                    console.log("Tempo du morceau : " + parseInt(tempo));
-                    console.log("Tempo min pour le mix harmonique : " + refTrackTempoMin);
-                    console.log("Tempo max pour le mix harmonique : " + refTrackTempoMax);
-                    console.log("Tag du morceau de référence : " + refTrackCamelotTag);
-                    console.log("Tag du morceau courant : " + camelotTag);
-                    console.log("Harmonies possibles : " + matchingHarmonies);
 
                // }
             }
