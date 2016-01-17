@@ -17,10 +17,18 @@ function searchTracks() {
     request.send(success, null);
 
     function success(response) {
-        $( "#test" ).append( "<ul>" );
+        console.log(response);
         for (var i = 0; i < response.data.length; i++) {
             var track = response.data[i];
-            $( "#test ul" ).append("<li><a href=\"#\" id=\"" + track.id + "\" class=\"tracks\">" + track.title + " (" + track.artist.name + ")</a></li>");
+
+            var html = "<div id=\"" + track.id + "\" class=\"track\">";
+                html += "<span class=\"artist-name\">" + track.artist.name  + "</span>";
+                html += "<img src=\"" + track.album.cover_medium + "\" alt=\"" + track.title + "\">";
+                html += "<a href=\"#\">" + track.title + "</a>";
+                html += "</div>";
+
+            $( "#tracks" ).append(html);
+            $( "#results" ).fadeIn();
             selectedTrack(track.id);
         }
     }
@@ -31,6 +39,7 @@ function searchTracks() {
 function selectedTrack(id) {
     $( "#" + id ).click(function() {
         $( ".ui.page.dimmer" ).addClass( "active" );
+        $( "#tracks" ).fadeOut();
         $.when(getInitialAudioSummary(id)).then(getTrackInfos(id));
     });
 }
@@ -133,7 +142,8 @@ function getTopTracks(similarArtists) {
             var artist = response.batch_result[i];
             $.each(artist.data, function(i, item) {
                 var topTrack = item;
-                getTopTrackInfos(topTrack.id);
+                var cover = item.album.cover_medium;
+                getTopTrackInfos(topTrack.id, cover);
                 $( ".ui.page.dimmer" ).removeClass( "active" );
                 // topTracksIds.push(topTrack.id);
             });
@@ -144,7 +154,7 @@ function getTopTracks(similarArtists) {
 }
 
 // Récupération des informations de tempo et de tonalité pour tous les top morceaux (Echo Nest)
-function getTopTrackInfos(topTrackId) {
+function getTopTrackInfos(topTrackId, cover) {
 
     request = new AjaxRequestFactory().getAjaxRequest("echonest", "/track/profile");
     request.addParam("id", "deezer:track:" + topTrackId);
@@ -168,25 +178,26 @@ function getTopTrackInfos(topTrackId) {
                 // if (parseInt(tempo) >= refTrackTempoMin
                 //        && parseInt(tempo) <= refTrackTempoMax
                 //        && $.inArray(refTrackCamelotTag, matchingHarmonies) != -1) {
-                    str = "<ul>";
-                    str += "<li>Morceau : " + title + "</li>";
-                    str += "<li>Artiste : " + artist + "</li>";
-                    str += "<li>Mode : " + mode + "</li>";
-                    str += "<li>Tonalité : " + key + "</li>";
-                    str += "<li>Tag (Camelot) du morceau courant : " + camelotTag + "</li>";
-                    str += "<li>Tag (Camelot) du morceau de référence : " + refTrack.getCamelotTag();
-                    str += "<li>Tempo : " + tempo + " BPM</li>";
-                    str += "<li>Tempo du morceau de référence : " + refTrack.getTempo() + " BPM";
-                    str += "<li>Tempo min (pour le mix harmonique) : " + harmony.tempoMin() + " BPM";
-                    str += "<li>Tempo max (pour le mix harmonique) : " + harmony.tempoMax() + " BPM";
-                    str += "<li>Harmonies possibles : " + refTrack.getHarmonies();
+                    str = "<div class=\"harmonic-track\">";
+                    str += "<span class=\"artist-name\">" + artist + "</span>";
+                    str += "<img src=\"" + cover + "\" alt=\"" + title + "\">";
+                    str += "<a href=\"#\">" + title + "</a>";
+                    str += "<span>Mode : " + mode + "</span>";
+                    str += "<span>Tonalité : " + key + "</span>";
+                    str += "<span>Tag courant : " + camelotTag + "</span>";
+                    str += "<span>Tag de référence : " + refTrack.getCamelotTag();
+                    str += "<span>Tempo : " + tempo + " BPM</span>";
+                    str += "<span>Tempo de référence : " + refTrack.getTempo() + " BPM</span>";
+                    str += "<span>Tempo min : " + harmony.tempoMin() + " BPM</span>";
+                    str += "<span>Tempo max : " + harmony.tempoMax() + " BPM</span>";
+                    str += "<span>Harmonies possibles : " + refTrack.getHarmonies() + "</span>";
                     if (parseInt(tempo) >= harmony.tempoMin()
                         && parseInt(tempo) <= harmony.tempoMax()
                         && $.inArray(camelotTag, refTrack.getHarmonies()) != -1) {
-                        str += "<li style=\"color:red;\">Ce morceau devrait faire partie de la playlist !</li>";
+                        str += "<div style=\"color:red;\">Ce morceau devrait faire partie de la playlist !</div>";
                     }
-                    str += "</ul>";
-                    $( "#test" ).append( str );
+                    str += "</div>";
+                    $( "#harmonic-tracks" ).append( str );
 
                // }
             }
