@@ -1,6 +1,0 @@
-- Site sur le thème de la musique
-- Notion de sélection (playlists) ---> Zone de visualisation de la playlist (intégration naturelle du player Deezer)
-- Design fullscreen avec images et vidéos HD
-- Design interactif : l'utilisateur peut interagir avec des éléments du décor
-- Symboles de la musique : portée, note, instrument, concert, égaliseur, enceinte, ampli, baladeur mp3, etc.
-- Expression de différents genres musicaux à l'aide d'un effet parallaxe sur de jolis backgrounds

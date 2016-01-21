@@ -1,0 +1,33 @@
+{
+  "name": "playlist-harmonique",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "Baptiste Vannesson"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "music",
+    "playlist",
+    "harmony"
+  ],
+  "homepage": "https://github.com/Badacadabra/playlist-harmonique",
+  "moduleType": [
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery-ui": "jqueryui#~1.11.4",
+    "vegas": "~2.1.3",
+    "jquery": "~2.2.0"
+  },
+  "devDependencies": {
+    "qunit": "~1.20.0"
+  }
+}
