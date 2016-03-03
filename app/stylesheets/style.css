@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* ========================================== */
 /* ================= Reset ================= */
 /* ======================================== */
@@ -6,13 +7,6 @@
   border: 0;
   padding: 0;
   margin: 0;
-}
-
-/* line 13, ../sass/style.scss */
-a {
-  color: white !important;
-  font-weight: bold !important;
-  font-style: italic;
 }
 
 /* ========================================== */
@@ -28,87 +22,21 @@ a {
 /* ========================================== */
 /* ================= Global ================ */
 /* ======================================== */
-/* line 39, ../sass/style.scss */
+/* line 33, ../sass/style.scss */
 body {
   /* background: url('../images/background/music.jpg') no-repeat center center fixed !important; */
   background-size: cover !important;
   overflow: hidden !important;
 }
 
-/* line 45, ../sass/style.scss */
-input#deezer-selection {
-  font-family: actionman_regular, sans-serif;
-  font-size: xx-large;
-  padding: 15px !important;
-  border: 0 !important;
-  border-bottom: solid 2px #A2A2A2 !important;
-  border-radius: 0 !important;
-  transition: border-color .5s ease;
+/* line 39, ../sass/style.scss */
+.red {
+  color: red;
 }
 
-/* line 55, ../sass/style.scss */
-input#deezer-selection:focus {
-  border-bottom-color: white !important;
-}
-
-/* line 59, ../sass/style.scss */
-input#deezer-selection + .search.icon {
-  margin-right: 25px;
-}
-
-/* line 63, ../sass/style.scss */
-#results {
-  padding: 15px;
-  width: 100%;
-  background-color: #5C5C5C;
-}
-/* line 68, ../sass/style.scss */
-#results #tracks, #results #harmonic-tracks {
-  padding: 15px;
-  position: relative;
-  display: flex;
-  flex-wrap: nowrap;
-  transition: transform .5s ease-in-out;
-}
-/* line 75, ../sass/style.scss */
-#results #tracks .track, #results #tracks .harmonic-track, #results #harmonic-tracks .track, #results #harmonic-tracks .harmonic-track {
-  cursor: pointer;
-  background-color: #131619;
-  margin-right: 10px;
-  padding-bottom: 10px;
-  text-align: center;
+/* line 43, ../sass/style.scss */
+.green {
   color: green;
-}
-/* line 83, ../sass/style.scss */
-#results #tracks .track .artist-name, #results #tracks .harmonic-track .artist-name, #results #harmonic-tracks .track .artist-name, #results #harmonic-tracks .harmonic-track .artist-name {
-  font-size: large;
-  font-weight: bold;
-  font-variant: small-caps;
-  color: white;
-}
-/* line 91, ../sass/style.scss */
-#results #tracks .track:hover, #results #tracks .harmonic-track:hover, #results #harmonic-tracks .track:hover, #results #harmonic-tracks .harmonic-track:hover {
-  opacity: 0.9;
-}
-
-/* line 97, ../sass/style.scss */
-form#search {
-  justify-content: center;
-  background-color: #131619 !important;
-}
-
-/* line 102, ../sass/style.scss */
-#ipod {
-  width: 200px;
-  position: absolute;
-  top: 100px;
-  right: 30px;
-  z-index: 10 !important;
-}
-
-/* line 109, ../sass/style.scss */
-#ipod:hover {
-  cursor: move;
 }
 
 @keyframes loading {
@@ -119,7 +47,13 @@ form#search {
     transform: rotate(360deg);
   }
 }
-/* line 122, ../sass/style.scss */
+/* line 56, ../sass/style.scss */
+#main-wrapper {
+  position: relative;
+  z-index: 100;
+}
+
+/* line 61, ../sass/style.scss */
 #loading-text {
   font-weight: bold;
   font-size: x-large;
@@ -128,7 +62,7 @@ form#search {
   z-index: 10;
 }
 
-/* line 130, ../sass/style.scss */
+/* line 69, ../sass/style.scss */
 #vinyl {
   width: 200px;
   margin: auto;
@@ -140,61 +74,168 @@ form#search {
   animation: loading 7s linear infinite;
 }
 
-/* line 138, ../sass/style.scss */
-footer {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  max-height: 0px;
-  height: 500px;
-  margin: auto;
-  background: url("../images/background/equalizer-min.png") no-repeat;
-  transition: max-height 0.5s;
+/* ========================================== */
+/* ================= Search ================ */
+/* ======================================== */
+/* line 81, ../sass/style.scss */
+input#deezer-selection {
+  font-family: actionman_regular, sans-serif;
+  font-size: xx-large;
+  padding: 15px !important;
+  border: 0 !important;
+  border-bottom: solid 2px #A2A2A2 !important;
+  border-radius: 0 !important;
+  transition: border-color .5s ease;
+  position: relative;
+  z-index: 100;
 }
 
-/* line 148, ../sass/style.scss */
-#displayFooter {
-  cursor: pointer;
-  position: absolute;
-  text-align: center;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  color: #272B2D;
-  border-radius: 100px 100px 0 0;
-  transition: bottom 0.5s;
+/* line 93, ../sass/style.scss */
+input#deezer-selection:focus {
+  border-bottom-color: white !important;
 }
 
-/* line 158, ../sass/style.scss */
-#displayFooter i {
+/* line 97, ../sass/style.scss */
+input#deezer-selection + .search.icon {
+  margin-right: 25px;
+}
+
+/* line 101, ../sass/style.scss */
+form#search {
+  justify-content: center;
+  background-color: #131619 !important;
+}
+
+/* ========================================== */
+/* ================ Résultats ============== */
+/* ======================================== */
+/* line 110, ../sass/style.scss */
+.owl-carousel {
+  background-color: #131619;
+  border-bottom: solid 2px white;
+}
+
+/* line 115, ../sass/style.scss */
+.owl-item {
+  width: 250px !important;
+}
+/* line 118, ../sass/style.scss */
+.owl-item figure {
+  margin: 0;
+  display: block;
+  position: relative;
+  float: left;
+  overflow: hidden;
+}
+/* line 125, ../sass/style.scss */
+.owl-item figure figcaption {
+  position: absolute;
+  background: black;
+  background: rgba(0, 0, 0, 0.75);
+  width: 250px;
+  height: 250px;
   color: white;
-  background-color: black;
-  border-radius: 100px 100px 0 0;
+  padding: 10px 20px;
+  opacity: 0;
+  left: 0;
+  bottom: 5px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-transition: all .3s ease;
+  -moz-transition: all .3s ease;
+  -o-transition: all .3s ease;
+}
+/* line 144, ../sass/style.scss */
+.owl-item figure figcaption h3 {
+  font-family: actionman_regular, sans-serif;
+}
+/* line 149, ../sass/style.scss */
+.owl-item figure figcaption:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+/* line 156, ../sass/style.scss */
+.owl-wrapper-outer {
+  height: 250px;
+}
+
+/* line 160, ../sass/style.scss */
+.owl-controls {
+  display: none !important;
 }
 
 /* line 164, ../sass/style.scss */
-#displayFooter.active {
-  bottom: 500px;
+.owl-item figure:hover figcaption {
+  opacity: 1;
 }
 
-/* line 168, ../sass/style.scss */
-#displayFooter.active + footer {
-  max-height: 500px;
+/* line 170, ../sass/style.scss */
+#harmonic-tracks #tracks-help {
+  color: white;
+  background-color: #188AE3;
+  height: 250px;
+  font-size: xx-large;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+/* line 181, ../sass/style.scss */
+#harmonic-tracks #tracks-help h2 {
+  font-family: actionman_regular, sans-serif;
+  padding: 20px;
 }
 
-/* line 172, ../sass/style.scss */
+/* ========================================== */
+/* ================== iPod ================= */
+/* ======================================== */
+/* line 193, ../sass/style.scss */
+#ipod-wrapper {
+  position: absolute;
+  top: 85px;
+  right: 15px;
+  z-index: 10;
+  width: 125px;
+  height: 208px;
+}
+/* line 200, ../sass/style.scss */
+#ipod-wrapper #ipod {
+  position: absolute;
+}
+/* line 204, ../sass/style.scss */
+#ipod-wrapper #player {
+  width: 105px;
+  height: 80px;
+  background-color: #212129;
+  border-radius: 2px;
+  position: relative;
+  top: 10px;
+  left: 10px;
+}
+
+/* line 215, ../sass/style.scss */
+#ipod-wrapper:hover {
+  cursor: move;
+}
+
+/* ========================================== */
+/* =============== Background ============== */
+/* ======================================== */
+/* line 223, ../sass/style.scss */
 .vegas-timer {
   height: 5px !important;
 }
 
-/* line 176, ../sass/style.scss */
+/* line 227, ../sass/style.scss */
 .vegas-timer-progress {
   background: white none repeat scroll 0 0 !important;
 }
 
-/*
-video {
+/* video {
     position: fixed; right: 0; bottom: 0;
     min-width: 100%; min-height: 100%;
     width: auto; height: auto; z-index: -100;
@@ -205,5 +246,55 @@ video {
 @media screen and (max-device-width: 800px) {
     html { background: url('../images/equalizer.png') #000 no-repeat center center fixed; }
     video { display: none; }
+} */
+/* ========================================== */
+/* ================= Footer ================ */
+/* ======================================== */
+/* line 248, ../sass/style.scss */
+#dzplayer {
+  margin: auto;
 }
-*/
+
+/* line 252, ../sass/style.scss */
+#displayFooter {
+  cursor: pointer;
+  position: absolute;
+  text-align: center;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 100px 100px 0 0;
+  transition: bottom 0.5s;
+  z-index: 100;
+}
+/* line 261, ../sass/style.scss */
+#displayFooter i {
+  color: white;
+  background-color: #131619;
+  border-radius: 100px 100px 0 0;
+}
+
+/* line 268, ../sass/style.scss */
+#displayFooter.active {
+  bottom: 150px;
+}
+
+/* line 272, ../sass/style.scss */
+#displayFooter.active + footer {
+  max-height: 150px;
+}
+
+/* line 276, ../sass/style.scss */
+footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  max-height: 0px;
+  height: 150px;
+  margin: auto;
+  background-color: #131619;
+  /* background: url('../images/background/equalizer-min.png') no-repeat; */
+  transition: max-height 0.5s;
+  z-index: 100;
+}

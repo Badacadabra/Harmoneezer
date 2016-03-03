@@ -1,25 +1,22 @@
 // Drag & drop sur l'iPod et sur les listes de morceaux
-$( "#ipod" ).draggable({ containment: "parent", scroll: false });
-$( "#tracks, #harmonic-tracks" ).draggable({
-    axis: "x",
-    helper: function(){
-        return $( "<div></div>" ).css( "opacity", 0);
-    },
-    drag: function(event, ui) {
-        var p = ui.helper.position();
-        $( this ).stop().animate({
-            left: p.left
-        }, 700, "easeOutCirc");
-    }
+$( "#ipod-wrapper" ).draggable({ containment: "parent", scroll: false });
+
+ // Initialisation du carousel contenant tous les résultats de recherche
+ var owl = $( "#tracks" );
+ owl.owlCarousel({
+   items: 10,
+ });
+
+ // Initialisation du carousel contenant tous les résultats a priori harmoniques
+ var owl2 = $( "#harmonic-tracks" );
+ owl2.owlCarousel({
+   items: 10,
  });
 
 // Gestion du footer
 $( "#displayFooter" ).click(function() {
     $( this ).toggleClass( "active" );
 });
-
-// Parcours des morceaux suggérés à partir du morceau sélectionné
-
 
 // Gestion des ambiances
 $( "body" ).vegas({

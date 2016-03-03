@@ -1,9 +1,10 @@
 /**
 * Classe définissant un morceau de musique.
 */
-function Track(title, artist, key, mode, tempo, camelotTag, harmonies) {
+function Track(title, artist, cover, key, mode, tempo, camelotTag, harmonies) {
     this.title = title;
     this.artist = artist;
+    this.cover = cover;
     this.key = key;
     this.mode = mode;
     this.tempo = tempo;
@@ -11,40 +12,40 @@ function Track(title, artist, key, mode, tempo, camelotTag, harmonies) {
     this.harmonies = harmonies;
 }
 
-Track.prototype.getTitle = function() {
-    return this.title;
-}
-
-Track.prototype.getArtist = function() {
-    return this.artist;
-}
-
-Track.prototype.getKey = function() {
-    return this.key;
-}
-
-Track.prototype.getMode = function() {
-    return this.mode;
-}
-
-Track.prototype.getTempo = function() {
-    return this.tempo;
-}
-
-Track.prototype.getCamelotTag = function() {
-    return this.camelotTag;
-}
-
-Track.prototype.getHarmonies = function() {
-    return this.harmonies;
+Track.prototype = {
+    getTitle: function() {
+      return this.title;
+    },
+    getArtist: function() {
+      return this.artist;
+    },
+    getCover: function() {
+      return this.cover;
+    },
+    getKey: function() {
+      return this.key;
+    },
+    getMode: function() {
+      return this.mode;
+    },
+    getTempo: function() {
+      return this.tempo;
+    },
+    getCamelotTag: function() {
+      return this.camelotTag;
+    },
+    getHarmonies: function() {
+      return this.harmonies;
+    }
 }
 
 
 /**
 * Classe définissant une harmonie musicale.
 */
-function Harmony(track) {
-    this.tempoVariation = 0.05,
+function Harmony(track, tempoVariation, isActive) {
+    this.isActive = isActive,
+    this.tempoVariation = tempoVariation,
     this.tempoMin = function() {
         return Math.round(track.getTempo() - (track.getTempo() * this.tempoVariation));
     },

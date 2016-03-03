@@ -1,15 +1,42 @@
-// À la soumission du formulaire, on lance la cascade de requêtes AJAX
+// Variables globales
+var searchedTracks = [];
+var refTrack;
+var harmony;
+var similarTracks = [];
+var tempoVariation = 0.05;
+
+// Point d'entrée de l'application
 $( document ).ready(function() {
+
+    // À la soumission du formulaire, on lance la cascade de requêtes AJAX
     $( "#search" ).submit(function(e) {
         e.preventDefault();
         searchTracks();
+        $( "#harmonic-tracks" ).hide();
     });
+
+    // Gestion de l'autocomplétion dans le champ de recherche
+    /* $( "#deezer-selection" ).keyup(function() {
+      var minCharacters = 3;
+      if ($( this ).val().length >= minCharacters) {
+        searchTracks();
+      }
+    }); */
+
+});
+
+// Variation du tempo définie par l'utilisateur
+$( "input[type='range']" ).change(function() {
+  tempoVariation = $( this ).val() / 100;
+  console.log(tempoVariation);
 });
 
 // Recherche de morceaux (Deezer)
 function searchTracks() {
 
     var keyword = $( "#deezer-selection" ).val();
+    $( "#results" ).hide();
+    $( "#tracks" ).empty();
 
     request = new AjaxRequestFactory().getAjaxRequest("deezer", "/search/track");
     request.addParam("q", keyword);
@@ -19,16 +46,30 @@ function searchTracks() {
     function success(response) {
         console.log(response);
         for (var i = 0; i < response.data.length; i++) {
-            var track = response.data[i];
 
-            var html = "<div id=\"" + track.id + "\" class=\"track\">";
-                html += "<span class=\"artist-name\">" + track.artist.name  + "</span>";
-                html += "<img src=\"" + track.album.cover_medium + "\" alt=\"" + track.title + "\">";
-                html += "<a href=\"#\">" + track.title + "</a>";
-                html += "</div>";
+            var track = response.data[i],
+                artistName = track.artist.name,
+                maxStringLength = 100;
 
-            $( "#tracks" ).append(html);
+            if (artistName.length > maxStringLength) {
+              artistName = artistName.substr(0, maxStringLength) + + " ...";
+            }
+
+            var html = '<div id="' + track.id + '" class="track">';
+                html += ' <figure>';
+                html += '   <img src="' + track.album.cover_medium + '" alt="' + track.title + '">';
+                html += '   <figcaption>';
+                html += '     <div>';
+                html += '       <h3 class="track-title">' + track.title + '</h3>';
+                html += '       <p class="artist-name">' + artistName + "</p>";
+                html += '     </div>';
+                html += '   </figcaption>';
+                html += ' </figure>';
+                html += '</div>';
+
+            owl.data('owlCarousel').addItem(html);
             $( "#results" ).fadeIn();
+
             selectedTrack(track.id);
         }
     }
@@ -39,8 +80,10 @@ function searchTracks() {
 function selectedTrack(id) {
     $( "#" + id ).click(function() {
         $( ".ui.page.dimmer" ).addClass( "active" );
-        $( "#tracks" ).fadeOut();
-        $.when(getInitialAudioSummary(id)).then(getTrackInfos(id));
+        getInitialAudioSummary(id);
+        getTrackInfos(id);
+        searchedTracks.push(id);
+        initPlayer();
     });
 }
 
@@ -65,7 +108,7 @@ function getInitialAudioSummary(trackId) {
                     mode = modes[modeIndex],
                     tempo = Math.round(track.audio_summary.tempo);
 
-                buildRefTrackProfile(title, artist, key, mode, tempo);
+                buildRefTrackProfile(title, artist, "", key, mode, tempo);
             }
         }
     }
@@ -73,22 +116,20 @@ function getInitialAudioSummary(trackId) {
 }
 
 // Fonction construisant le profil du morceau de référence
-var refTrack;
-refTrack = new Track("Inconnu", "Inconnu", "Inconnu", "Inconnu", 0, "Inconnu", []);
+refTrack = new Track("Inconnu", "Inconnu", "Inconnu", "Inconnu", "Inconnu", 0, "Inconnu", []);
 
-function buildRefTrackProfile(title, artist, key, mode, tempo) {
+function buildRefTrackProfile(title, artist, cover, key, mode, tempo) {
     var camelotTag = harmonicMix[mode][key]["tag"];
     var harmonies = camelotWheel[camelotTag]["matches"];
-    refTrack = new Track(title, artist, key, mode, tempo, camelotTag, harmonies);
+    refTrack = new Track(title, artist, cover, key, mode, tempo, camelotTag, harmonies);
     buildHarmonyProfile(refTrack);
 }
 
 // Fonction construisant le profil de l'harmonie recherchée
-var harmony;
-harmony = new Harmony(refTrack);
+harmony = new Harmony(refTrack, tempoVariation, true);
 
 function buildHarmonyProfile(track) {
-    harmony = new Harmony(track);
+    harmony = new Harmony(track, tempoVariation, true);
 }
 
 // Récupération des informations sur un morceau (Deezer)
@@ -109,7 +150,7 @@ function getTrackInfos(trackId) {
 function getSimilarArtists(artistId) {
 
     request = new AjaxRequestFactory().getAjaxRequest("deezer", "/artist/" + artistId + "/related");
-    request.addParam("limit", 20);
+    request.addParam("limit", 10);
     request.send(success, null);
 
     function success(response) {
@@ -131,7 +172,7 @@ function getSimilarArtists(artistId) {
 function getTopTracks(similarArtists) {
 
     request = new AjaxRequestFactory().getAjaxRequest("deezer", "/batch");
-    request.addParam("limit", 20);
+    request.addParam("limit", 10);
     request.addParam("methods", similarArtists);
     request.send(success, null);
 
@@ -144,7 +185,6 @@ function getTopTracks(similarArtists) {
                 var topTrack = item;
                 var cover = item.album.cover_medium;
                 getTopTrackInfos(topTrack.id, cover);
-                $( ".ui.page.dimmer" ).removeClass( "active" );
                 // topTracksIds.push(topTrack.id);
             });
         }
@@ -161,10 +201,11 @@ function getTopTrackInfos(topTrackId, cover) {
     request.send(success, null);
 
     function success(final) {
+        // Il faut impérativement que les morceaux aient un résumé audio sur Echo Nest
         if (final.response.track != undefined) {
             if (!$.isEmptyObject(final.response.track.audio_summary)) {
                 console.log(final.response);
-
+                //  On récupère toutes les informations utiles
                 var track = final.response.track,
                     title = track.title,
                     artist = track.artist,
@@ -175,33 +216,103 @@ function getTopTrackInfos(topTrackId, cover) {
                     tempo = Math.round(track.audio_summary.tempo),
                     camelotTag = harmonicMix[mode][key]["tag"];
 
-                // if (parseInt(tempo) >= refTrackTempoMin
-                //        && parseInt(tempo) <= refTrackTempoMax
-                //        && $.inArray(refTrackCamelotTag, matchingHarmonies) != -1) {
-                    str = "<div class=\"harmonic-track\">";
-                    str += "<div class=\"artist-name\">" + artist + "</div>";
-                    str += "<img src=\"" + cover + "\" alt=\"" + title + "\">";
-                    str += "<a href=\"#\">" + title + "</a>";
-                    str += "<div>Mode : " + mode + "</div>";
-                    str += "<div>Tonalité : " + key + "</div>";
-                    str += "<div>Tag courant : " + camelotTag + "</div>";
-                    str += "<div>Tag de référence : " + refTrack.getCamelotTag() + "</div>";
-                    str += "<div>Tempo : " + tempo + " BPM</div>";
-                    str += "<div>Tempo de référence : " + refTrack.getTempo() + " BPM</div>";
-                    str += "<div>Tempo min : " + harmony.tempoMin() + " BPM</div>";
-                    str += "<div>Tempo max : " + harmony.tempoMax() + " BPM</div>";
-                    str += "<div>Harmonies possibles : " + refTrack.getHarmonies() + "</div>";
-                    if (parseInt(tempo) >= harmony.tempoMin()
-                        && parseInt(tempo) <= harmony.tempoMax()
-                        && $.inArray(camelotTag, refTrack.getHarmonies()) != -1) {
-                        str += "<div style=\"color:red;\">Ce morceau devrait faire partie de la playlist !</div>";
-                    }
-                    str += "</div>";
-                    $( "#harmonic-tracks" ).append( str );
+                // On alimente un tableau de morceaux pour des tris ultérieurs
+                var topTrack = new Track(title, artist, cover, key, mode, tempo, camelotTag, []);
+                similarTracks.push(topTrack);
 
-               // }
             }
         }
     }
 
+}
+
+// Tri des morceaux selon les critères choisis par l'utilisateur à la fin des requêtes Ajax
+$( document ).ajaxStop(function() {
+  sortTracks();
+});
+
+function sortTracks() {
+  if (similarTracks.length != 0) {
+
+    var nbPerfectMatches = 0;
+
+    for (var i = 0; i < similarTracks.length; i++) {
+
+      var currentTempo = similarTracks[i].getTempo(),
+          tempoMin = harmony.tempoMin(),
+          tempoMax = harmony.tempoMax(),
+          isMatching = ($.inArray(similarTracks[i].getCamelotTag(), refTrack.getHarmonies()) != -1);
+
+      // Si un morceau rempli toutes les conditions du mix harmonique...
+      if (currentTempo >= tempoMin && currentTempo <= tempoMax && isMatching) {
+          nbPerfectMatches++;
+          var item = similarTracks[i];
+          similarTracks.splice(i, 1);
+          similarTracks.splice(0, 0, item);
+        // Si un morceau rempli une condition (tempo ou tonalité) du mix harmonique
+      } else if ((currentTempo >= tempoMin && currentTempo <= tempoMax) || isMatching) {
+          var item = similarTracks[i];
+          similarTracks.splice(i, 1);
+          similarTracks.splice(nbPerfectMatches, 0, item);
+      }
+    }
+    displayTracks();
+  }
+}
+
+// Affichage des morceaux selon un ordre déterminé par le tri
+function displayTracks() {
+  console.log(similarTracks);
+  iterator = new Iterator(similarTracks);
+  while (iterator.hasNext()) {
+    // console.log(iterator.next());
+    var item = iterator.next(),
+        artistName = item.getArtist(),
+        maxStringLength = 100,
+        tempoCssClass = "red",
+        tonalityCssClass = "red";
+
+    if (artistName.length > maxStringLength) {
+      artistName = artistName.substr(0, maxStringLength) + " ...";
+    }
+
+    // On signale les morceaux compatibles en termes de tempo
+    if (item.getTempo() >= harmony.tempoMin() && item.getTempo() <= harmony.tempoMax()) {
+      tempoCssClass = "green";
+    }
+
+    // On signale les morceaux compatibles en termes de tonalité
+    if ($.inArray(item.getCamelotTag(), refTrack.getHarmonies()) != -1) {
+      tonalityCssClass = "green";
+    }
+
+    // Création du template pour affichage
+    html = '<div class="harmonic-track">';
+    html += ' <figure>';
+    html += '   <img src="' + item.getCover() + '" alt="' + item.getTitle() + '">';
+    html += '   <figcaption>';
+    html += '     <div>';
+    html += '      <h3>' + item.getTitle() + '</h3>';
+    html += '      <p class="artist-name">' + artistName + '</p>';
+    html += '      <p class="' + tempoCssClass + '">Tempo : ' + item.getTempo() + ' BPM</p>';
+    html += '      <p class="' + tonalityCssClass + '">Tonalité : ' + item.getKey() + ' ' + item.getMode() + '</p>';
+    html += '     </div>';
+    html += '   </figcaption>';
+    html += ' </figure>';
+    /* html += "<div>Tag courant : " + camelotTag + "</div>";
+    html += "<div>Tag de référence : " + refTrack.getCamelotTag() + "</div>";
+    html += "<div>Tempo de référence : " + refTrack.getTempo() + " BPM</div>";
+    html += "<div>Tempo min : " + harmony.tempoMin() + " BPM</div>";
+    html += "<div>Tempo max : " + harmony.tempoMax() + " BPM</div>";
+    html += "<div>Harmonies possibles : " + refTrack.getHarmonies() + "</div>";
+    if (parseInt(tempo) >= harmony.tempoMin()
+        && parseInt(tempo) <= harmony.tempoMax()
+        && $.inArray(camelotTag, refTrack.getHarmonies()) != -1) {
+        html += "<div style=\"color:red;\">Ce morceau devrait faire partie de la playlist !</div>";
+    }*/
+    html += '</div>';
+
+    owl2.data('owlCarousel').addItem(html);
+    $( ".ui.page.dimmer" ).removeClass( "active" );
+  }
 }
