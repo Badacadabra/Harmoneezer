@@ -1,4 +1,11 @@
-$dark-color: #131619;
+$dark: #131619;
+$blue: #188AE3;
+$green: #5AA628;
+$violet: #AE63E4;
+$red: #F04A3C;
+$orange: #FFA905;
+$pink: #CB7D9C;
+$maroon: #B66F2F;
 
 /* ========================================== */
 /* ================= Reset ================= */
@@ -31,9 +38,13 @@ $dark-color: #131619;
 /* ======================================== */
 
 body {
-    /* background: url('../images/background/music.jpg') no-repeat center center fixed !important; */
-    background-size: cover !important;
     overflow: hidden !important;
+}
+
+.pusher {
+    background: url('../images/background/music.jpg') no-repeat center center fixed !important;
+    background-size: cover !important;
+    height: 100%;
 }
 
 .red {
@@ -53,7 +64,11 @@ body {
     }
 }
 
-#main-wrapper {
+#dzplayer {
+  margin: auto;
+}
+
+#top-wrapper {
   position: relative;
   z-index: 100;
 }
@@ -72,6 +87,10 @@ body {
     position: absolute;
     top: 0; right: 0; bottom: 0; left: 0;
     animation: loading 7s linear infinite;
+}
+
+#mCSB_1_container {
+  margin-right: 0;
 }
 
 /* ========================================== */
@@ -100,7 +119,7 @@ input#deezer-selection + .search.icon {
 
 form#search {
     justify-content: center;
-    background-color: $dark-color !important;
+    background-color: $dark !important;
 }
 
 /* ========================================== */
@@ -108,7 +127,7 @@ form#search {
 /* ======================================== */
 
 .owl-carousel {
-  background-color: $dark-color;
+  background-color: $dark;
   border-bottom: solid 2px white;
 }
 
@@ -169,7 +188,7 @@ form#search {
 
   #tracks-help {
     color: white;
-    background-color: #188AE3;
+    background-color: $blue;
     height: 250px;
     font-size: xx-large;
     text-align: center;
@@ -242,45 +261,126 @@ form#search {
 } */
 
 /* ========================================== */
-/* ================= Footer ================ */
+/* ================ Sidebars =============== */
 /* ======================================== */
 
-#dzplayer {
-  margin: auto;
-}
-
-#displayFooter {
+#display-menu {
     cursor: pointer;
     position: absolute;
     text-align: center;
     right:0; bottom: 0; left: 0;
-    border-radius: 100px 100px 0 0;
     transition: bottom 0.5s;
-    z-index: 100;
 
     i {
       color: white;
-      background-color: $dark-color;
+      background-color: $dark;
       border-radius: 100px 100px 0 0;
+      border-top: solid 2px black;
+      border-left: solid 2px black;
+      border-right: solid 2px black;
     }
 }
 
-#displayFooter.active {
-    bottom: 150px;
+.bottom.sidebar {
+  background-color: $dark;
+  justify-content: center;
+  z-index: 100;
+
+  .item:first-of-type {
+    border-top: solid 3px $blue !important;
+  }
+
+  .item:first-of-type:hover {
+    background-color: $blue !important;
+  }
+
+  .item:nth-of-type(2) {
+    border-top: solid 3px $red !important;
+  }
+
+  .item:nth-of-type(2):hover {
+    background-color: $red !important;
+  }
+
+  .item:nth-of-type(3) {
+    border-top: solid 3px $green !important;
+  }
+
+  .item:nth-of-type(3):hover {
+    background-color: $green !important;
+  }
+
+  .item:nth-of-type(4) {
+    border-top: solid 3px $orange !important;
+  }
+
+  .item:nth-of-type(4):hover {
+    background-color: $orange !important;
+  }
+
+  .item:nth-of-type(5) {
+    border-top: solid 3px $violet !important;
+  }
+
+  .item:nth-of-type(5):hover {
+    background-color: $violet !important;
+  }
+
+  .item:nth-of-type(6) {
+    border-top: solid 3px $maroon !important;
+  }
+
+  .item:nth-of-type(6):hover {
+    background-color: $maroon !important;
+  }
+
+  .item:last-of-type {
+    border-top: solid 3px gray !important;
+  }
+
+  .item:last-of-type:hover {
+    background-color: gray !important;
+  }
 }
 
-#displayFooter.active + footer {
-    max-height: 150px;
+.vertical.sidebar {
+  z-index: 10 !important;
+
+  .item {
+    display: flex !important;
+    align-items: center;
+
+      img {
+        width: 56px !important;
+        margin-right: 20px !important;
+      }
+  }
+
+  .item:last-of-type {
+    padding-bottom: 100px !important;
+  }
 }
 
-footer {
-    position: absolute;
-    right:0; bottom: 0; left: 0;
-    max-height: 0px;
-    height: 150px;
-    margin: auto;
-    background-color: $dark-color;
-    /* background: url('../images/background/equalizer-min.png') no-repeat; */
-    transition: max-height 0.5s;
-    z-index: 100;
+/* ========================================== */
+/* =============== Ambiances =============== */
+/* ======================================== */
+
+#ambiances {
+  display: none;
+  width: 90%;
+  margin: auto;
+
+  .ambiance {
+    max-width: 500px;
+    width: 50%;
+
+    figure {
+      display: flex;
+      justify-content: space-around;
+
+      img {
+        width: 400px;
+      }
+    }
+  }
 }

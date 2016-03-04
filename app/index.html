@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="/bower_components/vegas/dist/vegas.min.css">
         <link rel="stylesheet" href="/bower_components/owlcarousel/owl-carousel/owl.carousel.css">
         <link rel="stylesheet" href="/bower_components/owlcarousel/owl-carousel/owl.theme.css">
+        <link rel="stylesheet" href="/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css">
     </head>
     <body>
 <!--
@@ -16,75 +17,169 @@
             <source src="../videos/concert.webm" type="video/webm">
         </video>
 -->
-        <div id="ipod-wrapper">
-            <img id="ipod" src="images/foreground/ipod.png" alt="iPod">
-            <div id="player"></div>
+        <!-- Menu du bas -->
+        <div class="ui bottom inverted horizontal sidebar labeled icon menu seven item">
+            <a id="playlist-btn" class="item">
+              <i class="music icon"></i>
+              Playlist
+            </a>
+            <a id="favorites-btn" class="item">
+              <i class="heartbeat icon"></i>
+              Favoris
+            </a>
+            <a id="mute-btn" class="item">
+              <i class="mute icon"></i>
+              Muet
+            </a>
+            <a id="previous-btn" class="item">
+              <i class="step backward icon"></i>
+              Précédent
+            </a>
+            <a id="play-btn" class="item">
+              <i class="play icon"></i>
+              Play
+            </a>
+            <a id="pause-btn" class="item">
+              <i class="pause icon"></i>
+              Pause
+            </a>
+            <a id="next-btn" class="item">
+              <i class="step forward icon"></i>
+              Suivant
+            </a>
         </div>
-<!--
-        <img src="images/background/equalizer-min.png" alt="Égaliseur">
--->
-        <div id="main-wrapper">
-            <form id="search">
-                <div class="ui inverted transparent fluid massive icon input">
-                    <input type="text" id="deezer-selection" class="prompt" placeholder="Vous cherchez un morceau ?" autofocus>
-                    <i class="search icon"></i>
-                </div>
-            </form>
+        <!-- Playlist -->
+        <div class="ui left vertical wide sidebar menu">
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 1
+            </a>
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 2
+            </a>
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 3
+            </a>
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 4
+            </a>
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 5
+            </a>
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 6
+            </a>
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 7
+            </a>
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 8
+            </a>
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 9
+            </a>
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 10
+            </a>
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 11
+            </a>
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 12
+            </a>
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 13
+            </a>
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 14
+            </a>
+            <a class="item">
+              <img src="images/foreground/cd.png" alt="">
+              Morceau 15
+            </a>
         </div>
-        <div id="results" style="display:none;">
-            <div id="tracks" class="owl-carousel"></div>
-            <div id="harmonic-tracks" class="owl-carousel">
-              <a id="tracks-help" href="#">
-                <h2>Morceaux similaires</h2>
-                <i class="help circle icon"></i>
-              </a>
+        <!-- Contenu principal -->
+        <div id="main" class="pusher">
+          <!-- iPod -->
+          <div id="ipod-wrapper">
+              <img id="ipod" src="images/foreground/ipod.png" alt="iPod">
+              <div id="player"></div>
+          </div>
+          <!-- Moteur de recherche -->
+          <div id="top-wrapper">
+              <form id="search">
+                  <div class="ui inverted transparent fluid massive icon input">
+                      <input type="text" id="deezer-selection" class="prompt" placeholder="Vous cherchez un morceau ?" autofocus>
+                      <i class="search icon"></i>
+                  </div>
+              </form>
+          </div>
+          <!-- Carousel de résultats -->
+          <div id="results" style="display:none;">
+              <div id="tracks" class="owl-carousel"></div>
+              <div id="harmonic-tracks" class="owl-carousel">
+                <a id="tracks-help" href="#">
+                  <h2>Morceaux similaires</h2>
+                  <i class="help circle icon"></i>
+                </a>
+              </div>
+          </div>
+          <div id="dz-root"></div>
+          <!-- Loader -->
+          <div class="ui page dimmer">
+              <div class="content">
+                  <p id="loading-text">Chargement...</p>
+                  <img id="vinyl" src="images/foreground/vinyl.png" alt="vinyle">
+              </div>
+          </div>
+          <!-- Icône permettant d'afficher le menu du bas -->
+          <div id="display-menu">
+              <i class="huge chevron up icon"></i>
+          </div>
+          <!-- Footer -->
+          <footer>
+            <p>Choisissez la tolérance du tempo</p>
+            <input type="checkbox">Plusieurs morceaux par artiste
+            <input type="range" value="5" max="100" min="0" step="1">
+          </footer>
+          <!-- Pop-ups -->
+          <div class="ui small basic modal transition">
+            <div class="ui icon header">
+              <i class="music icon"></i>
+              Lorem ipsum
             </div>
-        </div>
-        <div id="dz-root"></div>
-        <div class="ui page dimmer">
             <div class="content">
-                <p id="loading-text">Chargement...</p>
-                <img id="vinyl" src="images/foreground/vinyl.png" alt="vinyle">
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis malesuada ipsum, quis accumsan purus iaculis at. Mauris vitae nisi quis tortor eleifend hendrerit ut non augue. Pellentesque quis bibendum lorem, sed rutrum tortor. Mauris eu ante a sem tincidunt pharetra. Pellentesque in pulvinar ex. Maecenas sit amet velit sollicitudin, suscipit nulla id, commodo velit. Proin urna tellus, vehicula quis ullamcorper ut, imperdiet a purus. Suspendisse potenti. Nunc sagittis consequat faucibus. Etiam eget lorem id ex suscipit ornare in a ante. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla auctor massa dictum, scelerisque ipsum ac, feugiat dui. Nam vel ullamcorper nunc. Praesent vel viverra elit, at sodales dui.</p>
+              <p>Mauris sit amet neque mauris. Nam blandit iaculis nisi, blandit bibendum sapien blandit eget. Vivamus congue lorem vitae neque vestibulum sodales. Aliquam erat volutpat. Sed maximus vel velit at iaculis. Cras eget tellus tortor. Nulla maximus libero quis augue consequat maximus. Suspendisse sagittis justo turpis, vel consequat nisl tincidunt a. Aliquam quam felis, blandit vitae convallis et, molestie a ante. Donec sed ornare odio. Proin et congue libero. Ut aliquam mauris at mollis interdum. Aenean et tincidunt tellus. Mauris pretium ullamcorper lacus ut tincidunt. Aliquam viverra, sem vitae aliquet efficitur, sapien ligula pretium sem, at euismod sapien nibh non leo. Pellentesque non magna mi. </p>
             </div>
-        </div>
-        <div id="displayFooter">
-            <i class="huge chevron up icon"></i>
-        </div>
-        <footer>
-          <p>Choisissez la tolérance du tempo</p>
-          <input type="range" value="5" max="100" min="0" step="1">
-        </footer>
-        <!-- Pop-ups -->
-        <div class="ui small basic modal transition">
-          <div class="ui icon header">
-            <i class="music icon"></i>
-            Lorem ipsum
-          </div>
-          <div class="content">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis malesuada ipsum, quis accumsan purus iaculis at. Mauris vitae nisi quis tortor eleifend hendrerit ut non augue. Pellentesque quis bibendum lorem, sed rutrum tortor. Mauris eu ante a sem tincidunt pharetra. Pellentesque in pulvinar ex. Maecenas sit amet velit sollicitudin, suscipit nulla id, commodo velit. Proin urna tellus, vehicula quis ullamcorper ut, imperdiet a purus. Suspendisse potenti. Nunc sagittis consequat faucibus. Etiam eget lorem id ex suscipit ornare in a ante. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla auctor massa dictum, scelerisque ipsum ac, feugiat dui. Nam vel ullamcorper nunc. Praesent vel viverra elit, at sodales dui.</p>
-            <p>Mauris sit amet neque mauris. Nam blandit iaculis nisi, blandit bibendum sapien blandit eget. Vivamus congue lorem vitae neque vestibulum sodales. Aliquam erat volutpat. Sed maximus vel velit at iaculis. Cras eget tellus tortor. Nulla maximus libero quis augue consequat maximus. Suspendisse sagittis justo turpis, vel consequat nisl tincidunt a. Aliquam quam felis, blandit vitae convallis et, molestie a ante. Donec sed ornare odio. Proin et congue libero. Ut aliquam mauris at mollis interdum. Aenean et tincidunt tellus. Mauris pretium ullamcorper lacus ut tincidunt. Aliquam viverra, sem vitae aliquet efficitur, sapien ligula pretium sem, at euismod sapien nibh non leo. Pellentesque non magna mi. </p>
-          </div>
-          <div class="actions">
-            <div class="ui green ok inverted button">OK</div>
+            <div class="actions">
+              <div class="ui green ok inverted button">OK</div>
+            </div>
           </div>
         </div>
         <script src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
         <script src="/bower_components/vegas/dist/vegas.min.js"></script>
+        <script src="/bower_components/owlcarousel/owl-carousel/owl.carousel.min.js"></script>
+        <script src="/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
         <script src="semantic/dist/semantic.min.js"></script>
         <script src="https://cdns-files.dzcdn.net/js/min/dz.js"></script>
-        <script src="/bower_components/owlcarousel/owl-carousel/owl.carousel.min.js"></script>
-        <script src="scripts/musicVocabulary.js"></script>
-        <script src="scripts/musicClasses.js"></script>
-        <script src="scripts/ajaxClasses.js"></script>
-        <script src="scripts/Iterator.js"></script>
-        <script src="scripts/gui.js"></script>
-        <script src="scripts/ajaxRequests.js"></script>
-        <script src="scripts/deezer.js"></script>
-        <script>
-          $( "#tracks-help" ).click(function() {
-            $('.ui.modal').modal('show');
-          });
-        </script>
+        <script src="js/scripts/gui.js"></script>
+        <script src="js/scripts/deezer.js"></script>
+        <script src="js/bundle/app.js"></script>
+        <!-- <script src="/dist/js/app.min.js"></script> -->
     </body>
 </html>
