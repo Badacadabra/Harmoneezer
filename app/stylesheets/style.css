@@ -104,8 +104,7 @@ input#deezer-selection {
   position: relative;
   z-index: 100;
 }
-
-/* line 112, ../sass/style.scss */
+/* line 111, ../sass/style.scss */
 input#deezer-selection:focus {
   border-bottom-color: white !important;
 }
@@ -285,108 +284,110 @@ form#search {
   border-right: solid 2px black;
 }
 
-/* line 284, ../sass/style.scss */
+/* line 292, ../sass/style.scss */
 .bottom.sidebar {
   background-color: #131619;
   justify-content: center;
   z-index: 100;
 }
-/* line 289, ../sass/style.scss */
+/* line 299, ../sass/style.scss */
 .bottom.sidebar .item:first-of-type {
   border-top: solid 3px #188AE3 !important;
 }
-/* line 293, ../sass/style.scss */
+/* line 302, ../sass/style.scss */
 .bottom.sidebar .item:first-of-type:hover {
   background-color: #188AE3 !important;
 }
-/* line 297, ../sass/style.scss */
+/* line 307, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(2) {
   border-top: solid 3px #F04A3C !important;
 }
-/* line 301, ../sass/style.scss */
+/* line 310, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(2):hover {
   background-color: #F04A3C !important;
 }
-/* line 305, ../sass/style.scss */
+/* line 315, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(3) {
   border-top: solid 3px #5AA628 !important;
 }
-/* line 309, ../sass/style.scss */
+/* line 318, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(3):hover {
   background-color: #5AA628 !important;
 }
-/* line 313, ../sass/style.scss */
+/* line 323, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(4) {
   border-top: solid 3px #FFA905 !important;
 }
-/* line 317, ../sass/style.scss */
+/* line 326, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(4):hover {
   background-color: #FFA905 !important;
 }
-/* line 321, ../sass/style.scss */
+/* line 331, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(5) {
   border-top: solid 3px #AE63E4 !important;
 }
-/* line 325, ../sass/style.scss */
+/* line 334, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(5):hover {
   background-color: #AE63E4 !important;
 }
-/* line 329, ../sass/style.scss */
+/* line 339, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(6) {
   border-top: solid 3px #B66F2F !important;
 }
-/* line 333, ../sass/style.scss */
+/* line 342, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(6):hover {
   background-color: #B66F2F !important;
 }
-/* line 337, ../sass/style.scss */
+/* line 347, ../sass/style.scss */
 .bottom.sidebar .item:last-of-type {
   border-top: solid 3px gray !important;
 }
-/* line 341, ../sass/style.scss */
+/* line 350, ../sass/style.scss */
 .bottom.sidebar .item:last-of-type:hover {
   background-color: gray !important;
 }
 
-/* line 346, ../sass/style.scss */
-.vertical.sidebar {
+/* line 358, ../sass/style.scss */
+#playlist {
   z-index: 10 !important;
+  border-right: solid 3px #188AE3;
 }
-/* line 349, ../sass/style.scss */
-.vertical.sidebar .item {
+/* line 362, ../sass/style.scss */
+#playlist .item {
   display: flex !important;
   align-items: center;
 }
-/* line 353, ../sass/style.scss */
-.vertical.sidebar .item img {
+/* line 366, ../sass/style.scss */
+#playlist .item img {
   width: 56px !important;
   margin-right: 20px !important;
 }
-/* line 359, ../sass/style.scss */
-.vertical.sidebar .item:last-of-type {
-  padding-bottom: 100px !important;
+
+/* line 373, ../sass/style.scss */
+#favorites {
+  border-left: solid 3px #F04A3C;
 }
 
 /* ========================================== */
 /* =============== Ambiances =============== */
 /* ======================================== */
-/* line 368, ../sass/style.scss */
+/* line 381, ../sass/style.scss */
 #ambiances {
   display: none;
   width: 90%;
   margin: auto;
 }
-/* line 373, ../sass/style.scss */
+/* line 386, ../sass/style.scss */
 #ambiances .ambiance {
   max-width: 500px;
   width: 50%;
 }
-/* line 377, ../sass/style.scss */
+/* line 390, ../sass/style.scss */
 #ambiances .ambiance figure {
   display: flex;
   justify-content: space-around;
 }
-/* line 381, ../sass/style.scss */
+/* line 394, ../sass/style.scss */
 #ambiances .ambiance figure img {
   width: 400px;
 }

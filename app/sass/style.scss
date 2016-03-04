@@ -107,10 +107,10 @@ input#deezer-selection {
     transition: border-color .5s ease;
     position: relative;
     z-index: 100;
-}
 
-input#deezer-selection:focus {
-    border-bottom-color: white !important;
+    &:focus {
+      border-bottom-color: white !important;
+    }
 }
 
 input#deezer-selection + .search.icon {
@@ -281,70 +281,83 @@ form#search {
     }
 }
 
+@mixin item-border($color) {
+  border-top: solid 3px $color !important;
+}
+
+@mixin item-hover($color) {
+  background-color: $color !important;
+}
+
 .bottom.sidebar {
   background-color: $dark;
   justify-content: center;
   z-index: 100;
 
-  .item:first-of-type {
-    border-top: solid 3px $blue !important;
-  }
+  .item {
 
-  .item:first-of-type:hover {
-    background-color: $blue !important;
-  }
+    &:first-of-type {
+      @include item-border($blue);
 
-  .item:nth-of-type(2) {
-    border-top: solid 3px $red !important;
-  }
+      &:hover {
+        @include item-hover($blue);
+      }
+    }
 
-  .item:nth-of-type(2):hover {
-    background-color: $red !important;
-  }
+    &:nth-of-type(2) {
+      @include item-border($red);
 
-  .item:nth-of-type(3) {
-    border-top: solid 3px $green !important;
-  }
+      &:hover {
+        @include item-hover($red);
+      }
+    }
 
-  .item:nth-of-type(3):hover {
-    background-color: $green !important;
-  }
+    &:nth-of-type(3) {
+      @include item-border($green);
 
-  .item:nth-of-type(4) {
-    border-top: solid 3px $orange !important;
-  }
+      &:hover {
+        @include item-hover($green);
+      }
+    }
 
-  .item:nth-of-type(4):hover {
-    background-color: $orange !important;
-  }
+    &:nth-of-type(4) {
+      @include item-border($orange);
 
-  .item:nth-of-type(5) {
-    border-top: solid 3px $violet !important;
-  }
+      &:hover {
+        @include item-hover($orange);
+      }
+    }
 
-  .item:nth-of-type(5):hover {
-    background-color: $violet !important;
-  }
+    &:nth-of-type(5) {
+      @include item-border($violet);
 
-  .item:nth-of-type(6) {
-    border-top: solid 3px $maroon !important;
-  }
+      &:hover {
+        @include item-hover($violet);
+      }
+    }
 
-  .item:nth-of-type(6):hover {
-    background-color: $maroon !important;
-  }
+    &:nth-of-type(6) {
+      @include item-border($maroon);
 
-  .item:last-of-type {
-    border-top: solid 3px gray !important;
-  }
+      &:hover {
+        @include item-hover($maroon);
+      }
+    }
 
-  .item:last-of-type:hover {
-    background-color: gray !important;
+    &:last-of-type {
+      @include item-border(gray);
+
+      &:hover {
+        @include item-hover(gray);
+      }
+    }
+
   }
 }
 
-.vertical.sidebar {
+#playlist {
   z-index: 10 !important;
+  border-right: solid 3px $blue;
 
   .item {
     display: flex !important;
@@ -355,10 +368,10 @@ form#search {
         margin-right: 20px !important;
       }
   }
+}
 
-  .item:last-of-type {
-    padding-bottom: 100px !important;
-  }
+#favorites {
+  border-left: solid 3px $red;
 }
 
 /* ========================================== */

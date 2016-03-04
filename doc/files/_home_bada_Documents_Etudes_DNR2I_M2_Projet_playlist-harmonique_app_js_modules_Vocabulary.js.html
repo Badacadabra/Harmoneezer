@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>/home/bada/Documents/Etudes/DNR2I/M2/Projet/playlist-harmonique/app/js/modules/Vocabulary.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/DeezerAPIRequest.html">DeezerAPIRequest</a></li>
+            
+                <li><a href="../classes/EchoNestAPIRequest.html">EchoNestAPIRequest</a></li>
+            
+                <li><a href="../classes/Harmony.html">Harmony</a></li>
+            
+                <li><a href="../classes/Iterator.html">Iterator</a></li>
+            
+                <li><a href="../classes/Request.html">Request</a></li>
+            
+                <li><a href="../classes/RequestFactory.html">RequestFactory</a></li>
+            
+                <li><a href="../classes/Track.html">Track</a></li>
+            
+                <li><a href="../classes/Vocabulary.html">Vocabulary</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Ajax.html">Ajax</a></li>
+            
+                <li><a href="../modules/Iterator.html">Iterator</a></li>
+            
+                <li><a href="../modules/Music.html">Music</a></li>
+            
+                <li><a href="../modules/Vocabulary.html">Vocabulary</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: /home/bada/Documents/Etudes/DNR2I/M2/Projet/playlist-harmonique/app/js/modules/Vocabulary.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ *  Objets utiles pour le traitement des réponses venant d&#x27;Echo Nest
+ *
+ * @module Vocabulary
+ * @class Vocabulary
+ * @constructor
+ */
+module.exports = Vocabulary = function() {};
+
+/**
+ * Mode (majeur et mineur)
+ *
+ * @property modes
+ * @type {Object}
+ * @default {}
+ */
+Vocabulary.modes = {
+    &quot;0&quot;: &quot;mineur&quot;,
+    &quot;1&quot;: &quot;majeur&quot;
+};
+
+/**
+ * Notes, selon la notation syllabique
+ *
+ * @property notes
+ * @type {Object}
+ * @default {}
+ */
+Vocabulary.keys = {
+    &quot;0&quot;: &quot;do&quot;,
+    &quot;1&quot;: &quot;do#&quot;,
+    &quot;2&quot;: &quot;ré&quot;,
+    &quot;3&quot;: &quot;mib&quot;,
+    &quot;4&quot;: &quot;mi&quot;,
+    &quot;5&quot;: &quot;fa&quot;,
+    &quot;6&quot;: &quot;fa#&quot;,
+    &quot;7&quot;: &quot;sol&quot;,
+    &quot;8&quot;: &quot;lab&quot;,
+    &quot;9&quot;: &quot;la&quot;,
+    &quot;10&quot;: &quot;sib&quot;,
+    &quot;11&quot;: &quot;si&quot;
+};
+
+/**
+ * Mix harmonique (mode + note = un tag sur la roue de Camelot)
+ *
+ * @property harmonicMix
+ * @type {Object}
+ * @default {}
+ */
+Vocabulary.harmonicMix = {
+    &quot;mineur&quot;: {
+        &quot;do&quot;: {
+            &quot;tag&quot;: &quot;5A&quot;
+        },
+        &quot;do#&quot;: {
+            &quot;tag&quot;: &quot;12A&quot;
+        },
+        &quot;ré&quot;: {
+            &quot;tag&quot;: &quot;7A&quot;
+        },
+        &quot;mib&quot;: {
+            &quot;tag&quot;: &quot;2A&quot;
+        },
+        &quot;mi&quot;: {
+            &quot;tag&quot;: &quot;9A&quot;
+        },
+        &quot;fa&quot;: {
+            &quot;tag&quot;: &quot;4A&quot;
+        },
+        &quot;fa#&quot;: {
+            &quot;tag&quot;: &quot;11A&quot;
+        },
+        &quot;sol&quot;: {
+            &quot;tag&quot;: &quot;6A&quot;
+        },
+        &quot;lab&quot;: {
+            &quot;tag&quot;: &quot;1A&quot;
+        },
+        &quot;la&quot;: {
+            &quot;tag&quot;: &quot;8A&quot;
+        },
+        &quot;sib&quot;: {
+            &quot;tag&quot;: &quot;3A&quot;
+        },
+        &quot;si&quot;: {
+            &quot;tag&quot;: &quot;10A&quot;
+        }
+    },
+    &quot;majeur&quot;: {
+        &quot;do&quot;: {
+            &quot;tag&quot;: &quot;8B&quot;
+        },
+        &quot;do#&quot;: {
+            &quot;tag&quot;: &quot;3B&quot;
+        },
+        &quot;ré&quot;: {
+            &quot;tag&quot;: &quot;10B&quot;
+        },
+        &quot;mib&quot;: {
+            &quot;tag&quot;: &quot;5B&quot;
+        },
+        &quot;mi&quot;: {
+            &quot;tag&quot;: &quot;12B&quot;
+        },
+        &quot;fa&quot;: {
+            &quot;tag&quot;: &quot;7B&quot;
+        },
+        &quot;fa#&quot;: {
+            &quot;tag&quot;: &quot;2B&quot;
+        },
+        &quot;sol&quot;: {
+            &quot;tag&quot;: &quot;9B&quot;
+        },
+        &quot;lab&quot;: {
+            &quot;tag&quot;: &quot;4B&quot;
+        },
+        &quot;la&quot;: {
+            &quot;tag&quot;: &quot;11B&quot;
+        },
+        &quot;sib&quot;: {
+            &quot;tag&quot;: &quot;6B&quot;
+        },
+        &quot;si&quot;: {
+            &quot;tag&quot;: &quot;1B&quot;
+        }
+    }
+};
+
+/**
+ * Traduction de la roue de Camelot
+ *
+ * @property camelotWheel
+ * @type {Object}
+ * @default {}
+ */
+Vocabulary.camelotWheel = {
+    &quot;1A&quot;: {
+        &quot;name&quot;: &quot;A-Flat Minor&quot;,
+        &quot;matches&quot;: [&quot;1A&quot;, &quot;12A&quot;, &quot;2A&quot;, &quot;1B&quot;]
+    },
+    &quot;2A&quot;: {
+        &quot;name&quot;: &quot;E-Flat Minor&quot;,
+        &quot;matches&quot;: [&quot;2A&quot;, &quot;1A&quot;, &quot;3A&quot;, &quot;2B&quot;]
+    },
+    &quot;3A&quot;: {
+        &quot;name&quot;: &quot;B-Flat Minor&quot;,
+        &quot;matches&quot;: [&quot;3A&quot;, &quot;2A&quot;, &quot;4A&quot;, &quot;3B&quot;]
+    },
+    &quot;4A&quot;: {
+        &quot;name&quot;: &quot;F Minor&quot;,
+        &quot;matches&quot;: [&quot;4A&quot;, &quot;3A&quot;, &quot;5A&quot;, &quot;4B&quot;]
+    },
+    &quot;5A&quot;: {
+        &quot;name&quot;: &quot;C Minor&quot;,
+        &quot;matches&quot;: [&quot;5A&quot;, &quot;4A&quot;, &quot;6A&quot;, &quot;5B&quot;]
+    },
+    &quot;6A&quot;: {
+        &quot;name&quot;: &quot;G Minor&quot;,
+        &quot;matches&quot;: [&quot;6A&quot;, &quot;5A&quot;, &quot;7A&quot;, &quot;6B&quot;]
+    },
+    &quot;7A&quot;: {
+        &quot;name&quot;: &quot;D Minor&quot;,
+        &quot;matches&quot;: [&quot;7A&quot;, &quot;6A&quot;, &quot;8A&quot;, &quot;7B&quot;]
+    },
+    &quot;8A&quot;: {
+        &quot;name&quot;: &quot;A Minor&quot;,
+        &quot;matches&quot;: [&quot;8A&quot;, &quot;7A&quot;, &quot;9A&quot;, &quot;8B&quot;]
+    },
+    &quot;9A&quot;: {
+        &quot;name&quot;: &quot;E Minor&quot;,
+        &quot;matches&quot;: [&quot;9A&quot;, &quot;8A&quot;, &quot;10A&quot;, &quot;9B&quot;]
+    },
+    &quot;10A&quot;: {
+        &quot;name&quot;: &quot;B Minor&quot;,
+        &quot;matches&quot;: [&quot;10A&quot;, &quot;9A&quot;, &quot;11A&quot;, &quot;10B&quot;]
+    },
+    &quot;11A&quot;: {
+        &quot;name&quot;: &quot;G Flat Minor&quot;,
+        &quot;matches&quot;: [&quot;11A&quot;, &quot;10A&quot;, &quot;12A&quot;, &quot;11B&quot;]
+    },
+    &quot;12A&quot;: {
+        &quot;name&quot;: &quot;D-Flat Minor&quot;,
+        &quot;matches&quot;: [&quot;12A&quot;, &quot;11A&quot;, &quot;1A&quot;, &quot;12B&quot;]
+    },
+    &quot;1B&quot;: {
+        &quot;name&quot;: &quot;B Major&quot;,
+        &quot;matches&quot;: [&quot;1B&quot;, &quot;12B&quot;, &quot;2B&quot;, &quot;1A&quot;]
+    },
+    &quot;2B&quot;: {
+        &quot;name&quot;: &quot;F-Sharp Major&quot;,
+        &quot;matches&quot;: [&quot;2B&quot;, &quot;1B&quot;, &quot;3B&quot;, &quot;2A&quot;]
+    },
+    &quot;3B&quot;: {
+        &quot;name&quot;: &quot;D-Flat Major&quot;,
+        &quot;matches&quot;: [&quot;3B&quot;, &quot;2B&quot;, &quot;4B&quot;, &quot;3A&quot;]
+    },
+    &quot;4B&quot;: {
+        &quot;name&quot;: &quot;A-Flat Major&quot;,
+        &quot;matches&quot;: [&quot;4B&quot;, &quot;3B&quot;, &quot;5B&quot;, &quot;4A&quot;]
+    },
+    &quot;5B&quot;: {
+        &quot;name&quot;: &quot;E-Flat Major&quot;,
+        &quot;matches&quot;: [&quot;5B&quot;, &quot;4B&quot;, &quot;6B&quot;, &quot;5A&quot;]
+    },
+    &quot;6B&quot;: {
+        &quot;name&quot;: &quot;B-Flat Major&quot;,
+        &quot;matches&quot;: [&quot;6B&quot;, &quot;5B&quot;, &quot;7B&quot;, &quot;6A&quot;]
+    },
+    &quot;7B&quot;: {
+        &quot;name&quot;: &quot;F Major&quot;,
+        &quot;matches&quot;: [&quot;7B&quot;, &quot;6B&quot;, &quot;8B&quot;, &quot;7A&quot;]
+    },
+    &quot;8B&quot;: {
+        &quot;name&quot;: &quot;C Major&quot;,
+        &quot;matches&quot;: [&quot;8B&quot;, &quot;7B&quot;, &quot;9B&quot;, &quot;8A&quot;]
+    },
+    &quot;9B&quot;: {
+        &quot;name&quot;: &quot;G Major&quot;,
+        &quot;matches&quot;: [&quot;9B&quot;, &quot;8B&quot;, &quot;10B&quot;, &quot;9A&quot;]
+    },
+    &quot;10B&quot;: {
+        &quot;name&quot;: &quot;D Major&quot;,
+        &quot;matches&quot;: [&quot;10B&quot;, &quot;9B&quot;, &quot;11B&quot;, &quot;10A&quot;]
+    },
+    &quot;11B&quot;: {
+        &quot;name&quot;: &quot;A Major&quot;,
+        &quot;matches&quot;: [&quot;11B&quot;, &quot;10B&quot;, &quot;12B&quot;, &quot;11A&quot;]
+    },
+    &quot;12B&quot;: {
+        &quot;name&quot;: &quot;E Major&quot;,
+        &quot;matches&quot;: [&quot;12B&quot;, &quot;11B&quot;, &quot;1B&quot;, &quot;12A&quot;]
+    }
+};
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

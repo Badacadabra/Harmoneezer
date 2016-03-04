@@ -26,10 +26,11 @@ var events = {
   },
   showPlaylist: function() {
     // $( "#main" ).vegas( "jump", 1);
-    $( ".left.sidebar" ).sidebar( "toggle" );
+    $( "#playlist" ).sidebar( "toggle" );
   },
   showFavorites: function() {
     // $( "#main" ).vegas( "jump", 2);
+    $( "#favorites" ).sidebar( "toggle" );
   },
   mute: function() {
     // $( "#main" ).vegas( "jump", 3);
@@ -49,7 +50,7 @@ var events = {
   showInfoPopup: function() {
     $( ".ui.modal" ).modal( "show" );
   }
-}
+};
 
 $( "#display-menu" ).click(events.showMenu);
 $( "#playlist-btn" ).click(events.showPlaylist);
@@ -59,6 +60,9 @@ $( "#play-btn" ).click(events.play);
 $( "#pause-btn" ).click(events.pause);
 $( "#next-btn" ).click(events.next);
 $( "#tracks-help" ).click(events.showInfoPopup);
+$( ".harmonic-track" ).click(function() {
+  alert("OK");
+});
 
 // Gestion des ambiances
 /* $( "#main" ).vegas({

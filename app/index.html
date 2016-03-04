@@ -49,66 +49,24 @@
             </a>
         </div>
         <!-- Playlist -->
-        <div class="ui left vertical wide sidebar menu">
+        <div id="playlist" class="ui left vertical wide sidebar menu">
+            <a class="item" v-for="selectedTrack in selectedTracks">
+              <!-- <img src="images/foreground/cd.png" alt=""> -->
+              <img src="{{ selectedTrack.cover }}" alt="{{ selectedTrack.getTitle() }}">
+              <div>
+                <em>{{ selectedTrack.title }}</em><br>
+                <strong>{{ selectedTrack.artist }}<strong>
+              </div>
+            </a>
+        </div>
+        <!-- Favoris -->
+        <div id="favorites" class="ui right vertical wide sidebar menu">
             <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 1
+              <p>Variation du tempo</p>
+              <input type="range" value="5" max="100" min="0" step="1">
             </a>
             <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 2
-            </a>
-            <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 3
-            </a>
-            <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 4
-            </a>
-            <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 5
-            </a>
-            <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 6
-            </a>
-            <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 7
-            </a>
-            <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 8
-            </a>
-            <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 9
-            </a>
-            <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 10
-            </a>
-            <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 11
-            </a>
-            <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 12
-            </a>
-            <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 13
-            </a>
-            <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 14
-            </a>
-            <a class="item">
-              <img src="images/foreground/cd.png" alt="">
-              Morceau 15
+              <input type="checkbox">Plusieurs morceaux par artiste ?
             </a>
         </div>
         <!-- Contenu principal -->
@@ -149,12 +107,6 @@
           <div id="display-menu">
               <i class="huge chevron up icon"></i>
           </div>
-          <!-- Footer -->
-          <footer>
-            <p>Choisissez la tolérance du tempo</p>
-            <input type="checkbox">Plusieurs morceaux par artiste
-            <input type="range" value="5" max="100" min="0" step="1">
-          </footer>
           <!-- Pop-ups -->
           <div class="ui small basic modal transition">
             <div class="ui icon header">
@@ -172,6 +124,7 @@
         </div>
         <script src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
+        <script src="/bower_components/vue/dist/vue.min.js"></script>
         <script src="/bower_components/vegas/dist/vegas.min.js"></script>
         <script src="/bower_components/owlcarousel/owl-carousel/owl.carousel.min.js"></script>
         <script src="/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
@@ -179,6 +132,7 @@
         <script src="https://cdns-files.dzcdn.net/js/min/dz.js"></script>
         <script src="js/scripts/gui.js"></script>
         <script src="js/scripts/deezer.js"></script>
+        <script src="js/scripts/playlist.js"></script>
         <script src="js/bundle/app.js"></script>
         <!-- <script src="/dist/js/app.min.js"></script> -->
     </body>

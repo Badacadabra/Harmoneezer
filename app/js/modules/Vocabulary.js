@@ -1,15 +1,31 @@
 /**
- *  Objets utiles pour le traitement des réponses venant d'Echo Nest...
+ *  Objets utiles pour le traitement des réponses venant d'Echo Nest
+ *
+ * @module Vocabulary
+ * @class Vocabulary
+ * @constructor
  */
-module.exports = Vocabulary = function() {}
+module.exports = Vocabulary = function() {};
 
-// Modes : majeur & mineur
+/**
+ * Mode (majeur et mineur)
+ *
+ * @property modes
+ * @type {Object}
+ * @default {}
+ */
 Vocabulary.modes = {
     "0": "mineur",
     "1": "majeur"
 };
 
-// Notes, selon la notation syllabique
+/**
+ * Notes, selon la notation syllabique
+ *
+ * @property notes
+ * @type {Object}
+ * @default {}
+ */
 Vocabulary.keys = {
     "0": "do",
     "1": "do#",
@@ -25,7 +41,13 @@ Vocabulary.keys = {
     "11": "si"
 };
 
-// Mix harmonique (mode + note = un tag sur la roue de Camelot)
+/**
+ * Mix harmonique (mode + note = un tag sur la roue de Camelot)
+ *
+ * @property harmonicMix
+ * @type {Object}
+ * @default {}
+ */
 Vocabulary.harmonicMix = {
     "mineur": {
         "do": {
@@ -103,9 +125,15 @@ Vocabulary.harmonicMix = {
             "tag": "1B"
         }
     }
-}
+};
 
-// Traduction de la roue de Camelot
+/**
+ * Traduction de la roue de Camelot
+ *
+ * @property camelotWheel
+ * @type {Object}
+ * @default {}
+ */
 Vocabulary.camelotWheel = {
     "1A": {
         "name": "A-Flat Minor",
@@ -203,4 +231,4 @@ Vocabulary.camelotWheel = {
         "name": "E Major",
         "matches": ["12B", "11B", "1B", "12A"]
     }
-}
+};

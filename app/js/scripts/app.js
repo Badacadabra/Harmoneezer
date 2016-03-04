@@ -1,15 +1,15 @@
-// Imports
-var Vocabulary = require('../modules/Vocabulary.js');
-var Iterator = require('../modules/Iterator.js');
-var Music = require('../modules/Music.js');
-var Ajax = require('../modules/Ajax.js');
+// Import des modules
+var Vocabulary = require('../modules/Vocabulary.js'),
+    Iterator = require('../modules/Iterator.js'),
+    Music = require('../modules/Music.js'),
+    Ajax = require('../modules/Ajax.js');
 
 // Variables globales
-var searchedTracks = [];
-var refTrack;
-var harmony;
-var similarTracks = [];
-var tempoVariation = 0.05;
+var searchedTracks = [],
+    similarTracks = [],
+    refTrack,
+    harmony,
+    tempoVariation = 0.05;
 
 // Point d'entrée de l'application
 $( document ).ready(function() {
@@ -41,7 +41,7 @@ $( "input[type='range']" ).change(function() {
 function searchTracks() {
 
     var keyword = $( "#deezer-selection" ).val();
-    // $( "#results" ).hide();
+    $( "#results" ).hide();
     owl.empty();
 
     request = new Ajax.RequestFactory().getAjaxRequest("deezer", "/search/track");
@@ -58,7 +58,7 @@ function searchTracks() {
                 maxStringLength = 100;
 
             if (artistName.length > maxStringLength) {
-              artistName = artistName.substr(0, maxStringLength) + + " ...";
+              artistName = artistName.substr(0, maxStringLength) + " ...";
             }
 
             var html = '<div id="' + track.id + '" class="track">';
@@ -101,7 +101,7 @@ function getInitialAudioSummary(trackId) {
     request.send(success, null);
 
     function success(final) {
-        if (final.response.track != undefined) {
+        if (final.response.track !== undefined) {
             if (!$.isEmptyObject(final.response.track.audio_summary)) {
                 console.log(final.response);
 
@@ -125,8 +125,8 @@ function getInitialAudioSummary(trackId) {
 refTrack = new Music.Track("Inconnu", "Inconnu", "Inconnu", "Inconnu", "Inconnu", 0, "Inconnu", []);
 
 function buildRefTrackProfile(title, artist, cover, key, mode, tempo) {
-    var camelotTag = Vocabulary.harmonicMix[mode][key]["tag"];
-    var harmonies = Vocabulary.camelotWheel[camelotTag]["matches"];
+    var camelotTag = Vocabulary.harmonicMix[mode][key].tag;
+    var harmonies = Vocabulary.camelotWheel[camelotTag].matches;
     refTrack = new Music.Track(title, artist, cover, key, mode, tempo, camelotTag, harmonies);
     buildHarmonyProfile(refTrack);
 }
@@ -208,7 +208,7 @@ function getTopTrackInfos(topTrackId, cover) {
 
     function success(final) {
         // Il faut impérativement que les morceaux aient un résumé audio sur Echo Nest
-        if (final.response.track != undefined) {
+        if (final.response.track !== undefined) {
             if (!$.isEmptyObject(final.response.track.audio_summary)) {
                 console.log(final.response);
                 //  On récupère toutes les informations utiles
@@ -220,7 +220,7 @@ function getTopTrackInfos(topTrackId, cover) {
                     modeIndex = track.audio_summary.mode,
                     mode = Vocabulary.modes[modeIndex],
                     tempo = Math.round(track.audio_summary.tempo),
-                    camelotTag = Vocabulary.harmonicMix[mode][key]["tag"];
+                    camelotTag = Vocabulary.harmonicMix[mode][key].tag;
 
                 // On alimente un tableau de morceaux pour des tris ultérieurs
                 var topTrack = new Music.Track(title, artist, cover, key, mode, tempo, camelotTag, []);
@@ -238,7 +238,7 @@ $( document ).ajaxStop(function() {
 });
 
 function sortTracks() {
-  if (similarTracks.length != 0) {
+  if (similarTracks.length !== 0) {
 
     var nbPerfectMatches = 0;
     var artists = [];
@@ -250,7 +250,8 @@ function sortTracks() {
           currentTempo = similarTracks[i].getTempo(),
           tempoMin = harmony.tempoMin(),
           tempoMax = harmony.tempoMax(),
-          isMatching = ($.inArray(similarTracks[i].getCamelotTag(), refTrack.getHarmonies()) != -1);
+          isMatching = ($.inArray(similarTracks[i].getCamelotTag(), refTrack.getHarmonies()) != -1),
+          item = similarTracks[i];
 
       // Si l'artiste n'a pas été rencontré dans les suggestions précédentes...
       if ($.inArray(currentArtist, artists) == -1) {
@@ -263,12 +264,10 @@ function sortTracks() {
       // Si un morceau remplit toutes les conditions du mix harmonique...
       if (currentTempo >= tempoMin && currentTempo <= tempoMax && isMatching) {
           nbPerfectMatches++;
-          var item = similarTracks[i];
           similarTracks.splice(i, 1);
           similarTracks.splice(0, 0, item);
         // Si un morceau remplit une condition (tempo ou tonalité) du mix harmonique
       } else if ((currentTempo >= tempoMin && currentTempo <= tempoMax) || isMatching) {
-          var item = similarTracks[i];
           similarTracks.splice(i, 1);
           similarTracks.splice(nbPerfectMatches, 0, item);
       }
