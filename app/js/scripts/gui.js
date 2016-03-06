@@ -1,3 +1,21 @@
+// Gestion des ambiances
+$( "#main" ).vegas({
+    transition: 'fade',
+    slide: 0,
+    slides: [
+        { src: "./images/background/music.jpg" },
+        { src: "./images/background/rock.jpg" },
+        { src: "./images/background/house.jpg" },
+        { src: "./images/background/country.jpg" },
+        { src: "./images/background/metal.jpg" },
+    ],
+    animation: 'kenburns',
+    walk: function (index, slideSettings) {
+        console.log("Slide index " + index + " image " + slideSettings.src);
+    }
+});
+$( "#main" ).vegas('pause');
+
 // Drag & drop sur l'iPod et sur les listes de morceaux
 $( "#ipod-wrapper" ).draggable({ scroll: false });
 
@@ -25,15 +43,15 @@ var events = {
     $( ".bottom.sidebar" ).sidebar( "toggle" );
   },
   showPlaylist: function() {
-    // $( "#main" ).vegas( "jump", 1);
+    $( "#main" ).vegas( "jump", 1);
     $( "#playlist" ).sidebar( "toggle" );
   },
   showFavorites: function() {
-    // $( "#main" ).vegas( "jump", 2);
+    $( "#main" ).vegas( "jump", 2);
     $( "#favorites" ).sidebar( "toggle" );
   },
   mute: function() {
-    // $( "#main" ).vegas( "jump", 3);
+    $( "#main" ).vegas( "jump", 3);
   },
   previous: function() {
     // Code
@@ -64,21 +82,6 @@ $( ".harmonic-track" ).click(function() {
   alert("OK");
 });
 
-// Gestion des ambiances
-/* $( "#main" ).vegas({
-    transition: 'fade',
-    slide: 0,
-    slides: [
-        { src: "./images/background/music.jpg" },
-        { src: "./images/background/rock.jpg" },
-        { src: "./images/background/house.jpg" },
-        { src: "./images/background/country.jpg" },
-        { src: "./images/background/metal.jpg" },
-    ],
-    animation: 'kenburns',
-    walk: function (index, slideSettings) {
-        console.log("Slide index " + index + " image " + slideSettings.src);
-    }
+$( document ).ready(function() {
+  $( ".pusher" ).css("height", "100%");
 });
-
-$( "#main" ).vegas('pause'); */

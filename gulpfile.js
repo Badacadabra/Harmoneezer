@@ -10,6 +10,8 @@ var gulp = require('gulp'),
     htmlhint = require('gulp-htmlhint'),
     csslint = require('gulp-csslint'),
     qunit = require('gulp-qunit'),
+    casperjs = require('gulp-casperjs'),
+    open = require('gulp-open'),
     del = require('del');
 
 // Nettoyage du répertoire de distribution
@@ -35,7 +37,7 @@ gulp.task('browserify', function() {
         insertGlobals : true,
         debug : !gulp.env.production
        }))
-      .pipe(gulp.dest('app/js/bundle'))
+      .pipe(gulp.dest('app/js/bundle'));
 });
 
 // Minification du code
@@ -51,14 +53,14 @@ gulp.task('doc', function() {
     gulp.src("app/js/modules/*.js")
       .pipe(yuidoc.parser())
       .pipe(yuidoc.generator())
-      .pipe(gulp.dest('./doc'))
+      .pipe(gulp.dest('./doc'));
 });
 
 // Validation du code HTML
 gulp.task('htmlhint', function() {
     gulp.src('app/index.html')
       .pipe(htmlhint())
-      .pipe(htmlhint.failReporter())
+      .pipe(htmlhint.failReporter());
 });
 
 // Validation du code CSS
@@ -78,14 +80,22 @@ gulp.task('jshint', function() {
 // Validation de tout le code
 gulp.task('lint', ['htmlhint', 'csslint', 'jshint']);
 
-// Test du code
-gulp.task('test', function() {
-    gulp.src('test/test.js')
+// Tests unitaires
+gulp.task('qunit', function() {
+    gulp.src('test/unitTests.js')
       .pipe(browserify({
         insertGlobals : true,
         debug : !gulp.env.production
        }))
       .pipe(gulp.dest('./test/bundle'))
-    return gulp.src('./test/test.html')
-        .pipe(qunit());
+      .pipe(open({uri: 'http://localhost:8000/test/unitTesting.html'}));
 });
+
+// Tests fonctionnels
+gulp.task('casperjs', function() {
+    gulp.src('test/functionalTests.js')
+      .pipe(casperjs());
+});
+
+// Tous les tests
+gulp.task('test', ['qunit', 'casperjs']);

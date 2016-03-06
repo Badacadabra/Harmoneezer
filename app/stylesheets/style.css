@@ -31,7 +31,7 @@ body {
 .pusher {
   background: url("../images/background/music.jpg") no-repeat center center fixed !important;
   background-size: cover !important;
-  height: 100%;
+  /* height: 100%; */
 }
 
 /* line 50, ../sass/style.scss */
@@ -93,7 +93,13 @@ body {
 /* ================= Search ================ */
 /* ======================================== */
 /* line 100, ../sass/style.scss */
-input#deezer-selection {
+form#search {
+  justify-content: center;
+  background-color: #131619 !important;
+}
+
+/* line 105, ../sass/style.scss */
+#search input {
   font-family: actionman_regular, sans-serif;
   font-size: xx-large;
   padding: 15px !important;
@@ -104,20 +110,14 @@ input#deezer-selection {
   position: relative;
   z-index: 100;
 }
-/* line 111, ../sass/style.scss */
-input#deezer-selection:focus {
+/* line 116, ../sass/style.scss */
+#search input:focus {
   border-bottom-color: white !important;
 }
 
-/* line 116, ../sass/style.scss */
-input#deezer-selection + .search.icon {
+/* line 121, ../sass/style.scss */
+#search input + .search.icon {
   margin-right: 25px;
-}
-
-/* line 120, ../sass/style.scss */
-form#search {
-  justify-content: center;
-  background-color: #131619 !important;
 }
 
 /* ========================================== */

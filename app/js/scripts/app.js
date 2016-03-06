@@ -22,7 +22,7 @@ $( document ).ready(function() {
     });
 
     // Gestion de l'autocomplétion dans le champ de recherche
-    /* $( "#deezer-selection" ).keyup(function() {
+    /* $( "#search input" ).keyup(function() {
       var minCharacters = 3;
       if ($( this ).val().length >= minCharacters) {
         searchTracks();
@@ -40,7 +40,7 @@ $( "input[type='range']" ).change(function() {
 // Recherche de morceaux (Deezer)
 function searchTracks() {
 
-    var keyword = $( "#deezer-selection" ).val();
+    var keyword = $( "#search input" ).val();
     $( "#results" ).hide();
     owl.empty();
 
