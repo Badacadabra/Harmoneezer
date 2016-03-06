@@ -2,17 +2,34 @@
 var Vocabulary = require('../modules/Vocabulary.js'),
     Iterator = require('../modules/Iterator.js'),
     Music = require('../modules/Music.js'),
-    Ajax = require('../modules/Ajax.js');
+    Ajax = require('../modules/Ajax.js'),
+    GUI = require('../modules/GUI.js');
 
 // Variables globales
 var searchedTracks = [],
     similarTracks = [],
     refTrack,
     harmony,
-    tempoVariation = 0.05;
+    tempoVariation = 0.05,
+    $owl,
+    $owl2;
 
 // Point d'entrée de l'application
 $( document ).ready(function() {
+
+    GUI.init();
+
+    // Initialisation du carousel contenant tous les résultats de recherche
+    $owl = $( "#tracks" );
+    $owl.owlCarousel({
+      items: 10,
+    });
+
+    // Initialisation du carousel contenant tous les résultats a priori harmoniques
+    $owl2 = $( "#harmonic-tracks" );
+    $owl2.owlCarousel({
+      items: 10,
+    });
 
     // À la soumission du formulaire, on lance la cascade de requêtes AJAX
     $( "#search" ).submit(function(e) {
@@ -32,17 +49,17 @@ $( document ).ready(function() {
 });
 
 // Variation du tempo définie par l'utilisateur
-$( "input[type='range']" ).change(function() {
+/* $( "input[type='range']" ).change(function() {
   tempoVariation = $( this ).val() / 100;
   console.log(tempoVariation);
-});
+}); */
 
 // Recherche de morceaux (Deezer)
 function searchTracks() {
 
     var keyword = $( "#search input" ).val();
     $( "#results" ).hide();
-    owl.empty();
+    $owl.empty();
 
     request = new Ajax.RequestFactory().getAjaxRequest("deezer", "/search/track");
     request.addParam("q", keyword);
@@ -73,7 +90,7 @@ function searchTracks() {
                 html += ' </figure>';
                 html += '</div>';
 
-            owl.data('owlCarousel').addItem(html);
+            $owl.data('owlCarousel').addItem(html);
             $( "#results" ).fadeIn();
 
             selectedTrack(track.id);
@@ -329,7 +346,7 @@ function displayTracks(tracks) {
     }*/
     html += '</div>';
 
-    owl2.data('owlCarousel').addItem(html);
+    $owl2.data('owlCarousel').addItem(html);
     $( ".ui.page.dimmer" ).removeClass( "active" );
   }
 }

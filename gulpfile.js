@@ -82,18 +82,18 @@ gulp.task('lint', ['htmlhint', 'csslint', 'jshint']);
 
 // Tests unitaires
 gulp.task('qunit', function() {
-    gulp.src('test/unitTests.js')
+    gulp.src('test/unitTesting/tests.js')
       .pipe(browserify({
         insertGlobals : true,
         debug : !gulp.env.production
        }))
-      .pipe(gulp.dest('./test/bundle'))
-      .pipe(open({uri: 'http://localhost:8000/test/unitTesting.html'}));
+      .pipe(gulp.dest('./test/unitTesting/bundle'))
+      .pipe(open({uri: 'http://localhost:8000/test/unitTesting/test.html'}));
 });
 
 // Tests fonctionnels
 gulp.task('casperjs', function() {
-    gulp.src('test/functionalTests.js')
+    gulp.src('test/functionalTesting/tests.js')
       .pipe(casperjs());
 });
 

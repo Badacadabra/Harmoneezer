@@ -27,9 +27,9 @@
               <i class="heartbeat icon"></i>
               Favoris
             </a>
-            <a id="mute-btn" class="item">
-              <i class="mute icon"></i>
-              Muet
+            <a id="ambiances-btn" class="item">
+              <i class="wizard icon"></i>
+              Ambiances
             </a>
             <a id="previous-btn" class="item">
               <i class="step backward icon"></i>
@@ -49,9 +49,11 @@
             </a>
         </div>
         <!-- Playlist -->
-        <div id="playlist" class="ui left vertical wide sidebar menu">
+        <div id="playlist" class="ui left vertical wide sidebar labeled icon menu">
+            <a class="item title blue-item">
+              <h3>Ma playlist</h3>
+            </a>
             <a class="item" v-for="selectedTrack in selectedTracks">
-              <!-- <img src="images/foreground/cd.png" alt=""> -->
               <img src="{{ selectedTrack.cover }}" alt="{{ selectedTrack.getTitle() }}">
               <div>
                 <em>{{ selectedTrack.title }}</em><br>
@@ -60,13 +62,129 @@
             </a>
         </div>
         <!-- Favoris -->
-        <div id="favorites" class="ui right vertical wide sidebar menu">
-            <a class="item">
-              <p>Variation du tempo</p>
-              <input type="range" value="5" max="100" min="0" step="1">
+        <div id="favorites" class="ui right vertical wide sidebar menu form">
+            <a class="item title red-item">
+              <h3>Options diverses</h3>
             </a>
-            <a class="item">
-              <input type="checkbox">Plusieurs morceaux par artiste ?
+            <a id="fav-ipod" class="item">
+              <div class="inline field">
+                <div class="ui toggle checkbox">
+                  <input class="hidden" type="checkbox" checked>
+                  <label>iPod</label>
+                </div>
+              </div>
+            </a>
+            <a id="fav-notify" class="item">
+              <div class="inline field">
+                <div class="ui toggle checkbox">
+                  <input class="hidden" type="checkbox" checked>
+                  <label>Notifications</label>
+                </div>
+              </div>
+            </a>
+            <a id="fav-mute" class="item">
+              <div class="inline field">
+                <div class="ui toggle checkbox">
+                  <input class="hidden" type="checkbox">
+                  <label>Muet</label>
+                </div>
+              </div>
+            </a>
+            <a class="item title red-item">
+              <h3>Critères de recherche</h3>
+            </a>
+            <a id="fav-duplicate" class="item">
+              <div class="inline field">
+                <div class="ui toggle checkbox">
+                  <input class="hidden" type="checkbox">
+                  <label>Un seul morceau par artiste</label>
+                </div>
+              </div>
+            </a>
+            <a id="fav-tempo-range" class="item title">
+              <div class="field">
+                <p>Variation du tempo</p>
+                <input type="range" value="5" max="100" min="0" step="1">
+                <span>5 %</span>
+              </div>
+            </a>
+            <a id="fav-default-search" class="item">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input class="hidden" name="search" type="radio" checked>
+                   <label>Recherche par défaut</label>
+                </div>
+              </div>
+            </a>
+            <a id="fav-graph-search" class="item">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input class="hidden" name="search" type="radio">
+                   <label>Recherche par graphe</label>
+                </div>
+              </div>
+            </a>
+            <a class="item title red-item">
+              <h3>Tri des suggestions</h3>
+            </a>
+            <a id="fav-default-sorting" class="item">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input class="hidden" name="sorting" type="radio" checked>
+                   <label>Tri par défaut</label>
+                </div>
+              </div>
+            </a>
+            <a id="fav-tempo-sorting" class="item">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input class="hidden" name="sorting" type="radio">
+                   <label>Favoriser le tempo</label>
+                </div>
+              </div>
+            </a>
+            <a id="fav-key-sorting" class="item">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input class="hidden" name="sorting" type="radio">
+                   <label>Favoriser la tonalité</label>
+                </div>
+              </div>
+            </a>
+        </div>
+        <!-- Ambiances -->
+        <div id="atmospheres" class="ui top inverted horizontal sidebar menu eight item">
+            <a id="neutral-atmo" class="item green-item">
+              <!-- <img src="images/foreground/ipod-shuffle.png" alt="Ambiance neutre"> -->
+              Neutre
+            </a>
+            <a id="rock-atmo" class="item">
+              <!-- <img src="images/foreground/acoustic-guitar.png" alt="Ambiance Rock"> -->
+              Rock
+            </a>
+            <a id="electro-atmo" class="item">
+              <!-- <img src="images/foreground/record-player.png" alt="Ambiance Electro"> -->
+              Electro
+            </a>
+            <a id="hiphop-atmo" class="item">
+              <!-- <img src="images/foreground/record-player.png" alt="Ambiance Hip-Hop"> -->
+              Hip-Hop
+            </a>
+            <a id="folk-atmo" class="item">
+              <!-- <img src="images/foreground/drum.png" alt="Ambiance Folk"> -->
+              Folk
+            </a>
+            <a id="classical-atmo" class="item">
+              <!-- <img src="images/foreground/violin.png" alt="Ambiance Classique"> -->
+              Classique
+            </a>
+            <a id="jazz-atmo" class="item">
+              <!-- <img src="images/foreground/saxophone.png" alt="Ambiance Jazz"> -->
+              Jazz
+            </a>
+            <a id="metal-atmo" class="item">
+              <!-- <img src="images/foreground/electric-guitar.png" alt="Ambiance Metal"> -->
+              Metal
             </a>
         </div>
         <!-- Contenu principal -->
@@ -130,7 +248,6 @@
         <script src="/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
         <script src="semantic/dist/semantic.min.js"></script>
         <script src="https://cdns-files.dzcdn.net/js/min/dz.js"></script>
-        <script src="js/scripts/gui.js"></script>
         <script src="js/scripts/deezer.js"></script>
         <script src="js/scripts/playlist.js"></script>
         <script src="js/bundle/app.js"></script>

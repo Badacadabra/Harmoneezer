@@ -44,7 +44,7 @@ body {
 .pusher {
     background: url('../images/background/music.jpg') no-repeat center center fixed !important;
     background-size: cover !important;
-    /* height: 100%; */
+    height: 100%;
 }
 
 .red {
@@ -264,6 +264,21 @@ form#search {
 /* ================ Sidebars =============== */
 /* ======================================== */
 
+.sidebar {
+  border: 0 !important;
+}
+
+.sidebar {
+  .item {
+    h3 {
+      color: white;
+      font-family: actionman_regular, sans-serif;
+      font-size: 17px;
+      text-align: center;
+    }
+  }
+}
+
 #display-menu {
     cursor: pointer;
     position: absolute;
@@ -285,8 +300,36 @@ form#search {
   border-top: solid 3px $color !important;
 }
 
-@mixin item-hover($color) {
+@mixin item-color($color) {
   background-color: $color !important;
+}
+
+.blue-item {
+  @include item-color($blue);
+}
+
+.red-item {
+  @include item-color($red);
+}
+
+.green-item {
+  @include item-color($green);
+}
+
+.orange-item {
+  @include item-color($orange);
+}
+
+.violet-item {
+  @include item-color($violet);
+}
+
+.maroon-item {
+  @include item-color($maroon);
+}
+
+.gray-item {
+  @include item-color(gray);
 }
 
 .bottom.sidebar {
@@ -300,7 +343,7 @@ form#search {
       @include item-border($blue);
 
       &:hover {
-        @include item-hover($blue);
+        @include item-color($blue);
       }
     }
 
@@ -308,7 +351,7 @@ form#search {
       @include item-border($red);
 
       &:hover {
-        @include item-hover($red);
+        @include item-color($red);
       }
     }
 
@@ -316,7 +359,7 @@ form#search {
       @include item-border($green);
 
       &:hover {
-        @include item-hover($green);
+        @include item-color($green);
       }
     }
 
@@ -324,7 +367,7 @@ form#search {
       @include item-border($orange);
 
       &:hover {
-        @include item-hover($orange);
+        @include item-color($orange);
       }
     }
 
@@ -332,7 +375,7 @@ form#search {
       @include item-border($violet);
 
       &:hover {
-        @include item-hover($violet);
+        @include item-color($violet);
       }
     }
 
@@ -340,7 +383,7 @@ form#search {
       @include item-border($maroon);
 
       &:hover {
-        @include item-hover($maroon);
+        @include item-color($maroon);
       }
     }
 
@@ -348,30 +391,70 @@ form#search {
       @include item-border(gray);
 
       &:hover {
-        @include item-hover(gray);
+        @include item-color(gray);
       }
     }
 
   }
 }
 
+#playlist, #favorites {
+  margin-top: 71px !important;
+}
+
 #playlist {
   z-index: 10 !important;
-  border-right: solid 3px $blue;
+  border-right: solid 3px $blue !important;
 
   .item {
-    display: flex !important;
-    align-items: center;
+    /* display: flex !important;
+    align-items: center; */
 
-      img {
-        width: 56px !important;
-        margin-right: 20px !important;
-      }
+    img {
+      width: 56px !important;
+      margin-right: 20px !important;
+    }
+
   }
 }
 
 #favorites {
-  border-left: solid 3px $red;
+  border-left: solid 3px $red !important;
+
+  .item:not(.title) {
+    padding: 0;
+
+    .field {
+      width: 100%;
+
+      .ui.checkbox {
+        width: 100%;
+
+        label {
+          margin: 13px;
+        }
+      }
+    }
+  }
+
+  input[type='range'] + span {
+      border: 1px solid gray;
+      padding: 15px;
+      position: relative;
+      top: -20px;
+      left: 60px;
+  }
+}
+
+#atmospheres {
+  height: 70px !important;
+  border-bottom: solid 3px $green !important;
+
+  p {
+    font-family: actionman_regular, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+  }
 }
 
 /* ========================================== */
