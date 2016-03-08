@@ -12,7 +12,9 @@ var gulp = require('gulp'),
     qunit = require('gulp-qunit'),
     casperjs = require('gulp-casperjs'),
     open = require('gulp-open'),
-    del = require('del');
+    watch = require('gulp-watch'),
+    del = require('del'),
+    browserSync = require('browser-sync').create();
 
 // Nettoyage du répertoire de distribution
 gulp.task('clean', function() {
@@ -99,3 +101,9 @@ gulp.task('casperjs', function() {
 
 // Tous les tests
 gulp.task('test', ['qunit', 'casperjs']);
+
+// Compilations automatiques
+gulp.task('watch', function() {
+    gulp.watch('app/sass/*.scss', ['compass']);
+    gulp.watch(['app/js/modules/*.js','app/js/scripts/*.js'], ['browserify']);
+});

@@ -89,7 +89,8 @@ body {
     animation: loading 7s linear infinite;
 }
 
-#mCSB_1_container {
+#mCSB_1_container,
+#mCSB_2_container {
   margin-right: 0;
 }
 
@@ -270,11 +271,11 @@ form#search {
 
 .sidebar {
   .item {
+
     h3 {
       color: white;
       font-family: actionman_regular, sans-serif;
       font-size: 17px;
-      text-align: center;
     }
   }
 }
@@ -407,8 +408,9 @@ form#search {
   border-right: solid 3px $blue !important;
 
   .item {
-    /* display: flex !important;
-    align-items: center; */
+    text-align: left;
+    display: flex !important;
+    align-items: center;
 
     img {
       width: 56px !important;
@@ -454,29 +456,5 @@ form#search {
     font-family: actionman_regular, sans-serif;
     font-size: 15px;
     font-weight: bold;
-  }
-}
-
-/* ========================================== */
-/* =============== Ambiances =============== */
-/* ======================================== */
-
-#ambiances {
-  display: none;
-  width: 90%;
-  margin: auto;
-
-  .ambiance {
-    max-width: 500px;
-    width: 50%;
-
-    figure {
-      display: flex;
-      justify-content: space-around;
-
-      img {
-        width: 400px;
-      }
-    }
   }
 }

@@ -1,7 +1,7 @@
 casper.test.begin("Lancement de l'application", 5, function suite(test) {
 
     casper.start("http://localhost:8000/app", function() {
-        test.assertTitle("Playlist harmonique", "Titre de l'application OK");
+        test.assertTitle("Créez vos playlists harmoniques avec HARMONEEZER !", "Titre de l'application OK");
         test.assertVisible("#search", "Le moteur de recherche visible");
         test.assertVisible("#ipod", "L'iPod est visible");
         test.assertNotVisible("#tracks", "Le carousel de morceaux est invisible");

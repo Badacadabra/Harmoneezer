@@ -2,7 +2,6 @@
 /* ========================================== */
 /* ================= Reset ================= */
 /* ======================================== */
-/* line 14, ../sass/style.scss */
 * {
   border: 0;
   padding: 0;
@@ -22,24 +21,20 @@
 /* ========================================== */
 /* ================= Global ================ */
 /* ======================================== */
-/* line 40, ../sass/style.scss */
 body {
   overflow: hidden !important;
 }
 
-/* line 44, ../sass/style.scss */
 .pusher {
   background: url("../images/background/music.jpg") no-repeat center center fixed !important;
   background-size: cover !important;
   height: 100%;
 }
 
-/* line 50, ../sass/style.scss */
 .red {
   color: red;
 }
 
-/* line 54, ../sass/style.scss */
 .green {
   color: green;
 }
@@ -52,18 +47,15 @@ body {
     transform: rotate(360deg);
   }
 }
-/* line 67, ../sass/style.scss */
 #dzplayer {
   margin: auto;
 }
 
-/* line 71, ../sass/style.scss */
 #top-wrapper {
   position: relative;
   z-index: 100;
 }
 
-/* line 76, ../sass/style.scss */
 #loading-text {
   font-weight: bold;
   font-size: x-large;
@@ -72,7 +64,6 @@ body {
   z-index: 10;
 }
 
-/* line 84, ../sass/style.scss */
 #vinyl {
   width: 200px;
   margin: auto;
@@ -84,21 +75,19 @@ body {
   animation: loading 7s linear infinite;
 }
 
-/* line 92, ../sass/style.scss */
-#mCSB_1_container {
+#mCSB_1_container,
+#mCSB_2_container {
   margin-right: 0;
 }
 
 /* ========================================== */
 /* ================= Search ================ */
 /* ======================================== */
-/* line 100, ../sass/style.scss */
 form#search {
   justify-content: center;
   background-color: #131619 !important;
 }
 
-/* line 105, ../sass/style.scss */
 #search input {
   font-family: actionman_regular, sans-serif;
   font-size: xx-large;
@@ -110,12 +99,10 @@ form#search {
   position: relative;
   z-index: 100;
 }
-/* line 116, ../sass/style.scss */
 #search input:focus {
   border-bottom-color: white !important;
 }
 
-/* line 121, ../sass/style.scss */
 #search input + .search.icon {
   margin-right: 25px;
 }
@@ -123,17 +110,14 @@ form#search {
 /* ========================================== */
 /* ================ Résultats ============== */
 /* ======================================== */
-/* line 129, ../sass/style.scss */
 .owl-carousel {
   background-color: #131619;
   border-bottom: solid 2px white;
 }
 
-/* line 134, ../sass/style.scss */
 .owl-item {
   width: 250px !important;
 }
-/* line 137, ../sass/style.scss */
 .owl-item figure {
   margin: 0;
   display: block;
@@ -141,7 +125,6 @@ form#search {
   float: left;
   overflow: hidden;
 }
-/* line 144, ../sass/style.scss */
 .owl-item figure figcaption {
   position: absolute;
   background: black;
@@ -161,32 +144,26 @@ form#search {
   -moz-transition: all .3s ease;
   -o-transition: all .3s ease;
 }
-/* line 163, ../sass/style.scss */
 .owl-item figure figcaption h3 {
   font-family: actionman_regular, sans-serif;
 }
-/* line 168, ../sass/style.scss */
 .owl-item figure figcaption:hover {
   opacity: 1;
   cursor: pointer;
 }
 
-/* line 175, ../sass/style.scss */
 .owl-wrapper-outer {
   height: 250px;
 }
 
-/* line 179, ../sass/style.scss */
 .owl-controls {
   display: none !important;
 }
 
-/* line 183, ../sass/style.scss */
 .owl-item figure:hover figcaption {
   opacity: 1;
 }
 
-/* line 189, ../sass/style.scss */
 #harmonic-tracks #tracks-help {
   color: white;
   background-color: #188AE3;
@@ -198,7 +175,6 @@ form#search {
   align-items: center;
   justify-content: center;
 }
-/* line 200, ../sass/style.scss */
 #harmonic-tracks #tracks-help h2 {
   font-family: actionman_regular, sans-serif;
   padding: 20px;
@@ -207,7 +183,6 @@ form#search {
 /* ========================================== */
 /* ================== iPod ================= */
 /* ======================================== */
-/* line 212, ../sass/style.scss */
 #ipod-wrapper {
   position: absolute;
   top: 85px;
@@ -216,11 +191,9 @@ form#search {
   width: 125px;
   height: 208px;
 }
-/* line 219, ../sass/style.scss */
 #ipod-wrapper #ipod {
   position: absolute;
 }
-/* line 223, ../sass/style.scss */
 #ipod-wrapper #player {
   width: 105px;
   height: 80px;
@@ -231,7 +204,6 @@ form#search {
   left: 10px;
 }
 
-/* line 234, ../sass/style.scss */
 #ipod-wrapper:hover {
   cursor: move;
 }
@@ -239,12 +211,10 @@ form#search {
 /* ========================================== */
 /* =============== Background ============== */
 /* ======================================== */
-/* line 242, ../sass/style.scss */
 .vegas-timer {
   height: 5px !important;
 }
 
-/* line 246, ../sass/style.scss */
 .vegas-timer-progress {
   background: white none repeat scroll 0 0 !important;
 }
@@ -264,20 +234,16 @@ form#search {
 /* ========================================== */
 /* ================ Sidebars =============== */
 /* ======================================== */
-/* line 267, ../sass/style.scss */
 .sidebar {
   border: 0 !important;
 }
 
-/* line 273, ../sass/style.scss */
 .sidebar .item h3 {
   color: white;
   font-family: actionman_regular, sans-serif;
   font-size: 17px;
-  text-align: center;
 }
 
-/* line 282, ../sass/style.scss */
 #display-menu {
   cursor: pointer;
   position: absolute;
@@ -287,7 +253,6 @@ form#search {
   left: 0;
   transition: bottom 0.5s;
 }
-/* line 289, ../sass/style.scss */
 #display-menu i {
   color: white;
   background-color: #131619;
@@ -297,146 +262,115 @@ form#search {
   border-right: solid 2px black;
 }
 
-/* line 307, ../sass/style.scss */
 .blue-item {
   background-color: #188AE3 !important;
 }
 
-/* line 311, ../sass/style.scss */
 .red-item {
   background-color: #F04A3C !important;
 }
 
-/* line 315, ../sass/style.scss */
 .green-item {
   background-color: #5AA628 !important;
 }
 
-/* line 319, ../sass/style.scss */
 .orange-item {
   background-color: #FFA905 !important;
 }
 
-/* line 323, ../sass/style.scss */
 .violet-item {
   background-color: #AE63E4 !important;
 }
 
-/* line 327, ../sass/style.scss */
 .maroon-item {
   background-color: #B66F2F !important;
 }
 
-/* line 331, ../sass/style.scss */
 .gray-item {
   background-color: gray !important;
 }
 
-/* line 335, ../sass/style.scss */
 .bottom.sidebar {
   background-color: #131619;
   justify-content: center;
   z-index: 100;
 }
-/* line 342, ../sass/style.scss */
 .bottom.sidebar .item:first-of-type {
   border-top: solid 3px #188AE3 !important;
 }
-/* line 345, ../sass/style.scss */
 .bottom.sidebar .item:first-of-type:hover {
   background-color: #188AE3 !important;
 }
-/* line 350, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(2) {
   border-top: solid 3px #F04A3C !important;
 }
-/* line 353, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(2):hover {
   background-color: #F04A3C !important;
 }
-/* line 358, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(3) {
   border-top: solid 3px #5AA628 !important;
 }
-/* line 361, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(3):hover {
   background-color: #5AA628 !important;
 }
-/* line 366, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(4) {
   border-top: solid 3px #FFA905 !important;
 }
-/* line 369, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(4):hover {
   background-color: #FFA905 !important;
 }
-/* line 374, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(5) {
   border-top: solid 3px #AE63E4 !important;
 }
-/* line 377, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(5):hover {
   background-color: #AE63E4 !important;
 }
-/* line 382, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(6) {
   border-top: solid 3px #B66F2F !important;
 }
-/* line 385, ../sass/style.scss */
 .bottom.sidebar .item:nth-of-type(6):hover {
   background-color: #B66F2F !important;
 }
-/* line 390, ../sass/style.scss */
 .bottom.sidebar .item:last-of-type {
   border-top: solid 3px gray !important;
 }
-/* line 393, ../sass/style.scss */
 .bottom.sidebar .item:last-of-type:hover {
   background-color: gray !important;
 }
 
-/* line 401, ../sass/style.scss */
 #playlist, #favorites {
   margin-top: 71px !important;
 }
 
-/* line 405, ../sass/style.scss */
 #playlist {
   z-index: 10 !important;
   border-right: solid 3px #188AE3 !important;
 }
-/* line 409, ../sass/style.scss */
 #playlist .item {
-  /* display: flex !important;
-  align-items: center; */
+  text-align: left;
+  display: flex !important;
+  align-items: center;
 }
-/* line 413, ../sass/style.scss */
 #playlist .item img {
   width: 56px !important;
   margin-right: 20px !important;
 }
 
-/* line 421, ../sass/style.scss */
 #favorites {
   border-left: solid 3px #F04A3C !important;
 }
-/* line 424, ../sass/style.scss */
 #favorites .item:not(.title) {
   padding: 0;
 }
-/* line 427, ../sass/style.scss */
 #favorites .item:not(.title) .field {
   width: 100%;
 }
-/* line 430, ../sass/style.scss */
 #favorites .item:not(.title) .field .ui.checkbox {
   width: 100%;
 }
-/* line 433, ../sass/style.scss */
 #favorites .item:not(.title) .field .ui.checkbox label {
   margin: 13px;
 }
-/* line 440, ../sass/style.scss */
 #favorites input[type='range'] + span {
   border: 1px solid gray;
   padding: 15px;
@@ -445,38 +379,12 @@ form#search {
   left: 60px;
 }
 
-/* line 449, ../sass/style.scss */
 #atmospheres {
   height: 70px !important;
   border-bottom: solid 3px #5AA628 !important;
 }
-/* line 453, ../sass/style.scss */
 #atmospheres p {
   font-family: actionman_regular, sans-serif;
   font-size: 15px;
   font-weight: bold;
-}
-
-/* ========================================== */
-/* =============== Ambiances =============== */
-/* ======================================== */
-/* line 464, ../sass/style.scss */
-#ambiances {
-  display: none;
-  width: 90%;
-  margin: auto;
-}
-/* line 469, ../sass/style.scss */
-#ambiances .ambiance {
-  max-width: 500px;
-  width: 50%;
-}
-/* line 473, ../sass/style.scss */
-#ambiances .ambiance figure {
-  display: flex;
-  justify-content: space-around;
-}
-/* line 477, ../sass/style.scss */
-#ambiances .ambiance figure img {
-  width: 400px;
 }

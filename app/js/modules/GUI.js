@@ -1,4 +1,6 @@
 module.exports = GUI = {
+  notifAllowed: true,
+  tempoVariation: 0.05,
   init: function() {
     // Gestion des ambiances
     $( "#main" ).vegas({
@@ -92,20 +94,56 @@ module.exports = GUI = {
   },
   favorites: {
     ipod: function() {
-      $( "#ipod-wrapper" ).fadeToggle();
+      var $ipod = $( "#ipod-wrapper" );
+      if ($ipod.is( ":visible" )) {
+        $ipod.fadeOut();
+      } else {
+        $ipod.fadeIn();
+      }
+      var $ipodState = $( "#fav-ipod .state" );
+      if (GUI.notifAllowed) {
+        GUI.favorites.displayMessage($ipodState, "iPod activé !", "iPod désactivé !");
+      }
+      GUI.favorites.changeState($ipodState);
     },
     notify: function() {
-      console.log("Notification");
+      GUI.notifAllowed ? (GUI.notifAllowed = false) : (GUI.notifAllowed = true);
+      var $notifState = $( "#fav-notify .state" );
+      GUI.favorites.displayMessage($notifState, "Notifications activées !", "Notifications désactivées !");
+      GUI.favorites.changeState($notifState);
     },
-    mute: function() {
-      console.log("Muet");
+    sound: function() {
+      var $soundState = $( "#fav-sound .state" );
+      if (GUI.notifAllowed) {
+        GUI.favorites.displayMessage($soundState, "Son activé !", "Son désactivé !");
+      }
+      GUI.favorites.changeState($soundState);
     },
     duplicate: function() {
-      console.log("Doublon");
+      var $duplicateState = $( "#fav-duplicate .state" );
+      if (GUI.notifAllowed) {
+        GUI.favorites.displayMessage($duplicateState, "Doublons activés !", "Doublons désactivés !");
+      }
+      GUI.favorites.changeState($duplicateState);
+    },
+    changeState: function($state) {
+      if ($state.val() == "activated") {
+        $state.val( "deactivated" );
+      } else {
+        $state.val( "activated" );
+      }
+    },
+    displayMessage: function($state, positiveMessage, negativeMessage) {
+      if ($state.val() == "activated") {
+        alertify.error(negativeMessage, 5);
+      } else {
+        alertify.success(positiveMessage, 5);
+      }
     },
     tempoRange: function() {
-      var tempoVariation = $( "input[type='range']" ).val();
+      let tempoVariation = $( "input[type='range']" ).val();
       $( "input[type='range'] + span" ).text(tempoVariation + " %");
+      GUI.tempoVariation = (tempoVariation / 100);
     }
   },
   atmospheres: {
@@ -144,7 +182,7 @@ module.exports = GUI = {
     var favoritesEvents = [
                            ["#fav-ipod", "click", GUI.favorites.ipod],
                            ["#fav-notify", "click", GUI.favorites.notify],
-                           ["#fav-mute", "click", GUI.favorites.mute],
+                           ["#fav-sound", "click", GUI.favorites.sound],
                            ["#fav-duplicate", "click", GUI.favorites.duplicate],
                            ["#fav-tempo-range", "change", GUI.favorites.tempoRange]
                          ];

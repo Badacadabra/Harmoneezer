@@ -2,12 +2,14 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Playlist harmonique</title>
+        <title>Créez vos playlists harmoniques avec HARMONEEZER !</title>
         <link rel="stylesheet" href="stylesheets/style.css" media="all">
         <link rel="stylesheet" href="semantic/dist/semantic.min.css">
         <link rel="stylesheet" href="/bower_components/vegas/dist/vegas.min.css">
         <link rel="stylesheet" href="/bower_components/owlcarousel/owl-carousel/owl.carousel.css">
         <link rel="stylesheet" href="/bower_components/owlcarousel/owl-carousel/owl.theme.css">
+        <link rel="stylesheet" href="/bower_components/alertify-js/build/css/alertify.min.css">
+        <link rel="stylesheet" href="/bower_components/alertify-js/build/css/themes/default.min.css">
         <link rel="stylesheet" href="/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css">
     </head>
     <body>
@@ -49,16 +51,16 @@
             </a>
         </div>
         <!-- Playlist -->
-        <div id="playlist" class="ui left vertical wide sidebar labeled icon menu">
+        <div id="playlist" class="ui left vertical wide sidebar icon menu">
             <a class="item title blue-item">
               <h3>Ma playlist</h3>
             </a>
             <a class="item" v-for="selectedTrack in selectedTracks">
-              <img src="{{ selectedTrack.cover }}" alt="{{ selectedTrack.getTitle() }}">
-              <div>
-                <em>{{ selectedTrack.title }}</em><br>
-                <strong>{{ selectedTrack.artist }}<strong>
-              </div>
+                <img src="images/foreground/cd.png" alt="{{ selectedTrack.title }}">
+                <div>
+                  <em>{{ selectedTrack.title }}</em><br>
+                  <strong>{{ selectedTrack.artist }}</strong>
+                </div>
             </a>
         </div>
         <!-- Favoris -->
@@ -71,6 +73,7 @@
                 <div class="ui toggle checkbox">
                   <input class="hidden" type="checkbox" checked>
                   <label>iPod</label>
+                  <input type="hidden" class="state" value="activated">
                 </div>
               </div>
             </a>
@@ -79,14 +82,16 @@
                 <div class="ui toggle checkbox">
                   <input class="hidden" type="checkbox" checked>
                   <label>Notifications</label>
+                  <input type="hidden" class="state" value="activated">
                 </div>
               </div>
             </a>
-            <a id="fav-mute" class="item">
+            <a id="fav-sound" class="item">
               <div class="inline field">
                 <div class="ui toggle checkbox">
-                  <input class="hidden" type="checkbox">
-                  <label>Muet</label>
+                  <input class="hidden" type="checkbox" checked>
+                  <label>Son</label>
+                  <input type="hidden" class="state" value="activated">
                 </div>
               </div>
             </a>
@@ -96,8 +101,9 @@
             <a id="fav-duplicate" class="item">
               <div class="inline field">
                 <div class="ui toggle checkbox">
-                  <input class="hidden" type="checkbox">
+                  <input class="hidden" type="checkbox" checked>
                   <label>Un seul morceau par artiste</label>
+                  <input type="hidden" class="state" value="activated">
                 </div>
               </div>
             </a>
@@ -148,6 +154,14 @@
                 <div class="ui radio checkbox">
                   <input class="hidden" name="sorting" type="radio">
                    <label>Favoriser la tonalité</label>
+                </div>
+              </div>
+            </a>
+            <a id="fav-no-sorting" class="item">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input class="hidden" name="sorting" type="radio">
+                   <label>En vrac</label>
                 </div>
               </div>
             </a>
@@ -245,10 +259,10 @@
         <script src="/bower_components/vue/dist/vue.min.js"></script>
         <script src="/bower_components/vegas/dist/vegas.min.js"></script>
         <script src="/bower_components/owlcarousel/owl-carousel/owl.carousel.min.js"></script>
+        <script src="/bower_components/alertify-js/build/alertify.min.js"></script>
         <script src="/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
         <script src="semantic/dist/semantic.min.js"></script>
         <script src="https://cdns-files.dzcdn.net/js/min/dz.js"></script>
-        <script src="js/scripts/deezer.js"></script>
         <script src="js/scripts/playlist.js"></script>
         <script src="js/bundle/app.js"></script>
         <!-- <script src="/dist/js/app.min.js"></script> -->
