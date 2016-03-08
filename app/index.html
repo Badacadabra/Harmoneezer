@@ -20,7 +20,7 @@
         </video>
 -->
         <!-- Menu du bas -->
-        <div class="ui bottom inverted horizontal sidebar labeled icon menu seven item">
+        <div class="ui bottom inverted horizontal sidebar labeled icon menu eight item">
             <a id="playlist-btn" class="item">
               <i class="music icon"></i>
               Playlist
@@ -30,8 +30,12 @@
               Favoris
             </a>
             <a id="ambiances-btn" class="item">
-              <i class="wizard icon"></i>
+              <i class="theme icon"></i>
               Ambiances
+            </a>
+            <a id="suggestions-btn" class="item">
+              <i class="thumbs up icon"></i>
+              Suggestions
             </a>
             <a id="previous-btn" class="item">
               <i class="step backward icon"></i>
@@ -157,6 +161,22 @@
                 </div>
               </div>
             </a>
+            <a id="fav-asc-tempo-sorting" class="item">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input class="hidden" name="sorting" type="radio">
+                   <label>Tempo croissant</label>
+                </div>
+              </div>
+            </a>
+            <a id="fav-desc-tempo-sorting" class="item">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input class="hidden" name="sorting" type="radio">
+                   <label>Tempo décroissant</label>
+                </div>
+              </div>
+            </a>
             <a id="fav-no-sorting" class="item">
               <div class="field">
                 <div class="ui radio checkbox">
@@ -201,6 +221,16 @@
               Metal
             </a>
         </div>
+        <!-- Suggestions harmoniques -->
+        <div id="harmonic-tracks" class="ui left vertical sidebar">
+          <a class="item title">
+            <h3>Sélection HARMONEEZER</h3>
+          </a>
+          <a id="tracks-help" href="#">
+            <p>Morceaux similaires</p>
+            <i class="help circle icon"></i>
+          </a>
+        </div>
         <!-- Contenu principal -->
         <div id="main" class="pusher">
           <!-- iPod -->
@@ -212,20 +242,14 @@
           <div id="top-wrapper">
               <form id="search">
                   <div class="ui inverted transparent fluid massive icon input">
-                      <input type="text" name="keyword" class="prompt" placeholder="Vous cherchez un morceau ?" autofocus>
+                      <input type="text" name="keyword" class="prompt" placeholder="Vous cherchez un morceau ?" autocomplete="off" autofocus>
                       <i class="search icon"></i>
                   </div>
               </form>
           </div>
           <!-- Carousel de résultats -->
-          <div id="results" style="display:none;">
+          <div id="results">
               <div id="tracks" class="owl-carousel"></div>
-              <div id="harmonic-tracks" class="owl-carousel">
-                <a id="tracks-help" href="#">
-                  <h2>Morceaux similaires</h2>
-                  <i class="help circle icon"></i>
-                </a>
-              </div>
           </div>
           <div id="dz-root"></div>
           <!-- Loader -->
@@ -243,11 +267,23 @@
           <div class="ui small basic modal transition">
             <div class="ui icon header">
               <i class="music icon"></i>
-              Lorem ipsum
+              Qu'est-ce qu'un morceau similaire ?
             </div>
             <div class="content">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis malesuada ipsum, quis accumsan purus iaculis at. Mauris vitae nisi quis tortor eleifend hendrerit ut non augue. Pellentesque quis bibendum lorem, sed rutrum tortor. Mauris eu ante a sem tincidunt pharetra. Pellentesque in pulvinar ex. Maecenas sit amet velit sollicitudin, suscipit nulla id, commodo velit. Proin urna tellus, vehicula quis ullamcorper ut, imperdiet a purus. Suspendisse potenti. Nunc sagittis consequat faucibus. Etiam eget lorem id ex suscipit ornare in a ante. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla auctor massa dictum, scelerisque ipsum ac, feugiat dui. Nam vel ullamcorper nunc. Praesent vel viverra elit, at sodales dui.</p>
-              <p>Mauris sit amet neque mauris. Nam blandit iaculis nisi, blandit bibendum sapien blandit eget. Vivamus congue lorem vitae neque vestibulum sodales. Aliquam erat volutpat. Sed maximus vel velit at iaculis. Cras eget tellus tortor. Nulla maximus libero quis augue consequat maximus. Suspendisse sagittis justo turpis, vel consequat nisl tincidunt a. Aliquam quam felis, blandit vitae convallis et, molestie a ante. Donec sed ornare odio. Proin et congue libero. Ut aliquam mauris at mollis interdum. Aenean et tincidunt tellus. Mauris pretium ullamcorper lacus ut tincidunt. Aliquam viverra, sem vitae aliquet efficitur, sapien ligula pretium sem, at euismod sapien nibh non leo. Pellentesque non magna mi. </p>
+              <p>
+                HARMONEEZER s'appuie sur le profil musical de chaque morceau que vous sélectionnez pour générer des suggestions.
+                Ce profil est constitué à partir de données recueillies sur Deezer et Echo Nest (Spotify).
+                Deezer fournit ici la similarité entre artistes, qui permet de rester globalement dans le même genre musical.
+                Echo Nest fournit en complément les données techniques, telles que le tempo et la tonalité.
+              <p>
+              <p>
+                Des contraintes techniques font qu'il n'est pas possible de vous fournir des suggestions harmoniques pour toutes vos sélections.
+                Tous les morceaux Deezer n'ont pas forcément d'équivalent sur Echo Nest, et même s'il y a une correspondance, le résumé audio n'est pas toujours présent.
+              <p>
+              <p>
+                Notez cependant que vous pouvez trier les morceaux suggérés selon vos préférences.
+                Différentes options de tri sont disponibles dans vos favoris et vous permettront certainement de trouver votre bonheur !
+              </p>
             </div>
             <div class="actions">
               <div class="ui green ok inverted button">OK</div>
@@ -257,6 +293,7 @@
         <script src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
         <script src="/bower_components/vue/dist/vue.min.js"></script>
+        <script src="/bower_components/underscore/underscore-min.js"></script>
         <script src="/bower_components/vegas/dist/vegas.min.js"></script>
         <script src="/bower_components/owlcarousel/owl-carousel/owl.carousel.min.js"></script>
         <script src="/bower_components/alertify-js/build/alertify.min.js"></script>

@@ -1,6 +1,7 @@
 module.exports = GUI = {
   notifAllowed: true,
   tempoVariation: 0.05,
+  currentSorting: "default",
   init: function() {
     // Gestion des ambiances
     $( "#main" ).vegas({
@@ -27,7 +28,7 @@ module.exports = GUI = {
     $( "#ipod-wrapper" ).draggable({ scroll: false });
 
     // Gestion de la scrollbar
-    $( ".vertical.sidebar" ).mCustomScrollbar({
+    $( "#playlist, #favorites" ).mCustomScrollbar({
       theme:"dark",
       scrollInertia: 0
     });
@@ -76,20 +77,33 @@ module.exports = GUI = {
           }
         })
         .sidebar( "toggle" );
+    },
+    leftBis: function() {
+      $( "#harmonic-tracks" )
+        .sidebar({
+          onShow: function() {
+            $( "#suggestions-btn" ).addClass( "black-item" );
+          },
+          onHide: function() {
+            $( "#suggestions-btn" ).removeClass( "black-item" );
+          }
+        })
+        .sidebar( "setting", "transition", "overlay")
+        .sidebar( "toggle" );
     }
   },
   controls: {
     previous: function() {
-      console.log("précédent");
+      alertify.success("Chargement du morceau précédent", 5);
     },
     play: function() {
-      console.log("play");
+      alertify.success("Lecture", 5);
     },
     pause: function() {
-      console.log("pause");
+      alertify.warning("Pause", 5);
     },
     next: function() {
-      console.log("suivant");
+      alertify.success("Chargement du morceau suivant", 5);
     }
   },
   favorites: {
@@ -141,9 +155,27 @@ module.exports = GUI = {
       }
     },
     tempoRange: function() {
-      let tempoVariation = $( "input[type='range']" ).val();
+      var tempoVariation = $( "input[type='range']" ).val();
       $( "input[type='range'] + span" ).text(tempoVariation + " %");
       GUI.tempoVariation = (tempoVariation / 100);
+    },
+    defaultSorting: function() {
+      GUI.currentSorting = "default";
+    },
+    tempoSorting: function() {
+      GUI.currentSorting = "tempoFirst";
+    },
+    keySorting: function() {
+      GUI.currentSorting = "keyFirst";
+    },
+    ascTempoSorting: function() {
+      GUI.currentSorting = "ascTempo";
+    },
+    descTempoSorting: function() {
+      GUI.currentSorting = "descTempo";
+    },
+    noSorting: function() {
+      GUI.currentSorting = "none";
     }
   },
   atmospheres: {
@@ -163,7 +195,8 @@ module.exports = GUI = {
                           ["#display-menu", "click", GUI.sidebars.bottom],
                           ["#playlist-btn", "click", GUI.sidebars.left],
                           ["#favorites-btn", "click", GUI.sidebars.right],
-                          ["#ambiances-btn", "click", GUI.sidebars.top]
+                          ["#ambiances-btn", "click", GUI.sidebars.top],
+                          ["#suggestions-btn", "click", GUI.sidebars.leftBis]
                         ];
 
     addEvents(sidebarEvents);
@@ -184,7 +217,13 @@ module.exports = GUI = {
                            ["#fav-notify", "click", GUI.favorites.notify],
                            ["#fav-sound", "click", GUI.favorites.sound],
                            ["#fav-duplicate", "click", GUI.favorites.duplicate],
-                           ["#fav-tempo-range", "change", GUI.favorites.tempoRange]
+                           ["#fav-tempo-range", "change", GUI.favorites.tempoRange],
+                           ["#fav-default-sorting", "click", GUI.favorites.defaultSorting],
+                           ["#fav-tempo-sorting", "click", GUI.favorites.tempoSorting],
+                           ["#fav-key-sorting", "click", GUI.favorites.keySorting],
+                           ["#fav-asc-tempo-sorting", "click", GUI.favorites.ascTempoSorting],
+                           ["#fav-desc-tempo-sorting", "click", GUI.favorites.descTempoSorting],
+                           ["#fav-no-sorting", "click", GUI.favorites.noSorting]
                          ];
 
     addEvents(favoritesEvents);
@@ -219,6 +258,10 @@ module.exports = GUI = {
         $( e[i][0] ).on( e[i][1], e[i][2] );
       }
     }
+
+    $( ".harmonic-track" ).click(function() {
+      alert("Toto");
+    });
 
   }
 }

@@ -90,7 +90,8 @@ body {
 }
 
 #mCSB_1_container,
-#mCSB_2_container {
+#mCSB_2_container,
+#mCSB_3_container {
   margin-right: 0;
 }
 
@@ -132,7 +133,7 @@ form#search {
   border-bottom: solid 2px white;
 }
 
-.owl-item {
+.owl-item, #harmonic-tracks {
   width: 250px !important;
 
   figure {
@@ -152,7 +153,7 @@ form#search {
       padding: 10px 20px;
       opacity: 0;
       left: 0;
-      bottom: 5px;
+      bottom: 4px;
       text-align: center;
       display: flex;
       justify-content: center;
@@ -183,27 +184,6 @@ form#search {
 
 .owl-item figure:hover figcaption {
   opacity: 1;
-}
-
-#harmonic-tracks {
-
-  #tracks-help {
-    color: white;
-    background-color: $blue;
-    height: 250px;
-    font-size: xx-large;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    h2 {
-      font-family: actionman_regular, sans-serif;
-      padding: 20px;
-    }
-  }
-
 }
 
 /* ========================================== */
@@ -313,6 +293,10 @@ form#search {
   @include item-color($red);
 }
 
+.black-item {
+  @include item-color(black);
+}
+
 .green-item {
   @include item-color($green);
 }
@@ -365,6 +349,14 @@ form#search {
     }
 
     &:nth-of-type(4) {
+      @include item-border(black);
+
+      &:hover {
+        @include item-color(black);
+      }
+    }
+
+    &:nth-of-type(5) {
       @include item-border($orange);
 
       &:hover {
@@ -372,7 +364,7 @@ form#search {
       }
     }
 
-    &:nth-of-type(5) {
+    &:nth-of-type(6) {
       @include item-border($violet);
 
       &:hover {
@@ -380,7 +372,7 @@ form#search {
       }
     }
 
-    &:nth-of-type(6) {
+    &:nth-of-type(7) {
       @include item-border($maroon);
 
       &:hover {
@@ -457,4 +449,33 @@ form#search {
     font-size: 15px;
     font-weight: bold;
   }
+}
+
+#harmonic-tracks {
+  background-color: $dark;
+  box-shadow: 0 0 25px black;
+
+  h3 {
+    background-color: $dark !important;
+    padding: 24px 0;
+    text-align: center;
+  }
+
+  #tracks-help {
+    color: white;
+    background-color: $blue;
+    height: 250px;
+    font-size: xx-large;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      font-family: actionman_regular, sans-serif;
+      padding: 20px;
+    }
+  }
+
 }

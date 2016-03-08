@@ -41,8 +41,8 @@ var playlist = new Vue({
     removeTrackFromPlaylist: function(i) {
       this.selectedTracks.splice(i, 1);
     },
-    test: function() {
-      console.log("Toto");
+    hello: function() {
+      console.log("Hello world!");
     }
   }
 });

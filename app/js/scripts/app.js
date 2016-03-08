@@ -4,6 +4,7 @@ var Vocabulary = require('../modules/Vocabulary.js'),
     Music = require('../modules/Music.js'),
     Ajax = require('../modules/Ajax.js'),
     GUI = require('../modules/GUI.js'),
+    Sorting = require('../modules/Sorting.js'),
     Player = require('../modules/Player');
 
 // Variables globales
@@ -12,7 +13,16 @@ var searchedTracks = [],
     refTrack,
     harmony,
     $owl,
-    $owl2;
+    $harmonicTracks;
+
+// Stratégies de tri des morceaux
+var sortingStrategy = new Sorting.Strategy(),
+    defaultSorting = new Sorting.Default(),
+    tempoFirstSorting = new Sorting.TempoFirst(),
+    keyFirstSorting = new Sorting.KeyFirst(),
+    ascTempoSorting = new Sorting.AscendingTempo(),
+    descTempoSorting = new Sorting.DescendingTempo(),
+    noSorting = new Sorting.None();
 
 // Point d'entrée de l'application
 $( document ).ready(function() {
@@ -20,24 +30,47 @@ $( document ).ready(function() {
     // Initialisation de l'interface graphique
     GUI.init();
 
-    // Initialisation du carousel contenant tous les résultats de recherche
+    // Initialisation du carousel
     $owl = $( "#tracks" );
     $owl.owlCarousel({
       items: 10,
+      pagination: false,
+      autoPlay: true,
+      autoplayTimeout: 100,
+      stopOnHover: true,
+      lazyLoad : true
     });
 
-    // Initialisation du carousel contenant tous les résultats a priori harmoniques
-    $owl2 = $( "#harmonic-tracks" );
-    $owl2.owlCarousel({
-      items: 10,
-    });
+    $harmonicTracks = $( "#harmonic-tracks" );
 
     // À la soumission du formulaire, on récupère des morceaux sur Deezer
     $( "#search" ).submit(function(e) {
         e.preventDefault();
         searchTracks();
-        $( "#harmonic-tracks" ).hide();
-        alertify.message("Choisissez un morceau de référence", 5);
+        if (GUI.notifAllowed) {
+          alertify.message("Choisissez un morceau de référence", 5);
+        }
+
+        // Détection de la stratégie de tri des morceaux
+        switch (GUI.currentSorting) {
+          case "tempoFirst":
+            sortingStrategy.setAlgorithm(tempoFirstSorting);
+            break;
+          case "keyFirst":
+            sortingStrategy.setAlgorithm(keyFirstSorting);
+            break;
+          case "ascTempo":
+            sortingStrategy.setAlgorithm(ascTempoSorting);
+            break;
+          case "descTempo":
+            sortingStrategy.setAlgorithm(descTempoSorting);
+            break;
+          case "none":
+            sortingStrategy.setAlgorithm(noSorting);
+            break;
+          default:
+            sortingStrategy.setAlgorithm(defaultSorting);
+        }
     });
 
     // Gestion de l'autocomplétion dans le champ de recherche
@@ -53,11 +86,12 @@ $( document ).ready(function() {
 // Recherche de morceaux sur Deezer
 function searchTracks() {
 
-    var $results = $( "#results" ),
-      keyword = $( "#search input" ).val();
+    // Gestion du carousel contenant tous les résultats de recherche
+    if ($owl.is( ":visible" )) {
+      $owl.empty();
+    }
 
-    $results.hide();
-    $owl.empty();
+    var keyword = $( "#search input" ).val();
 
     // Paramétrage et envoi de la requête
     request = new Ajax.RequestFactory().getAjaxRequest("deezer", "/search/track");
@@ -83,7 +117,7 @@ function searchTracks() {
             // Template d'un morceau
             var html = '<div id="' + track.id + '" class="track">';
                 html += ' <figure>';
-                html += '   <img src="' + track.album.cover_medium + '" alt="' + track.title + '">';
+                html += '   <img class="lazyOwl" data-src="' + track.album.cover_medium + '" alt="' + track.title + '">';
                 html += '   <figcaption>';
                 html += '     <div>';
                 html += '       <h3 class="track-title">' + track.title + '</h3>';
@@ -95,7 +129,10 @@ function searchTracks() {
 
             // On ajoute le template au carousel et on affiche les résultats
             $owl.data('owlCarousel').addItem(html);
-            $results.fadeIn();
+
+            if (!$owl.is( ":visible" )) {
+              $owl.fadeIn();
+            }
 
             // On ajoute un écouteur d'événement de type clic pour chaque morceau
             selectedTrack(track.id);
@@ -131,7 +168,9 @@ function getInitialAudioSummary(trackId) {
     function success(final) {
         // Le morceau est-il trouvé sur Echo Nest à partir de l'identifiant Deezer ?
         if (final.response.track !== undefined) {
-            alertify.success("Trouvé sur Echo Nest !", 5);
+            if (GUI.notifAllowed) {
+              alertify.success("Trouvé sur Echo Nest !", 5);
+            }
             // Le morceau trouvé sur Echo Nest a-t-il un résumé audio ?
             if (!$.isEmptyObject(final.response.track.audio_summary)) {
                 // console.log(final.response);
@@ -149,18 +188,24 @@ function getInitialAudioSummary(trackId) {
                 // On construit le profil du morceau de référence
                 buildRefTrackProfile(title, artist, "", key, mode, tempo);
 
-                alertify.message("« " + title + " » par " + artist, 0);
-                alertify.message("Tonalité : " + key + " " + mode, 0);
-                alertify.message("Tempo : " + tempo + " BPM", 0);
+                if (GUI.notifAllowed) {
+                  alertify.message("« " + title + " » par " + artist, 0);
+                  alertify.message("Tonalité : " + key + " " + mode, 0);
+                  alertify.message("Tempo : " + tempo + " BPM", 0);
+                }
             } else {
               buildRefTrackProfile("", "", "", "", "", 0);
-              alertify.error("Le résumé audio de ce morceau n'est pas disponible sur Echo Nest.", 10);
-              alertify.error("Suggestion harmonique impossible", 10);
+              if (GUI.notifAllowed) {
+                alertify.error("Le résumé audio de ce morceau n'est pas disponible sur Echo Nest.", 10);
+                alertify.error("Suggestion harmonique impossible", 10);
+              }
             }
         } else {
           buildRefTrackProfile("", "", "", "", "", 0);
-          alertify.error("Ce morceau n'a pas été trouvé sur Echo Nest.", 10);
-          alertify.error("Suggestion harmonique impossible", 10);
+          if (GUI.notifAllowed) {
+            alertify.error("Ce morceau n'a pas été trouvé sur Echo Nest.", 10);
+            alertify.error("Suggestion harmonique impossible", 10);
+          }
         }
     }
 
@@ -291,12 +336,12 @@ $( document ).ajaxStop(function() {
   $( ".ui.page.dimmer" ).removeClass( "active" );
   // ... et on lance le tri des morceaux récupérés (s'il y en a)
   if (similarTracks.length > 0) {
-    sortTracks();
+    similarTracks = sortingStrategy.sort(refTrack, harmony, similarTracks);
+    displayTracks(similarTracks);
   }
 });
 
-// Tri des morceaux selon les critères choisis par l'utilisateur
-function sortTracks() {
+/* function sortTracks() {
 
   var nbPerfectMatches = 0, // Correspondance en tempo et en tonalité
       artists = [], // Tous les artistes rencontrés dans les résultats
@@ -313,12 +358,12 @@ function sortTracks() {
         item = similarTracks[i];
 
     // Si l'artiste n'a pas été rencontré dans les suggestions précédentes...
-    /* if ($.inArray(currentArtist, artists) == -1) {
+    if ($.inArray(currentArtist, artists) == -1) {
       artists.push(currentArtist);
       tracks.push(similarTracks[i]);
     } else {
       continue;
-    } */
+    }
 
     // Si un morceau remplit toutes les conditions du mix harmonique...
     if (currentTempo >= tempoMin && currentTempo <= tempoMax && isMatching) {
@@ -336,19 +381,17 @@ function sortTracks() {
     tracks = similarTracks;
 
   }
-  displayTracks(tracks);
 
-}
+} */
 
 // Affichage des morceaux selon un ordre déterminé par le tri
 function displayTracks(tracks) {
-  // console.log(tracks);
-  /* console.log("Variation : " + harmony.getTempoVariation());
-  console.log("Min : " + harmony.tempoMin());
-  console.log("Max : " + harmony.tempoMax()); */
+
+  var html = "";
+
   iterator = new Iterator(tracks);
   while (iterator.hasNext()) {
-    // console.log(iterator.next());
+
     var item = iterator.next(),
         artistName = item.getArtist(),
         maxStringLength = 100,
@@ -370,23 +413,28 @@ function displayTracks(tracks) {
       tonalityCssClass = "green";
     }
 
-    // Création du template pour affichage
-    html = '<div class="harmonic-track">';
+    // Création du template pour affichage des suggestions
+    html += '<a class="harmonic-track">';
     html += ' <figure>';
     html += '   <img src="' + item.getCover() + '" alt="' + item.getTitle() + '">';
-    html += '   <figcaption>';
+    html += '   <figcaption v-on:click="hello()">';
     html += '     <div>';
-    html += '      <h3>' + item.getTitle() + '</h3>';
+    html += '      <h4>' + item.getTitle() + '</h4>';
     html += '      <p class="artist-name">' + artistName + '</p>';
     html += '      <p class="' + tempoCssClass + '">Tempo : ' + item.getTempo() + ' BPM</p>';
     html += '      <p class="' + tonalityCssClass + '">Tonalité : ' + item.getKey() + ' ' + item.getMode() + '</p>';
     html += '     </div>';
     html += '   </figcaption>';
     html += ' </figure>';
-    html += '</div>';
-
-    // Ajout du template au carousel pour affichage
-    $owl2.data('owlCarousel').addItem(html);
+    html += '</a>';
 
   }
+
+  // Affichage des résultats
+  $harmonicTracks.append(html);
+  $harmonicTracks.mCustomScrollbar();
+  $harmonicTracks
+    .sidebar('setting', 'transition', 'scale down')
+    .sidebar( "show" );
+
 }
