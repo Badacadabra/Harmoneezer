@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>/home/bada/Documents/Etudes/DNR2I/M2/Projet/playlist-harmonique/app/js/modules/Sorting.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/AscendingTempo.html">AscendingTempo</a></li>
+            
+                <li><a href="../classes/DeezerAPIRequest.html">DeezerAPIRequest</a></li>
+            
+                <li><a href="../classes/Default.html">Default</a></li>
+            
+                <li><a href="../classes/DescendingTempo.html">DescendingTempo</a></li>
+            
+                <li><a href="../classes/EchoNestAPIRequest.html">EchoNestAPIRequest</a></li>
+            
+                <li><a href="../classes/Harmony.html">Harmony</a></li>
+            
+                <li><a href="../classes/Iterator.html">Iterator</a></li>
+            
+                <li><a href="../classes/KeyFirst.html">KeyFirst</a></li>
+            
+                <li><a href="../classes/None.html">None</a></li>
+            
+                <li><a href="../classes/Request.html">Request</a></li>
+            
+                <li><a href="../classes/RequestFactory.html">RequestFactory</a></li>
+            
+                <li><a href="../classes/Strategy.html">Strategy</a></li>
+            
+                <li><a href="../classes/TempoFirst.html">TempoFirst</a></li>
+            
+                <li><a href="../classes/Track.html">Track</a></li>
+            
+                <li><a href="../classes/Vocabulary.html">Vocabulary</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Ajax.html">Ajax</a></li>
+            
+                <li><a href="../modules/GUI.html">GUI</a></li>
+            
+                <li><a href="../modules/Iterator.html">Iterator</a></li>
+            
+                <li><a href="../modules/Music.html">Music</a></li>
+            
+                <li><a href="../modules/Sorting.html">Sorting</a></li>
+            
+                <li><a href="../modules/Vocabulary.html">Vocabulary</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: /home/bada/Documents/Etudes/DNR2I/M2/Projet/playlist-harmonique/app/js/modules/Sorting.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Classe mettant en œuvre le pattern Strategy.
+ * Cette classe fournit un moyen d&#x27;encapsuler une série d&#x27;algorithmes de tri.
+ *
+ * @module Sorting
+ */
+module.exports = Sorting = {
+  /**
+   * Classe générique représentant la stratégie de tri
+   *
+   * @class Strategy
+   * @constructor
+   */
+  Strategy: function() {
+    /**
+     * Algorithme de tri courant
+     *
+     * @property algorithm
+     * @type {Object}
+     * @default undefined
+     */
+    this._algorithm;
+  },
+  /**
+   * Classe encapsulant l&#x27;algorithme de tri par défaut.
+   * Ici les morceaux compatibles en tempo et en tonalité apparaissent en priorité.
+   * Apparaissent ensuite les morceaux compatibles en tempo ou (XOR) en tonalité.
+   * Apparaissent enfin les morceaux non compatibles.
+   *
+   * @class Default
+   * @constructor
+   */
+  Default: function() {
+    /**
+     * Méthode de tri par défaut
+     *
+     * @method sort
+     * @param {Object} refTrack Morceau de référence
+     * @param {Object} harmony Harmonie recherchée
+     * @param {Array} similarTracks Morceaux similaires
+     * @return {Array} Tableau de morceaux trié
+     */
+    this.sort = function(refTrack, harmony, similarTracks) {
+      var nbPerfectMatches = 0, // Correspondances en tempo et en tonalité
+          artists = [], // Tous les artistes rencontrés dans les résultats
+          tracks = [], // Les morceaux à renvoyer à l&#x27;issue du tri
+          rearrange = function(removeIndex, insertIndex, track) {
+            similarTracks.splice(removeIndex, 1);
+            similarTracks.splice(insertIndex, 0, track);
+          };
+
+      for (var i = 0; i &lt; similarTracks.length; i++) {
+        // Pour chaque morceau, on récupère toutes les infos indispensables
+        var track = similarTracks[i],
+            artist = track.getArtist(),
+            tempo = track.getTempo(),
+            tempoMin = harmony.tempoMin(),
+            tempoMax = harmony.tempoMax(),
+            isMatching = ($.inArray(track.getCamelotTag(), refTrack.getHarmonies()) != -1);
+
+        // Si un morceau remplit toutes les conditions du mix harmonique...
+        if (tempo &gt;= tempoMin &amp;&amp; tempo &lt;= tempoMax &amp;&amp; isMatching) {
+            nbPerfectMatches++;
+            // ... on le met en début de tableau
+            rearrange(i, 0, track);
+          // Si un morceau remplit une condition (tempo ou tonalité) du mix harmonique...
+        } else if ((tempo &gt;= tempoMin &amp;&amp; tempo &lt;= tempoMax) || isMatching) {
+            // ... on le met juste après les morceaux les plus pertinents
+            rearrange(i, nbPerfectMatches, track);
+        }
+      }
+
+      // Si les doublons ne sont pas autorisés, on filtre
+      if (!GUI.duplicatesAllowed) {
+        for (var i = 0; i &lt; similarTracks.length; i++) {
+
+          var track = similarTracks[i],
+              artist = track.getArtist();
+
+          // Si l&#x27;artiste n&#x27;a pas été rencontré dans les suggestions précédentes...
+          if ($.inArray(artist, artists) == -1) {
+            artists.push(artist);
+            tracks.push(track);
+          }
+        }
+      } else {
+        tracks = similarTracks;
+      }
+
+      return tracks;
+    }
+  },
+  /**
+   * Classe encapsulant l&#x27;algorithme de tri valorisant le tempo.
+   * Ici les morceaux compatibles en tempo et en tonalité apparaissent en priorité.
+   * Apparaissent ensuite les morceaux compatibles en tempo, suivis des morceaux compatibles en tonalité.
+   * Apparaissent enfin les morceaux non compatibles.
+   *
+   * @class TempoFirst
+   * @constructor
+   */
+  TempoFirst: function() {
+    /**
+     * Méthode de tri valorisant le tempo
+     *
+     * @method sort
+     * @param {Object} refTrack Morceau de référence
+     * @param {Object} harmony Harmonie recherchée
+     * @param {Array} similarTracks Morceaux similaires
+     * @return {Array} Tableau de morceaux trié
+     */
+    this.sort = function(refTrack, harmony, similarTracks) {
+      var nbPerfectMatches = 0, // Correspondances en tempo et en tonalité
+          nbTempoMatches = 0, // Correspondances en tempo
+          artists = [], // Tous les artistes rencontrés dans les résultats
+          tracks = [], // Les morceaux à renvoyer à l&#x27;issue du tri
+          rearrange = function(removeIndex, insertIndex, track) {
+            similarTracks.splice(removeIndex, 1);
+            similarTracks.splice(insertIndex, 0, track);
+          };
+
+      for (var i = 0; i &lt; similarTracks.length; i++) {
+
+        // Pour chaque morceau, on récupère toutes les infos indispensables
+        var track = similarTracks[i],
+            currentTempo = track.getTempo(),
+            tempoMin = harmony.tempoMin(),
+            tempoMax = harmony.tempoMax(),
+            isMatching = ($.inArray(track.getCamelotTag(), refTrack.getHarmonies()) != -1);
+
+        // Si un morceau remplit toutes les conditions du mix harmonique...
+        if (currentTempo &gt;= tempoMin &amp;&amp; currentTempo &lt;= tempoMax &amp;&amp; isMatching) {
+            nbPerfectMatches++;
+            // ... on le met en début de tableau
+            rearrange(i, 0, track);
+          // Si un morceau est compatible en tempo...
+        } else if (currentTempo &gt;= tempoMin &amp;&amp; currentTempo &lt;= tempoMax) {
+            nbTempoMatches++;
+            // ... on le met juste après les morceaux les plus pertinents
+            rearrange(i, nbPerfectMatches, track);
+          // Si un morceau est compatible en tonalité...
+        } else if (isMatching) {
+            // ... on le met juste après les morceaux compatibles en tempo
+            rearrange(i, nbPerfectMatches + nbTempoMatches, track);
+        }
+
+      }
+
+      // Si les doublons ne sont pas autorisés, on filtre
+      if (!GUI.duplicatesAllowed) {
+        for (var i = 0; i &lt; similarTracks.length; i++) {
+
+          var track = similarTracks[i],
+              artist = track.getArtist();
+
+          // Si l&#x27;artiste n&#x27;a pas été rencontré dans les suggestions précédentes...
+          if ($.inArray(artist, artists) == -1) {
+            artists.push(artist);
+            tracks.push(track);
+          }
+        }
+      } else {
+        tracks = similarTracks;
+      }
+
+      return tracks;
+    }
+  },
+  /**
+   * Classe encapsulant l&#x27;algorithme de tri valorisant la tonalité.
+   * Ici les morceaux compatibles en tempo et en tonalité apparaissent en priorité.
+   * Apparaissent ensuite les morceaux compatibles en tonalité, suivis des morceaux compatibles en tempo.
+   * Apparaissent enfin les morceaux non compatibles.
+   *
+   * @class KeyFirst
+   * @constructor
+   */
+  KeyFirst: function() {
+    /**
+     * Méthode de tri valorisant la tonalité
+     *
+     * @method sort
+     * @param {Object} refTrack Morceau de référence
+     * @param {Object} harmony Harmonie recherchée
+     * @param {Array} similarTracks Morceaux similaires
+     * @return {Array} Tableau de morceaux trié
+     */
+    this.sort = function(refTrack, harmony, similarTracks) {
+      var nbPerfectMatches = 0, // Correspondances en tempo et en tonalité
+          nbKeyMatches = 0, // Correspondances en tonalité
+          artists = [], // Tous les artistes rencontrés dans les résultats
+          tracks = [], // Les morceaux à renvoyer à l&#x27;issue du tri
+          rearrange = function(removeIndex, insertIndex, track) {
+            similarTracks.splice(removeIndex, 1);
+            similarTracks.splice(insertIndex, 0, track);
+          };
+
+      for (var i = 0; i &lt; similarTracks.length; i++) {
+
+        // Pour chaque morceau, on récupère toutes les infos indispensables
+        var track = similarTracks[i],
+            currentTempo = track.getTempo(),
+            tempoMin = harmony.tempoMin(),
+            tempoMax = harmony.tempoMax(),
+            isMatching = ($.inArray(track.getCamelotTag(), refTrack.getHarmonies()) != -1);
+
+        // Si un morceau remplit toutes les conditions du mix harmonique...
+        if (currentTempo &gt;= tempoMin &amp;&amp; currentTempo &lt;= tempoMax &amp;&amp; isMatching) {
+            nbPerfectMatches++;
+            // ... on le met en début de tableau
+            rearrange(i, 0, track);
+          // Si un morceau est compatible en tonalité...
+        } else if (isMatching) {
+            nbKeyMatches++;
+            // ... on le met juste après les morceaux les plus pertinents
+            rearrange(i, nbPerfectMatches, track);
+          // Si un morceau est compatible en tempo...
+        } else if (currentTempo &gt;= tempoMin &amp;&amp; currentTempo &lt;= tempoMax) {
+            // ... on le met juste après les morceaux compatibles en tonalité
+            rearrange(i, nbPerfectMatches + nbKeyMatches, track);
+        }
+
+      }
+
+      // Si les doublons ne sont pas autorisés, on filtre
+      if (!GUI.duplicatesAllowed) {
+        for (var i = 0; i &lt; similarTracks.length; i++) {
+
+          var track = similarTracks[i],
+              artist = track.getArtist();
+
+          // Si l&#x27;artiste n&#x27;a pas été rencontré dans les suggestions précédentes...
+          if ($.inArray(artist, artists) == -1) {
+            artists.push(artist);
+            tracks.push(track);
+          }
+        }
+      } else {
+        tracks = similarTracks;
+      }
+
+      return tracks;
+    }
+  },
+  /**
+   * Classe encapsulant l&#x27;algorithme de tri croissant, en fonction du tempo.
+   * Ici les morceaux, compatibles ou non, sont rangés du BPM le plus lent au BPM le plus rapide.
+   *
+   * @class AscendingTempo
+   * @constructor
+   */
+  AscendingTempo: function() {
+    /**
+     * Méthode de tri croissant, en fonction du tempo
+     *
+     * @method sort
+     * @param {Object} refTrack Morceau de référence
+     * @param {Object} harmony Harmonie recherchée
+     * @param {Array} similarTracks Morceaux similaires
+     * @return {Array} Tableau de morceaux trié
+     */
+    this.sort = function(refTrack, harmony, similarTracks) {
+      return _.sortBy(similarTracks, &#x27;_tempo&#x27;);
+    }
+  },
+  /**
+   * Classe encapsulant l&#x27;algorithme de tri décroissant, en fonction du tempo.
+   * Ici les morceaux, compatibles ou non, sont rangés du BPM le plus rapide au BPM le plus lent.
+   *
+   * @class DescendingTempo
+   * @constructor
+   */
+  DescendingTempo: function() {
+    /**
+     * Méthode de tri décroissant, en fonction du tempo
+     *
+     * @method sort
+     * @param {Object} refTrack Morceau de référence
+     * @param {Object} harmony Harmonie recherchée
+     * @param {Array} similarTracks Morceaux similaires
+     * @return {Array} Tableau de morceaux trié
+     */
+    this.sort = function(refTrack, harmony, similarTracks) {
+      similarTracks = _.sortBy(similarTracks, &#x27;_tempo&#x27;);
+      return similarTracks.reverse();
+    }
+  },
+  /**
+   * Classe définissant un algorithme fictif n&#x27;effectuant aucun tri.
+   * Cette classe n&#x27;existe que pour des raisons sémantiques.
+   *
+   * @class None
+   * @constructor
+   */
+  None: function() {
+    /**
+     * Méthode n&#x27;appliquant aucun tri
+     *
+     * @method sort
+     * @param {Object} refTrack Morceau de référence
+     * @param {Object} harmony Harmonie recherchée
+     * @param {Array} similarTracks Morceaux similaires
+     * @return {Array} Tableau de morceaux trié
+     */
+    this.sort = function(refTrack, harmony, similarTracks) {
+      return similarTracks;
+    }
+  }
+}
+
+/**
+ * Prototype de la classe Strategy
+ */
+Sorting.Strategy.prototype = {
+  /**
+   * Accesseur pour l&#x27;algorithme courant de la stratégie de tri
+   *
+   * @method getAlgorithm
+   * @return {Object} L&#x27;algorithme courant de la stratégie de tri
+   */
+  getAlgorithm: function() {
+    return this._algorithm;
+  },
+  /**
+   * Mutateur pour l&#x27;algorithme courant de la stratégie de tri
+   *
+   * @method getAlgorithm
+   * @param {Object} algorithm Le nouvel algorithme courant de la stratégie de tri
+   */
+  setAlgorithm: function(algorithm) {
+    this._algorithm = algorithm;
+  },
+  /**
+   * Méthode abstraite de tri.
+   * Cette dernière se contente de déléguer le tri à une méthode concrète.
+   *
+   * @method sort
+   * @param {Object} refTrack Morceau de référence
+   * @param {Object} harmony Harmonie recherchée
+   * @param {Array} similarTracks Morceaux similaires
+   * @return {Array} Tableau de morceaux trié, selon l&#x27;algorithme courant
+   */
+  sort: function(refTrack, harmony, similarTracks) {
+    return this._algorithm.sort(refTrack, harmony, similarTracks);
+  }
+}
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

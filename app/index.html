@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Créez vos playlists harmoniques avec HARMONEEZER !</title>
+        <link rel="shortcut icon" href="images/foreground/favicon.png" type="image/png">
         <link rel="stylesheet" href="stylesheets/style.css" media="all">
         <link rel="stylesheet" href="semantic/dist/semantic.min.css">
         <link rel="stylesheet" href="/bower_components/vegas/dist/vegas.min.css">
@@ -10,9 +11,10 @@
         <link rel="stylesheet" href="/bower_components/owlcarousel/owl-carousel/owl.theme.css">
         <link rel="stylesheet" href="/bower_components/alertify-js/build/css/alertify.min.css">
         <link rel="stylesheet" href="/bower_components/alertify-js/build/css/themes/default.min.css">
+        <link rel="stylesheet" href="/bower_components/qtip2/jquery.qtip.min.css">
         <link rel="stylesheet" href="/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css">
     </head>
-    <body>
+    <body id="app">
 <!--
         <video autoplay loop poster="../images/background/equalizer.png">
             <source src="../videos/concert.mp4" type="video/mp4">
@@ -20,7 +22,7 @@
         </video>
 -->
         <!-- Menu du bas -->
-        <div class="ui bottom inverted horizontal sidebar labeled icon menu eight item">
+        <div class="ui bottom inverted horizontal sidebar labeled icon menu five item">
             <a id="playlist-btn" class="item">
               <i class="music icon"></i>
               Playlist
@@ -37,27 +39,32 @@
               <i class="thumbs up icon"></i>
               Suggestions
             </a>
-            <a id="previous-btn" class="item">
-              <i class="step backward icon"></i>
-              Précédent
-            </a>
-            <a id="play-btn" class="item">
-              <i class="play icon"></i>
-              Play
-            </a>
-            <a id="pause-btn" class="item">
-              <i class="pause icon"></i>
-              Pause
-            </a>
-            <a id="next-btn" class="item">
-              <i class="step forward icon"></i>
-              Suivant
+            <a id="about-btn" class="item">
+              <i class="at icon"></i>
+              À propos
             </a>
         </div>
         <!-- Playlist -->
         <div id="playlist" class="ui left vertical wide sidebar icon menu">
             <a class="item title blue-item">
               <h3>Ma playlist</h3>
+              <div id="export-btn" data-title="Export CSV">
+                <i class="download icon"></i>
+              </div>
+            </a>
+            <a id="controls" class="item">
+              <div class="previous-btn">
+                <i class="step backward icon"></i>
+              </div>
+              <div class="play-btn">
+                <i class="play icon"></i>
+              </div>
+              <div class="pause-btn">
+                <i class="pause icon"></i>
+              </div>
+              <div class="next-btn">
+                <i class="step forward icon"></i>
+              </div>
             </a>
             <a class="item" v-for="selectedTrack in selectedTracks">
                 <img src="images/foreground/cd.png" alt="{{ selectedTrack.title }}">
@@ -105,9 +112,9 @@
             <a id="fav-duplicate" class="item">
               <div class="inline field">
                 <div class="ui toggle checkbox">
-                  <input class="hidden" type="checkbox" checked>
-                  <label>Un seul morceau par artiste</label>
-                  <input type="hidden" class="state" value="activated">
+                  <input class="hidden" type="checkbox">
+                  <label>Doublons</label>
+                  <input type="hidden" class="state" value="deactivated">
                 </div>
               </div>
             </a>
@@ -223,25 +230,40 @@
         </div>
         <!-- Suggestions harmoniques -->
         <div id="harmonic-tracks" class="ui left vertical sidebar">
-          <a class="item title">
-            <h3>Sélection HARMONEEZER</h3>
-          </a>
-          <a id="tracks-help" href="#">
-            <p>Morceaux similaires</p>
-            <i class="help circle icon"></i>
-          </a>
+          <div id="no-tracks">Vide</div>
+        </div>
+        <!-- À propos -->
+        <div id="about" style="display:none;">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Aliquam at fringilla ante. Morbi tincidunt tellus at convallis pharetra.
+Mauris malesuada nulla id pretium dignissim. Praesent sed mollis dolor.
+In ipsum ante, blandit nec luctus ac, facilisis eget tellus.
+Praesent tristique fringilla porttitor.In suscipit elit nec accumsan vestibulum.
+Ut lacinia eros malesuada eleifend dictum. Vivamus vitae varius ipsum.
+Cras non imperdiet leo. Proin et finibus purus.
+Aenean ac imperdiet tellus, non rhoncus sem. Pellentesque rutrum iaculis fringilla.
         </div>
         <!-- Contenu principal -->
         <div id="main" class="pusher">
           <!-- iPod -->
           <div id="ipod-wrapper">
-              <img id="ipod" src="images/foreground/ipod.png" alt="iPod">
+              <img id="ipod" src="images/foreground/ipod.png" alt="iPod" usemap="#map">
+              <map name="map">
+                <area shape="rect" coords="53,110,72,119" title="Menu" class="display-menu">
+                <area shape="rect" coords="25,141,38,151" title="Précédent" class="previous-btn">
+                <area shape="rect" coords="85,142,99,151" title="Suivant" class="next-btn">
+                <area shape="rect" coords="54,174,70,183" title="Play/Pause" class="play-btn">
+                <area shape="circle" coords="62,146,14" title="Tableau de bord" class="display-all">
+              </map>
               <div id="player"></div>
           </div>
           <!-- Moteur de recherche -->
           <div id="top-wrapper">
               <form id="search">
-                  <div class="ui inverted transparent fluid massive icon input">
+                  <div class="ui inverted transparent fluid massive icon search input">
+                      <div id="logo">
+                        <h1>HARMONEEZER</h1>
+                      </div>
                       <input type="text" name="keyword" class="prompt" placeholder="Vous cherchez un morceau ?" autocomplete="off" autofocus>
                       <i class="search icon"></i>
                   </div>
@@ -250,6 +272,7 @@
           <!-- Carousel de résultats -->
           <div id="results">
               <div id="tracks" class="owl-carousel"></div>
+              <div id="autocomplete" style="display:none;"></div>
           </div>
           <div id="dz-root"></div>
           <!-- Loader -->
@@ -260,14 +283,13 @@
               </div>
           </div>
           <!-- Icône permettant d'afficher le menu du bas -->
-          <div id="display-menu">
+          <div id="bottom-chevron" class="display-menu">
               <i class="huge chevron up icon"></i>
           </div>
           <!-- Pop-ups -->
           <div class="ui small basic modal transition">
             <div class="ui icon header">
-              <i class="music icon"></i>
-              Qu'est-ce qu'un morceau similaire ?
+              À quoi correspond cette liste de suggestions ?
             </div>
             <div class="content">
               <p>
@@ -275,11 +297,11 @@
                 Ce profil est constitué à partir de données recueillies sur Deezer et Echo Nest (Spotify).
                 Deezer fournit ici la similarité entre artistes, qui permet de rester globalement dans le même genre musical.
                 Echo Nest fournit en complément les données techniques, telles que le tempo et la tonalité.
-              <p>
+              </p>
               <p>
                 Des contraintes techniques font qu'il n'est pas possible de vous fournir des suggestions harmoniques pour toutes vos sélections.
                 Tous les morceaux Deezer n'ont pas forcément d'équivalent sur Echo Nest, et même s'il y a une correspondance, le résumé audio n'est pas toujours présent.
-              <p>
+              </p>
               <p>
                 Notez cependant que vous pouvez trier les morceaux suggérés selon vos préférences.
                 Différentes options de tri sont disponibles dans vos favoris et vous permettront certainement de trouver votre bonheur !
@@ -289,6 +311,17 @@
               <div class="ui green ok inverted button">OK</div>
             </div>
           </div>
+          <!-- Playlist sous forme de tableau (pour l'export CSV) -->
+          <table id="csv-export" style="display:none;">
+            <tr>
+              <th>Artiste</th>
+              <th>Morceau</th>
+            </tr>
+            <tr v-for="selectedTrack in selectedTracks">
+              <td>{{ selectedTrack.artist }}</td>
+              <td>{{ selectedTrack.title }}</td>
+            </tr>
+          </table>
         </div>
         <script src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
@@ -297,7 +330,9 @@
         <script src="/bower_components/vegas/dist/vegas.min.js"></script>
         <script src="/bower_components/owlcarousel/owl-carousel/owl.carousel.min.js"></script>
         <script src="/bower_components/alertify-js/build/alertify.min.js"></script>
+        <script src="/bower_components/qtip2/jquery.qtip.min.js"></script>
         <script src="/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="/bower_components/tabletoCSV/dist/jquery.tabletoCSV.js"></script>
         <script src="semantic/dist/semantic.min.js"></script>
         <script src="https://cdns-files.dzcdn.net/js/min/dz.js"></script>
         <script src="js/scripts/playlist.js"></script>

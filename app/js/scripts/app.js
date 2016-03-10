@@ -7,11 +7,15 @@ var Vocabulary = require('../modules/Vocabulary.js'),
     Sorting = require('../modules/Sorting.js'),
     Player = require('../modules/Player');
 
-// Variables globales
+// Variables diverses
 var searchedTracks = [],
     similarTracks = [],
     refTrack,
     harmony,
+    titleNotif,
+    keyNotif,
+    tempoNotif,
+    player,
     $owl,
     $harmonicTracks;
 
@@ -30,18 +34,15 @@ $( document ).ready(function() {
     // Initialisation de l'interface graphique
     GUI.init();
 
-    // Initialisation du carousel
-    $owl = $( "#tracks" );
-    $owl.owlCarousel({
-      items: 10,
-      pagination: false,
-      autoPlay: true,
-      autoplayTimeout: 100,
-      stopOnHover: true,
-      lazyLoad : true
-    });
+    // Initialisation du player
+    player = Player.getPlayer();
 
+    // Caching des sélecteurs importants
+    $owl = $( "#tracks" );
     $harmonicTracks = $( "#harmonic-tracks" );
+
+    // Initialisation de l'autocomplétion
+    trackAutocomplete();
 
     // À la soumission du formulaire, on récupère des morceaux sur Deezer
     $( "#search" ).submit(function(e) {
@@ -73,23 +74,57 @@ $( document ).ready(function() {
         }
     });
 
-    // Gestion de l'autocomplétion dans le champ de recherche
-    /* $( "#search input" ).keyup(function() {
-      var minCharacters = 3;
-      if ($( this ).val().length >= minCharacters) {
-        searchTracks();
-      }
-    }); */
-
 });
+
+// Réinitialisation des notifications donnant le profil du morceau de référence
+function dismissNotifications() {
+  if (titleNotif !== undefined) titleNotif.dismiss();
+  if (keyNotif !== undefined) keyNotif.dismiss();
+  if (tempoNotif !== undefined) tempoNotif.dismiss();
+}
+
+// Gestion de l'autocomplétion dans le champ de recherche
+function trackAutocomplete() {
+
+  $( "#search input" ).autocomplete({
+      source: function( request, response ) {
+
+        var keyword = $( "#search input" ).val();
+        request = new Ajax.RequestFactory().getAjaxRequest("deezer", "/search/track");
+        request.addParam("q", keyword);
+        request.addParam("limit", 10);
+        request.send(success, null);
+
+        function success(response) {
+
+          $( "#autocomplete" ).empty();
+          var html = "";
+
+          for (var i = 0; i < response.data.length; i++) {
+
+            html += '<div id="' + response.data[i].id + '">';
+            html += ' <strong>' + response.data[i].title + '</strong><br>';
+            html += ' <em>' + response.data[i].artist.name + '</em>';
+            html += '</div>';
+
+            selectedTrack(response.data[i].id);
+          }
+          $( "#autocomplete" ).append( html );
+          $( "#autocomplete" ).show();
+        }
+      },
+      minLength: 3
+    });
+
+}
 
 // Recherche de morceaux sur Deezer
 function searchTracks() {
 
-    // Gestion du carousel contenant tous les résultats de recherche
-    if ($owl.is( ":visible" )) {
-      $owl.empty();
-    }
+    // Réinitialisation de la recherche
+    if ($owl.is( ":visible" )) $owl.empty();
+    if (similarTracks.length > 0) similarTracks = [];
+    dismissNotifications();
 
     var keyword = $( "#search input" ).val();
 
@@ -102,6 +137,7 @@ function searchTracks() {
     // Traitement de la réponse au succès
     function success(response) {
         // console.log(response);
+
         for (var i = 0; i < response.data.length; i++) {
 
             // On récupère toutes les informations sur chaque morceau
@@ -143,7 +179,9 @@ function searchTracks() {
 
 // Gestion du clic sur un élément de la liste de suggestions
 function selectedTrack(id) {
-    $( "#" + id ).click(function() {
+    $( document ).on( "click", "#" + id, function() {
+        // On efface les notifications précédentes
+        dismissNotifications();
         // On affiche un loader pour faire patienter l'internaute
         $( ".ui.page.dimmer" ).addClass( "active" );
         // On récupère le résumé audio du morceau sélectionné sur Echo Nest
@@ -152,7 +190,7 @@ function selectedTrack(id) {
         getTrackInfos(id);
 
         searchedTracks.push(id);
-        // Player.init(searchTracks);
+        // player.init(searchedTracks);
     });
 }
 
@@ -169,7 +207,7 @@ function getInitialAudioSummary(trackId) {
         // Le morceau est-il trouvé sur Echo Nest à partir de l'identifiant Deezer ?
         if (final.response.track !== undefined) {
             if (GUI.notifAllowed) {
-              alertify.success("Trouvé sur Echo Nest !", 5);
+              alertify.success("Trouvé sur Echo Nest !", 3);
             }
             // Le morceau trouvé sur Echo Nest a-t-il un résumé audio ?
             if (!$.isEmptyObject(final.response.track.audio_summary)) {
@@ -189,9 +227,9 @@ function getInitialAudioSummary(trackId) {
                 buildRefTrackProfile(title, artist, "", key, mode, tempo);
 
                 if (GUI.notifAllowed) {
-                  alertify.message("« " + title + " » par " + artist, 0);
-                  alertify.message("Tonalité : " + key + " " + mode, 0);
-                  alertify.message("Tempo : " + tempo + " BPM", 0);
+                  titleNotif = alertify.message("« " + title + " » par " + artist, 0);
+                  keyNotif = alertify.message("Tonalité : " + key + " " + mode, 0);
+                  tempoNotif = alertify.message("Tempo : " + tempo + " BPM", 0);
                 }
             } else {
               buildRefTrackProfile("", "", "", "", "", 0);
@@ -341,53 +379,22 @@ $( document ).ajaxStop(function() {
   }
 });
 
-/* function sortTracks() {
-
-  var nbPerfectMatches = 0, // Correspondance en tempo et en tonalité
-      artists = [], // Tous les artistes rencontrés dans les résultats
-      tracks = []; // Les morceaux à afficher à l'issue du tri
-
-  for (var i = 0; i < similarTracks.length; i++) {
-
-    // Pour chaque morceau, on récupère toutes les infos indispensables
-    var currentArtist = similarTracks[i].getArtist(),
-        currentTempo = similarTracks[i].getTempo(),
-        tempoMin = harmony.tempoMin(),
-        tempoMax = harmony.tempoMax(),
-        isMatching = ($.inArray(similarTracks[i].getCamelotTag(), refTrack.getHarmonies()) != -1),
-        item = similarTracks[i];
-
-    // Si l'artiste n'a pas été rencontré dans les suggestions précédentes...
-    if ($.inArray(currentArtist, artists) == -1) {
-      artists.push(currentArtist);
-      tracks.push(similarTracks[i]);
-    } else {
-      continue;
-    }
-
-    // Si un morceau remplit toutes les conditions du mix harmonique...
-    if (currentTempo >= tempoMin && currentTempo <= tempoMax && isMatching) {
-        nbPerfectMatches++;
-        // ... on le met en début de tableau
-        similarTracks.splice(i, 1);
-        similarTracks.splice(0, 0, item);
-      // Si un morceau remplit une condition (tempo ou tonalité) du mix harmonique...
-    } else if ((currentTempo >= tempoMin && currentTempo <= tempoMax) || isMatching) {
-        // ... on le met juste après les morceaux les plus pertinents
-        similarTracks.splice(i, 1);
-        similarTracks.splice(nbPerfectMatches, 0, item);
-    }
-
-    tracks = similarTracks;
-
-  }
-
-} */
-
 // Affichage des morceaux selon un ordre déterminé par le tri
 function displayTracks(tracks) {
 
+  // Réinitialisation de la zone d'affichage
+  $harmonicTracks.mCustomScrollbar( "destroy" );
+  $harmonicTracks.empty();
+
   var html = "";
+
+  // Header du template de suggestions
+  html += '<a class="item title">';
+  html += ' <h2>Suggestions</h2>';
+  html += '</a>';
+  html += '<a id="tracks-help" href="#">';
+  html += '  <i class="help circle icon"></i>';
+  html += '</a>';
 
   iterator = new Iterator(tracks);
   while (iterator.hasNext()) {
@@ -413,13 +420,13 @@ function displayTracks(tracks) {
       tonalityCssClass = "green";
     }
 
-    // Création du template pour affichage des suggestions
+    // Création du template complet pour affichage des suggestions
     html += '<a class="harmonic-track">';
     html += ' <figure>';
     html += '   <img src="' + item.getCover() + '" alt="' + item.getTitle() + '">';
-    html += '   <figcaption v-on:click="hello()">';
+    html += '   <figcaption>';
     html += '     <div>';
-    html += '      <h4>' + item.getTitle() + '</h4>';
+    html += '      <h3>' + item.getTitle() + '</h3>';
     html += '      <p class="artist-name">' + artistName + '</p>';
     html += '      <p class="' + tempoCssClass + '">Tempo : ' + item.getTempo() + ' BPM</p>';
     html += '      <p class="' + tonalityCssClass + '">Tonalité : ' + item.getKey() + ' ' + item.getMode() + '</p>';
