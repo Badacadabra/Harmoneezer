@@ -8,15 +8,16 @@ module.exports = GUI = {
   soundAllowed: true,
   duplicatesAllowed: false,
   tempoVariation: 0.05,
-  currentSorting: "default",
+  selectedSorting: "default",
+  tracksLoaded: false,
   content: [],
   init: function() {
     // Gestion des ambiances
-    $( "#main" ).vegas({
+    /* $( "#main" ).vegas({
         transition: 'fade',
         slide: 0,
         slides: [
-            { src: "./images/background/music.jpg" },
+            { src: "./images/background/neutral.jpg" },
             { src: "./images/background/rock.jpg" },
             { src: "./images/background/electro.jpg" },
             { src: "./images/background/hiphop.jpg" },
@@ -34,9 +35,19 @@ module.exports = GUI = {
           }
         }
     });
-    $( "#main" ).vegas('pause');
+    $( "#main" ).vegas('pause'); */
 
-    // Initialisation du carousel
+    GUI.carousel();
+    GUI.drag();
+    GUI.tooltips();
+    GUI.scrollbar();
+    GUI.css();
+    GUI.checkboxes();
+    GUI.popups();
+    GUI.listeners();
+
+  },
+  carousel: function() {
     $( "#tracks" ).owlCarousel({
       items: 10,
       pagination: false,
@@ -45,152 +56,118 @@ module.exports = GUI = {
       stopOnHover: true,
       lazyLoad : true
     });
-
-    // Drag & drop sur l'iPod et sur les listes de morceaux
+  },
+  drag: function() {
     $( "#ipod-wrapper" ).draggable({ scroll: false });
-
-    // Activation des tooltips personnalisées
+  },
+  tooltips: function() {
     $( "[title != '']" ).qtip({
-        style: {
-            classes: 'qtip-dark'
-        }
+      style: {
+          classes: 'qtip-dark'
+      }
     });
-
-    // Gestion de la scrollbar
+  },
+  scrollbar: function() {
     $( "#playlist, #favorites" ).mCustomScrollbar({
       theme:"dark",
       scrollInertia: 0
     });
-
-    // Divers
+  },
+  css: function() {
     $( ".pusher" ).css("height", "100%");
-    $( ".ui.checkbox" ).checkbox();
+  },
+  checkboxes: function() {
+      $( ".ui.checkbox" ).checkbox();
+  },
+  popups: function() {
     $( "#export-btn" ).popup();
-    GUI.listeners();
-
   },
   menu: {
-    show: function() {
-      $( ".bottom.sidebar" ).sidebar( "toggle" );
+    toggle: function() {
+      $( "#menu" ).sidebar( "toggle" );
     },
     togglePlaylist: function() {
-      $( "#playlist" )
-        .sidebar({
-          onShow: function() {
-            $( "#playlist-btn" ).addClass( "blue-item" );
-          },
-          onHide: function() {
-            $( "#playlist-btn" ).removeClass( "blue-item" );
-          }
-        })
-        .sidebar( "toggle" );
+      GUI.menu.toggleSidebar( "#playlist", "blue" );
     },
     toggleFavorites: function() {
-      $( "#favorites" )
-        .sidebar({
-          onShow: function() {
-            $( "#favorites-btn" ).addClass( "red-item" );
-          },
-          onHide: function() {
-            $( "#favorites-btn" ).removeClass( "red-item" );
-          }
-        })
-        .sidebar( "toggle" );
+      GUI.menu.toggleSidebar( "#favorites", "red" );
     },
     toggleAtmospheres: function() {
-      $( "#atmospheres" )
-        .sidebar({
-          onShow: function() {
-            $( "#ambiances-btn" ).addClass( "green-item" );
-          },
-          onHide: function() {
-            $( "#ambiances-btn" ).removeClass( "green-item" );
-          }
-        })
-        .sidebar( "toggle" );
+      GUI.menu.toggleSidebar( "#atmospheres", "green" );
     },
-    toggleSuggestions: function() {
-      $( "#harmonic-tracks" )
-        .sidebar({
-          onShow: function() {
-            $( "#suggestions-btn" ).addClass( "violet-item" );
-          },
-          onHide: function() {
-            $( "#suggestions-btn" ).removeClass( "violet-item" );
-          }
-        })
-        .sidebar( "setting", "transition", "overlay" )
-        .sidebar( "toggle" );
+    toggleHarmonicTracks: function() {
+      GUI.menu.toggleSidebar( "#harmonic-tracks", "violet" );
     },
     toggleAbout: function() {
-        alertify.alert().set({'startMaximized':true, 'message':'Start Maximized: true'}).show();
+      alertify.alert().set({'startMaximized':true, 'message':'Start Maximized: true'}).show();
     },
-    displayAll: function() {
-      $( ".sidebar" ).not( "#harmonic-tracks" )
+    toggleSidebar: function(id, color) {
+      $( id )
+        .sidebar({
+          onShow: function() {
+            $( id + "-btn" ).addClass( color + "-item" );
+          },
+          onHide: function() {
+            $( id + "-btn" ).removeClass( color + "-item" );
+          }
+        })
         .sidebar( "setting", "transition", "overlay" )
         .sidebar( "toggle" );
+    },
+    toggleAll: function() {
+      // On affiche le menu du bas
+      GUI.menu.toggle();
+      // On affiche toutes les autres sidebars
+      var colors = ["blue", "red", "green", "violet"];
+      $( ".sidebar" ).not( "#menu, #harmonic-tracks" ).each(function(i, elt) {
+        var id = $( elt ).attr( "id" );
+        GUI.menu.toggleSidebar( "#" + id, colors[i]);
+      });
     }
   },
   controls: {
     previous: function() {
-      if (GUI.notifAllowed) {
-        alertify.success("Chargement du morceau précédent", 5);
-      }
       DZ.player.prev();
     },
     play: function() {
-      if (GUI.notifAllowed) {
-        alertify.success("Lecture", 5);
+      if (GUI.tracksLoaded) {
+        DZ.player.play();
+      } else {
+        DZ.player.playTracks(playlist.tracksIds);
+        GUI.tracksLoaded = true;
       }
-      DZ.player.play();
     },
     pause: function() {
-      if (GUI.notifAllowed) {
-        alertify.warning("Pause", 5);
-      }
       DZ.player.pause();
     },
     next: function() {
-      if (GUI.notifAllowed) {
-        alertify.success("Chargement du morceau suivant", 5);
-      }
       DZ.player.next();
     }
   },
   favorites: {
     ipod: function() {
-      var $ipod = $( "#ipod-wrapper" );
-      if ($ipod.is( ":visible" )) {
-        $ipod.fadeOut();
-      } else {
-        $ipod.fadeIn();
-      }
-      var $ipodState = $( "#fav-ipod .state" );
-      if (GUI.notifAllowed) {
-        GUI.favorites.displayMessage($ipodState, "iPod activé !", "iPod désactivé !");
-      }
+      var $ipod = $( "#ipod-wrapper" ),
+          $ipodState = $( "#fav-ipod .state" );
+      $ipod.is( ":visible" ) ? $ipod.fadeOut() : $ipod.fadeIn();
+      GUI.favorites.displayMessage($ipodState, "iPod activé !", "iPod désactivé !");
       GUI.favorites.changeState($ipodState);
     },
     notify: function() {
-      GUI.notifAllowed ? (GUI.notifAllowed = false) : (GUI.notifAllowed = true);
       var $notifState = $( "#fav-notify .state" );
+      GUI.notifAllowed ? (GUI.notifAllowed = false) : (GUI.notifAllowed = true);
       GUI.favorites.displayMessage($notifState, "Notifications activées !", "Notifications désactivées !");
       GUI.favorites.changeState($notifState);
     },
     sound: function() {
-      GUI.soundAllowed ? (GUI.soundAllowed = false) : (GUI.soundAllowed = true);
       var $soundState = $( "#fav-sound .state" );
-      if (GUI.notifAllowed) {
-        GUI.favorites.displayMessage($soundState, "Son activé !", "Son désactivé !");
-      }
+      GUI.soundAllowed ? (GUI.soundAllowed = false) : (GUI.soundAllowed = true);
+      GUI.favorites.displayMessage($soundState, "Son activé !", "Son désactivé !");
       GUI.favorites.changeState($soundState);
     },
     duplicate: function() {
-      GUI.duplicatesAllowed ? (GUI.duplicatesAllowed = false) : (GUI.duplicatesAllowed = true);
       var $duplicateState = $( "#fav-duplicate .state" );
-      if (GUI.notifAllowed) {
-        GUI.favorites.displayMessage($duplicateState, "Doublons activés !", "Doublons désactivés !");
-      }
+      GUI.duplicatesAllowed ? (GUI.duplicatesAllowed = false) : (GUI.duplicatesAllowed = true);
+      GUI.favorites.displayMessage($duplicateState, "Doublons activés !", "Doublons désactivés !");
       GUI.favorites.changeState($duplicateState);
     },
     changeState: function($state) {
@@ -201,47 +178,54 @@ module.exports = GUI = {
       }
     },
     displayMessage: function($state, positiveMessage, negativeMessage) {
-      if ($state.val() == "activated") {
-        alertify.error(negativeMessage, 5);
-      } else {
-        alertify.success(positiveMessage, 5);
+      if (GUI.notifAllowed) {
+        if ($state.val() == "activated") {
+          alertify.error(negativeMessage, 5);
+        } else {
+          alertify.success(positiveMessage, 5);
+        }
       }
     },
     tempoRange: function() {
       var tempoVariation = $( "input[type='range']" ).val();
-      $( "input[type='range'] + span" ).text(tempoVariation + " %");
+      $( "input[type='range'] + span" ).text( tempoVariation + " %" );
       GUI.tempoVariation = (tempoVariation / 100);
     },
     defaultSorting: function() {
-      GUI.currentSorting = "default";
+      GUI.selectedSorting = "default";
     },
     tempoSorting: function() {
-      GUI.currentSorting = "tempoFirst";
+      GUI.selectedSorting = "tempoFirst";
     },
     keySorting: function() {
-      GUI.currentSorting = "keyFirst";
+      GUI.selectedSorting = "keyFirst";
     },
     ascTempoSorting: function() {
-      GUI.currentSorting = "ascTempo";
+      GUI.selectedSorting = "ascTempo";
     },
     descTempoSorting: function() {
-      GUI.currentSorting = "descTempo";
+      GUI.selectedSorting = "descTempo";
     },
     noSorting: function() {
-      GUI.currentSorting = "none";
+      GUI.selectedSorting = "none";
     }
   },
-  atmospheres: {
+  /* atmospheres: {
     applyAtmosphere: function(index) {
       $( "#main" ).vegas( "jump", index );
     }
-  },
+  }, */
   events: {
     showInfoPopup: function() {
       $( ".ui.modal" ).modal( "show" );
     },
-    harmonicTrack: function() {
-      alert("Toto");
+    addTrackToPlaylist: function() {
+      var track = JSON.parse(decodeURIComponent($( this ).children().eq(1).val()));
+      playlist.addTrackToPlaylist(track);
+      GUI.tracksLoaded = false;
+      if (GUI.notifAllowed) {
+        alertify.success("Morceau ajouté à votre playlist", 5);
+      }
     },
     export: function() {
       $( "#csv-export" ).tableToCSV();
@@ -265,13 +249,13 @@ module.exports = GUI = {
 
     // Écouteurs d'événements des sidebars
     var menuEvents = [
-                        [".display-menu", "click", GUI.menu.show],
+                        [".toggle-menu", "click", GUI.menu.toggle],
                         ["#playlist-btn", "click", GUI.menu.togglePlaylist],
                         ["#favorites-btn", "click", GUI.menu.toggleFavorites],
-                        ["#ambiances-btn", "click", GUI.menu.toggleAtmospheres],
-                        ["#suggestions-btn", "click", GUI.menu.toggleSuggestions],
+                        ["#atmospheres-btn", "click", GUI.menu.toggleAtmospheres],
+                        ["#harmonic-tracks-btn", "click", GUI.menu.toggleHarmonicTracks],
                         ["#about-btn", "click", GUI.menu.toggleAbout],
-                        [".display-all", "click", GUI.menu.displayAll]
+                        [".toggle-all", "click", GUI.menu.toggleAll]
                       ];
 
     addEvents(menuEvents);
@@ -316,17 +300,27 @@ module.exports = GUI = {
                       ];
 
     $( "#atmospheres .item" ).each(function(index, element) {
+
+      var id = $( this ).attr( "id" ),
+          name = id.substring(0, id.indexOf("-"));
+
       $( element ).click(function() {
         $( this ).addClass( "green-item" );
         $( this ).siblings().removeClass( "green-item" );
-        GUI.atmospheres.applyAtmosphere(index);
+        // GUI.atmospheres.applyAtmosphere(index);
+        $( ".pusher" ).attr( "style", "background:url('images/background/" + name + ".jpg') no-repeat center center fixed !important" );
+        if (GUI.soundAllowed && name != "neutral") {
+          var audio = new Audio( "./sounds/" + name + ".ogg");
+          audio.play();
+        }
       });
+
     });
 
     // Écouteurs d'événements divers
     var otherEvents = [
                         ["#tracks-help", "click", GUI.events.showInfoPopup, "async"],
-                        [".harmonic-track", "click", GUI.events.harmonicTrack, "async"],
+                        [".harmonic-track", "click", GUI.events.addTrackToPlaylist, "async"],
                         ["#export-btn", "click", GUI.events.export],
                         ["#logo", "click", GUI.events.logo]
                       ];

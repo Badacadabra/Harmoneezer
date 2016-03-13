@@ -33,8 +33,12 @@
   background: url("../images/background/cds.jpg") no-repeat center center fixed !important;
 }
 
+#main {
+  transition: background 0.5s ease-in-out;
+}
+
 .pusher {
-  background: url("../images/background/music.jpg") no-repeat center center fixed !important;
+  background: url("../images/background/neutral.jpg") no-repeat center center fixed !important;
   background-size: cover !important;
   height: 100%;
 }
@@ -119,13 +123,15 @@ form#search {
   background-color: #131619 !important;
 }
 
+#search > div {
+  height: 72px !important;
+}
+
 #search input {
   font-family: actionman_regular, sans-serif;
   font-size: xx-large;
   padding: 15px !important;
-  margin-left: 15px;
   border: 0 !important;
-  border-left: solid 15px #131619 !important;
   border-bottom: solid 3px #A2A2A2 !important;
   border-radius: 0 !important;
   transition: border-color .5s ease;

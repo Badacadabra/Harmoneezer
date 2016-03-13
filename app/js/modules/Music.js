@@ -9,6 +9,7 @@ module.exports = Music = {
    *
    * @class Track
    * @constructor
+   * @param {Number} id Identifiant Deezer
    * @param {String} title Titre
    * @param {String} artist Artiste
    * @param {String} cover Pochette d'album
@@ -18,12 +19,20 @@ module.exports = Music = {
    * @param {String} camelotTag Tag du morceau sur la roue de Camelot
    * @param {Array} harmonies Tags compatibles sur la roue de Camelot
    */
-  Track: function(title, artist, cover, key, mode, tempo, camelotTag, harmonies) {
+  Track: function(id, title, artist, cover, key, mode, tempo, camelotTag, harmonies) {
 
     if (!(this instanceof Music.Track)) {
       throw new Error("Erreur ! La classe Track doit être instanciée avec l'opérateur « new »");
     }
 
+    /**
+     * Identifiant du morceau sur Deezer
+     *
+     * @property _id
+     * @type {Number}
+     * @default 0
+     */
+    this._id = id;
     /**
      * Titre du morceau
      *
@@ -156,6 +165,13 @@ module.exports = Music = {
  * Prototype de Track
  */
 Music.Track.prototype = {
+  /**
+   * Accesseur pour l'identifiant du morceau
+   *
+   * @method getId
+   * @return {Number} L'id du morceau
+   */
+   getId: function() { return this._id; },
   /**
    * Accesseur pour le titre du morceau
    *

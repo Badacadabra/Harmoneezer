@@ -22,7 +22,7 @@
         </video>
 -->
         <!-- Menu du bas -->
-        <div class="ui bottom inverted horizontal sidebar labeled icon menu five item">
+        <div id="menu" class="ui bottom inverted horizontal sidebar labeled icon menu five item">
             <a id="playlist-btn" class="item">
               <i class="music icon"></i>
               Playlist
@@ -31,11 +31,11 @@
               <i class="heartbeat icon"></i>
               Favoris
             </a>
-            <a id="ambiances-btn" class="item">
+            <a id="atmospheres-btn" class="item">
               <i class="theme icon"></i>
               Ambiances
             </a>
-            <a id="suggestions-btn" class="item">
+            <a id="harmonic-tracks-btn" class="item">
               <i class="thumbs up icon"></i>
               Suggestions
             </a>
@@ -66,11 +66,18 @@
                 <i class="step forward icon"></i>
               </div>
             </a>
+            <a class="item" v-if="selectedTracks.length == 0">
+              <img src="images/foreground/cd.png" alt="CD">
+              <div>
+                <em>Votre playlist est vide</em><br>
+                <strong>Ajoutez-y des morceaux !</strong>
+              </div>
+            </a>
             <a class="item" v-for="selectedTrack in selectedTracks">
-                <img src="images/foreground/cd.png" alt="{{ selectedTrack.title }}">
+                <img v-bind:src="selectedTrack._cover" alt="{{ selectedTrack._title }}">
                 <div>
-                  <em>{{ selectedTrack.title }}</em><br>
-                  <strong>{{ selectedTrack.artist }}</strong>
+                  <em>{{ selectedTrack._title }}</em><br>
+                  <strong>{{ selectedTrack._artist }}</strong>
                 </div>
             </a>
         </div>
@@ -195,38 +202,14 @@
         </div>
         <!-- Ambiances -->
         <div id="atmospheres" class="ui top inverted horizontal sidebar menu eight item">
-            <a id="neutral-atmo" class="item green-item">
-              <!-- <img src="images/foreground/ipod-shuffle.png" alt="Ambiance neutre"> -->
-              Neutre
-            </a>
-            <a id="rock-atmo" class="item">
-              <!-- <img src="images/foreground/acoustic-guitar.png" alt="Ambiance Rock"> -->
-              Rock
-            </a>
-            <a id="electro-atmo" class="item">
-              <!-- <img src="images/foreground/record-player.png" alt="Ambiance Electro"> -->
-              Electro
-            </a>
-            <a id="hiphop-atmo" class="item">
-              <!-- <img src="images/foreground/record-player.png" alt="Ambiance Hip-Hop"> -->
-              Hip-Hop
-            </a>
-            <a id="folk-atmo" class="item">
-              <!-- <img src="images/foreground/drum.png" alt="Ambiance Folk"> -->
-              Folk
-            </a>
-            <a id="classical-atmo" class="item">
-              <!-- <img src="images/foreground/violin.png" alt="Ambiance Classique"> -->
-              Classique
-            </a>
-            <a id="jazz-atmo" class="item">
-              <!-- <img src="images/foreground/saxophone.png" alt="Ambiance Jazz"> -->
-              Jazz
-            </a>
-            <a id="metal-atmo" class="item">
-              <!-- <img src="images/foreground/electric-guitar.png" alt="Ambiance Metal"> -->
-              Metal
-            </a>
+            <a id="neutral-atmo" class="item green-item">Neutre</a>
+            <a id="rock-atmo" class="item">Rock</a>
+            <a id="electro-atmo" class="item">Electro</a>
+            <a id="hiphop-atmo" class="item">Hip-Hop</a>
+            <a id="folk-atmo" class="item">Folk</a>
+            <a id="classical-atmo" class="item">Classique</a>
+            <a id="jazz-atmo" class="item">Jazz</a>
+            <a id="metal-atmo" class="item">Metal</a>
         </div>
         <!-- Suggestions harmoniques -->
         <div id="harmonic-tracks" class="ui left vertical sidebar">
@@ -249,11 +232,11 @@ Aenean ac imperdiet tellus, non rhoncus sem. Pellentesque rutrum iaculis fringil
           <div id="ipod-wrapper">
               <img id="ipod" src="images/foreground/ipod.png" alt="iPod" usemap="#map">
               <map name="map">
-                <area shape="rect" coords="53,110,72,119" title="Menu" class="display-menu">
+                <area shape="rect" coords="53,110,72,119" title="Menu" class="toggle-menu">
                 <area shape="rect" coords="25,141,38,151" title="Précédent" class="previous-btn">
                 <area shape="rect" coords="85,142,99,151" title="Suivant" class="next-btn">
                 <area shape="rect" coords="54,174,70,183" title="Play/Pause" class="play-btn">
-                <area shape="circle" coords="62,146,14" title="Tableau de bord" class="display-all">
+                <area shape="circle" coords="62,146,14" title="Tableau de bord" class="toggle-all">
               </map>
               <div id="player"></div>
           </div>
@@ -283,7 +266,7 @@ Aenean ac imperdiet tellus, non rhoncus sem. Pellentesque rutrum iaculis fringil
               </div>
           </div>
           <!-- Icône permettant d'afficher le menu du bas -->
-          <div id="bottom-chevron" class="display-menu">
+          <div id="bottom-chevron" class="toggle-menu">
               <i class="huge chevron up icon"></i>
           </div>
           <!-- Pop-ups -->
@@ -314,12 +297,18 @@ Aenean ac imperdiet tellus, non rhoncus sem. Pellentesque rutrum iaculis fringil
           <!-- Playlist sous forme de tableau (pour l'export CSV) -->
           <table id="csv-export" style="display:none;">
             <tr>
+              <th>Titre</th>
               <th>Artiste</th>
-              <th>Morceau</th>
+              <th>Tonalité</th>
+              <th>Mode</th>
+              <th>Tempo</th>
             </tr>
             <tr v-for="selectedTrack in selectedTracks">
-              <td>{{ selectedTrack.artist }}</td>
-              <td>{{ selectedTrack.title }}</td>
+              <td>{{ selectedTrack._title }}</td>
+              <td>{{ selectedTrack._artist }}</td>
+              <td>{{ selectedTrack._key }}</td>
+              <td>{{ selectedTrack._mode }}</td>
+              <td>{{ selectedTrack._tempo }}</td>
             </tr>
           </table>
         </div>
