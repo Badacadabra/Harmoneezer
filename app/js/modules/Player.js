@@ -10,11 +10,7 @@ module.exports = Player = (function() {
                 container: 'player',
                 width: 80,
                 height: 80,
-                format: 'square',
-                onload : function(){
-                  // DZ.player.playTracks(tracks);
-                  DZ.player.playTracks([3135556, 1152226]);
-                }
+                format: 'square'
               }
           });
         };
