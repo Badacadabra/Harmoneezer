@@ -2,7 +2,8 @@
 var gulp = require('gulp'),
     plugins = require('gulp-load-plugins')(),
     stylish = require('jshint-stylish'),
-    del = require('del');
+    del = require('del'),
+    mainBowerFiles = require('main-bower-files');
 
 // Nettoyage du répertoire de distribution
 gulp.task('clean', function() {
@@ -38,9 +39,38 @@ gulp.task('uglify', ['browserify'], function() {
     .pipe(gulp.dest('./dist/js'));
 });
 
+// Concaténation des fichiers CSS provenant de Bower
+gulp.task('bower-css', function() {
+    return gulp.src(mainBowerFiles({
+        paths: {
+            bowerDirectory: './bower_components',
+            bowerJson: './bower.json'
+        }
+    }))
+    .pipe(plugins.filter('**/*.css'))
+    .pipe(plugins.concat('bower.css'))
+    .pipe(gulp.dest('./dist/css'));
+});
+
+// Concaténation des fichiers JS provenant de Bower
+gulp.task('bower-js', function() {
+    return gulp.src(mainBowerFiles({
+        paths: {
+            bowerDirectory: './bower_components',
+            bowerJson: './bower.json'
+        }
+    }))
+    .pipe(plugins.filter('**/*.js'))
+    .pipe(plugins.concat('bower.js'))
+    .pipe(gulp.dest('./dist/js'));
+});
+
+// Concaténation de tous les fichiers provenant de Bower
+gulp.task('bower', ['bower-css', 'bower-js']);
+
 // Documentation du code
 gulp.task('doc', function() {
-    gulp.src("app/js/modules/*.js")
+    gulp.src('app/js/modules/*.js')
       .pipe(plugins.yuidoc.parser())
       .pipe(plugins.yuidoc.generator())
       .pipe(gulp.dest('./doc'))

@@ -6,13 +6,7 @@
         <link rel="shortcut icon" href="images/foreground/favicon.png" type="image/png">
         <link rel="stylesheet" href="stylesheets/style.css" media="all">
         <link rel="stylesheet" href="semantic/dist/semantic.min.css">
-        <link rel="stylesheet" href="/bower_components/vegas/dist/vegas.min.css">
-        <link rel="stylesheet" href="/bower_components/owlcarousel/owl-carousel/owl.carousel.css">
-        <link rel="stylesheet" href="/bower_components/owlcarousel/owl-carousel/owl.theme.css">
-        <link rel="stylesheet" href="/bower_components/alertify-js/build/css/alertify.min.css">
-        <link rel="stylesheet" href="/bower_components/alertify-js/build/css/themes/default.min.css">
-        <link rel="stylesheet" href="/bower_components/qtip2/jquery.qtip.min.css">
-        <link rel="stylesheet" href="/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css">
+        <link rel="stylesheet" href="/dist/css/bower.css">
     </head>
     <body id="app">
 <!--
@@ -21,7 +15,7 @@
             <source src="../videos/concert.webm" type="video/webm">
         </video>
 -->
-        <!-- Menu du bas -->
+        <!-- Menu principal -->
         <div id="menu" class="ui bottom inverted horizontal sidebar labeled icon menu five item">
             <a id="playlist-btn" class="item">
               <i class="music icon"></i>
@@ -39,28 +33,51 @@
               <i class="thumbs up icon"></i>
               Suggestions
             </a>
-            <a id="about-btn" class="item">
-              <i class="at icon"></i>
-              À propos
+            <a id="user-btn" class="item">
+              <i class="user icon"></i>
+              Mon compte
             </a>
         </div>
         <!-- Playlist -->
         <div id="playlist" class="ui left vertical wide sidebar icon menu">
             <a class="item title blue-item">
               <h3>Ma playlist</h3>
-              <div id="export-btn" data-title="Export CSV">
-                <i class="download icon"></i>
+              <div id="options">
+                <span id="not-random-btn" data-title="Aléatoire">
+                  <i class="remove icon"></i>
+                </span>
+                <span id="no-repeat-btn" data-title="Répéter">
+                  <i class="remove icon"></i>
+                </span>
+                <span id="mute-btn" data-title="Gérer le son">
+                  <i class="mute icon"></i>
+                </span>
+                <span id="save-btn" data-title="Sauvegarder">
+                  <i class="bookmark icon"></i>
+                </span>
+                <span id="export-btn" data-title="Exporter en CSV">
+                  <i class="download icon"></i>
+                </span>
+                <span id="delete-btn" data-title="Tout effacer">
+                  <i class="trash icon"></i>
+                </span>
               </div>
             </a>
             <a id="controls" class="item">
               <div class="previous-btn">
                 <i class="step backward icon"></i>
               </div>
+              <div class="back-btn">
+                <i class="backward icon"></i>
+              </div>
               <div class="play-btn">
                 <i class="play icon"></i>
               </div>
               <div class="pause-btn">
                 <i class="pause icon"></i>
+              </div>
+              <div class="forth-btn">
+                <i class="forward icon"></i>
               </div>
               <div class="next-btn">
                 <i class="step forward icon"></i>
@@ -108,7 +125,7 @@
               <div class="inline field">
                 <div class="ui toggle checkbox">
                   <input class="hidden" type="checkbox" checked>
-                  <label>Son</label>
+                  <label>Sons d'ambiance</label>
                   <input type="hidden" class="state" value="activated">
                 </div>
               </div>
@@ -215,6 +232,26 @@
         <div id="harmonic-tracks" class="ui left vertical sidebar">
           <div id="no-tracks">Vide</div>
         </div>
+        <!-- Utilisateur -->
+        <div id="user" class="ui bottom horizontal sidebar">
+          <div id="user-not-connected">
+            <span id="user-msg">Vous pouvez vous connecter avec votre compte Deezer !</span>
+            <button id="login" class="ui brown inverted button">
+              <i class="sign in icon"></i>
+              Connexion
+            </button>
+          </div>
+          <div id="user-connected">
+            <img id="user-img">
+            <a id="user-name"></a>
+            <div id="user-email"></div>
+            <div id="user-date"></div>
+            <button id="logout" class="ui brown inverted button">
+              <i class="sign out icon"></i>
+              Déconnexion
+            </button>
+          </div>
+        </div>
         <!-- À propos -->
         <div id="about" style="display:none;">
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -312,19 +349,9 @@ Aenean ac imperdiet tellus, non rhoncus sem. Pellentesque rutrum iaculis fringil
             </tr>
           </table>
         </div>
-        <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-        <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
-        <script src="/bower_components/vue/dist/vue.min.js"></script>
-        <script src="/bower_components/underscore/underscore-min.js"></script>
-        <script src="/bower_components/vegas/dist/vegas.min.js"></script>
-        <script src="/bower_components/owlcarousel/owl-carousel/owl.carousel.min.js"></script>
-        <script src="/bower_components/alertify-js/build/alertify.min.js"></script>
-        <script src="/bower_components/qtip2/jquery.qtip.min.js"></script>
-        <script src="/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="/bower_components/tabletoCSV/dist/jquery.tabletoCSV.js"></script>
+        <script src="/dist/js/bower.js"></script>
         <script src="semantic/dist/semantic.min.js"></script>
         <script src="https://cdns-files.dzcdn.net/js/min/dz.js"></script>
-        <script src="js/scripts/playlist.js"></script>
         <script src="js/bundle/app.js"></script>
         <!-- <script src="/dist/js/app.min.js"></script> -->
     </body>

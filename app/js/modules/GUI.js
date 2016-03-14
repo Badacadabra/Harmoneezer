@@ -1,3 +1,5 @@
+var Playlist = require('./Playlist.js');
+
 /**
  * Module gérant l'interface graphique
  *
@@ -10,6 +12,7 @@ module.exports = GUI = {
   tempoVariation: 0.05,
   selectedSorting: "default",
   tracksLoaded: false,
+  trackPosition: 0,
   content: [],
   init: function() {
     // Gestion des ambiances
@@ -46,6 +49,11 @@ module.exports = GUI = {
     GUI.popups();
     GUI.listeners();
 
+    var savedPlaylist = localStorage.getItem("playlist");
+    if (savedPlaylist !== null) {
+      Playlist.selectedTracks = JSON.parse(savedPlaylist);
+    }
+
   },
   carousel: function() {
     $( "#tracks" ).owlCarousel({
@@ -80,7 +88,7 @@ module.exports = GUI = {
       $( ".ui.checkbox" ).checkbox();
   },
   popups: function() {
-    $( "#export-btn" ).popup();
+    $( "#options > span" ).popup();
   },
   menu: {
     toggle: function() {
@@ -98,8 +106,41 @@ module.exports = GUI = {
     toggleHarmonicTracks: function() {
       GUI.menu.toggleSidebar( "#harmonic-tracks", "violet" );
     },
-    toggleAbout: function() {
-      alertify.alert().set({'startMaximized':true, 'message':'Start Maximized: true'}).show();
+    toggleUser: function() {
+      GUI.menu.toggleSidebar( "#user", "maroon" );
+    },
+    login: function() {
+      DZ.getLoginStatus(function(response) {
+      	if (response.status != "connected") { // Si l'utilisateur n'est pas connecté
+          DZ.login(function(response) {
+            if (response.status == "connected") { // Si tout se passe bien
+              DZ.api("/user/me", function(response) {
+                $( "#user-img" ).attr({ src:response.picture_small, alt:response.name });
+                $( "#user-name" ).text( response.name ).attr( "href", response.link );
+                $( "#user-email" ).text( response.email );
+                var date = new Date(response.inscription_date),
+                    d = date.getDate(),
+                    m = date.getMonth() + 1,
+                    y = date.getFullYear();
+                $( "#user-date" ).text( "Inscrit le " + d + "/" + m + "/" + y );
+                $( "#user-not-connected" ).hide();
+                $( "#user-connected" ).show();
+              });
+              alertify.success("Connexion OK !", 3);
+              GUI.menu.toggleSidebar( "#user", "maroon" );
+            } else { // Si la connexion échoue
+              alertify.error("Connexion refusée !");
+            }
+          }, { perms: "basic_access,email" });
+      	}
+      });
+    },
+    logout: function() {
+      DZ.logout();
+      $( "#user-connected" ).hide();
+      $( "#user-not-connected" ).show();
+      alertify.success("Déconnexion OK !", 3);
+      $( "#user" ).sidebar( "toggle" );
     },
     toggleSidebar: function(id, color) {
       $( id )
@@ -118,27 +159,115 @@ module.exports = GUI = {
       // On affiche le menu du bas
       GUI.menu.toggle();
       // On affiche toutes les autres sidebars
-      var colors = ["blue", "red", "green", "violet"];
-      $( ".sidebar" ).not( "#menu, #harmonic-tracks" ).each(function(i, elt) {
+      var colors = ["blue", "red", "green", "violet", "maroon"];
+      $( ".sidebar" ).not( "#menu" ).each(function(i, elt) {
         var id = $( elt ).attr( "id" );
         GUI.menu.toggleSidebar( "#" + id, colors[i]);
       });
     }
   },
-  controls: {
+  playlist: {
+    notRandom: function() {
+      DZ.player.setShuffle(false);
+      $( "#random-btn .icon" ).switchClass( "random", "remove" );
+      $( "#random-btn" ).attr( "id", "not-random-btn" );
+      if (GUI.notifAllowed) {
+        alertify.error("Lecture aléatoire désactivée", 5);
+      }
+    },
+    random: function() {
+      DZ.player.setShuffle(true);
+      $( "#not-random-btn .icon" ).switchClass( "remove", "random" );
+      $( "#not-random-btn" ).attr( "id", "random-btn" );
+      if (GUI.notifAllowed) {
+        alertify.success("Lecture aléatoire activée", 5);
+      }
+    },
+    noRepeat: function() {
+      DZ.player.setRepeat(0);
+      $( "#repeat-all-btn .icon" ).switchClass( "refresh", "remove" );
+      $( "#repeat-all-btn" ).attr( "id", "no-repeatbtn" );
+      if (GUI.notifAllowed) {
+        alertify.message("Pas de répétition", 5);
+      }
+    },
+    repeatOne: function() {
+      DZ.player.setRepeat(2);
+      $( "#no-repeat-btn .icon" ).switchClass( "remove", "repeat" );
+      $( "#no-repeat-btn" ).attr( "id", "repeat-one-btn" );
+      if (GUI.notifAllowed) {
+        alertify.message("Répétition du morceau en cours", 5);
+      }
+    },
+    repeatAll: function() {
+      DZ.player.setRepeat(1);
+      $( "#repeat-one-btn .icon" ).switchClass( "repeat", "refresh" );
+      $( "#repeat-one-btn" ).attr( "id", "repeat-all-btn" );
+      if (GUI.notifAllowed) {
+        alertify.message("Répétition de tous les morceaux", 5);
+      }
+    },
+    mute: function() {
+      DZ.player.setMute(true);
+      $( "#mute-btn .icon" ).switchClass( "mute", "unmute" );
+      $( "#mute-btn" ).attr( "id", "unmute-btn" );
+      if (GUI.notifAllowed) {
+        alertify.error("Son coupé !", 5);
+      }
+    },
+    unmute: function() {
+      DZ.player.setMute(false);
+      $( "#unmute-btn .icon" ).switchClass( "unmute", "mute" );
+      $( "#unmute-btn" ).attr( "id", "mute-btn" );
+      if (GUI.notifAllowed) {
+        alertify.success("Son rétabli !", 5);
+      }
+    },
+    save: function() {
+      var playlist = JSON.stringify(Playlist.selectedTracks);
+      localStorage.setItem("playlist", playlist);
+      if (GUI.notifAllowed) {
+        alertify.success("Playlist sauvegardée !", 5);
+      }
+    },
+    export: function() {
+      $( "#csv-export" ).tableToCSV();
+      if (GUI.notifAllowed) {
+        alertify.success("Playlist exportée !", 5);
+      }
+    },
+    delete: function() {
+      Playlist.selectedTracks = [];
+      localStorage.removeItem("playlist");
+      if (GUI.notifAllowed) {
+        alertify.success("Playlist effacée !", 5);
+      }
+    },
     previous: function() {
       DZ.player.prev();
+    },
+    back: function() {
+      if (GUI.trackPosition > 10) {
+        GUI.trackPosition -= 10;
+      }
+      DZ.player.seek(GUI.trackPosition);
     },
     play: function() {
       if (GUI.tracksLoaded) {
         DZ.player.play();
       } else {
-        DZ.player.playTracks(playlist.tracksIds);
+        DZ.player.playTracks(Playlist.tracksIds);
         GUI.tracksLoaded = true;
       }
     },
     pause: function() {
       DZ.player.pause();
+    },
+    forth: function() {
+      if (GUI.trackPosition < 90) {
+        GUI.trackPosition += 10;
+      }
+      DZ.player.seek(GUI.trackPosition);
     },
     next: function() {
       DZ.player.next();
@@ -161,7 +290,7 @@ module.exports = GUI = {
     sound: function() {
       var $soundState = $( "#fav-sound .state" );
       GUI.soundAllowed ? (GUI.soundAllowed = false) : (GUI.soundAllowed = true);
-      GUI.favorites.displayMessage($soundState, "Son activé !", "Son désactivé !");
+      GUI.favorites.displayMessage($soundState, "Sons d'ambiance activés !", "Sons d'ambiance désactivés !");
       GUI.favorites.changeState($soundState);
     },
     duplicate: function() {
@@ -216,20 +345,6 @@ module.exports = GUI = {
     }
   }, */
   events: {
-    showInfoPopup: function() {
-      $( ".ui.modal" ).modal( "show" );
-    },
-    addTrackToPlaylist: function() {
-      var track = JSON.parse(decodeURIComponent($( this ).children().eq(1).val()));
-      playlist.addTrackToPlaylist(track);
-      GUI.tracksLoaded = false;
-      if (GUI.notifAllowed) {
-        alertify.success("Morceau ajouté à votre playlist", 5);
-      }
-    },
-    export: function() {
-      $( "#csv-export" ).tableToCSV();
-    },
     logo: function() {
       var pre = document.createElement('pre');
       pre.style.maxHeight = "400px";
@@ -243,6 +358,17 @@ module.exports = GUI = {
               alertify.error('Declined');
           }).setting('labels',{'ok':'Accept', 'cancel': 'Decline'});
 
+    },
+    showInfoPopup: function() {
+      $( ".ui.modal" ).modal( "show" );
+    },
+    addTrackToPlaylist: function() {
+      var track = JSON.parse(decodeURIComponent($( this ).children().eq(1).val()));
+      Playlist.addTrackToPlaylist(track);
+      GUI.tracksLoaded = false;
+      if (GUI.notifAllowed) {
+        alertify.success("Morceau ajouté à votre playlist", 5);
+      }
     }
   },
   listeners: function() {
@@ -254,21 +380,35 @@ module.exports = GUI = {
                         ["#favorites-btn", "click", GUI.menu.toggleFavorites],
                         ["#atmospheres-btn", "click", GUI.menu.toggleAtmospheres],
                         ["#harmonic-tracks-btn", "click", GUI.menu.toggleHarmonicTracks],
-                        ["#about-btn", "click", GUI.menu.toggleAbout],
+                        ["#user-btn", "click", GUI.menu.toggleUser],
+                        ["#login", "click", GUI.menu.login],
+                        ["#logout", "click", GUI.menu.logout],
                         [".toggle-all", "click", GUI.menu.toggleAll]
                       ];
 
     addEvents(menuEvents);
 
-    // Écouteurs d'événements des contrôles
-    var controlsEvents = [
-                           [".previous-btn", "click", GUI.controls.previous],
-                           [".play-btn", "click", GUI.controls.play],
-                           [".pause-btn", "click", GUI.controls.pause],
-                           [".next-btn", "click", GUI.controls.next]
+    // Écouteurs d'événements de la playlist
+    var playlistEvents = [
+                            ["#not-random-btn", "click", GUI.playlist.random, "async"],
+                            ["#random-btn", "click", GUI.playlist.notRandom, "async"],
+                            ["#no-repeat-btn", "click", GUI.playlist.repeatOne, "async"],
+                            ["#repeat-one-btn", "click", GUI.playlist.repeatAll, "async"],
+                            ["#repeat-all-btn", "click", GUI.playlist.noRepeat, "async"],
+                            ["#mute-btn", "click", GUI.playlist.mute, "async"],
+                            ["#unmute-btn", "click", GUI.playlist.unmute, "async"],
+                            ["#save-btn", "click", GUI.playlist.save],
+                            ["#export-btn", "click", GUI.playlist.export],
+                            ["#delete-btn", "click", GUI.playlist.delete],
+                            [".previous-btn", "click", GUI.playlist.previous],
+                            [".back-btn", "click", GUI.playlist.back],
+                            [".play-btn", "click", GUI.playlist.play],
+                            [".pause-btn", "click", GUI.playlist.pause],
+                            [".forth-btn", "click", GUI.playlist.forth],
+                            [".next-btn", "click", GUI.playlist.next]
                          ];
 
-    addEvents(controlsEvents);
+    addEvents(playlistEvents);
 
     // Écouteurs d'événements des favoris
     var favoritesEvents = [
@@ -319,10 +459,9 @@ module.exports = GUI = {
 
     // Écouteurs d'événements divers
     var otherEvents = [
+                        ["#logo", "click", GUI.events.logo],
                         ["#tracks-help", "click", GUI.events.showInfoPopup, "async"],
-                        [".harmonic-track", "click", GUI.events.addTrackToPlaylist, "async"],
-                        ["#export-btn", "click", GUI.events.export],
-                        ["#logo", "click", GUI.events.logo]
+                        [".harmonic-track", "click", GUI.events.addTrackToPlaylist, "async"]
                       ];
 
     addEvents(otherEvents);

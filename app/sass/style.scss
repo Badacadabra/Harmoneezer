@@ -332,6 +332,15 @@ form#search {
   z-index: 10 !important;
 }
 
+@keyframes changeColor {
+  0% { background-color: $dark; }
+  20% { background-color: $blue; }
+  40% { background-color: $red; }
+  60% { background-color: $green; }
+  80% { background-color: $violet; }
+  100% { background-color: $maroon; }
+}
+
 #bottom-chevron {
     cursor: pointer;
     position: absolute;
@@ -346,6 +355,7 @@ form#search {
       border-top: solid 2px black;
       border-left: solid 2px black;
       border-right: solid 2px black;
+      animation: changeColor 10s ease-in-out infinite;
     }
 }
 
@@ -428,6 +438,10 @@ form#search {
   }
 }
 
+#menu {
+  height: 74px;
+}
+
 #playlist, #favorites {
   margin-top: 71px !important;
 }
@@ -443,9 +457,12 @@ form#search {
       margin: 0;
     }
 
-    #export-btn {
-      color: white;
-      cursor: pointer;
+    #options {
+      span {
+        color: white;
+        cursor: pointer;
+        margin-left: 5px;
+      }
     }
   }
 
@@ -566,4 +583,33 @@ form#search {
     }
   }
 
+}
+
+#user {
+  @include item-border($maroon);
+  height: 150px !important;
+  padding-bottom: 74px;
+  background-color: white;
+  font-family: actionman_regular;
+  font-size: x-large;
+  overflow: hidden !important;
+  z-index: 10;
+
+  #user-connected {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+  }
+
+  #user-not-connected {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+
+    #user-msg {
+      margin: 0 20px;
+    }
+  }
 }

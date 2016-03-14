@@ -5,7 +5,8 @@ var Vocabulary = require('../modules/Vocabulary.js'),
     Ajax = require('../modules/Ajax.js'),
     GUI = require('../modules/GUI.js'),
     Sorting = require('../modules/Sorting.js'),
-    Player = require('../modules/Player');
+    Player = require('../modules/Player'),
+    Playlist = require('../modules/Playlist');
 
 // Variables diverses
 var similarTracks = [],
