@@ -53,88 +53,26 @@ module.exports = Ajax = {
    *
    * @class DeezerAPIRequest
    * @constructor
+   * @extends Request
    * @param {String} path Chemin de la requête
    */
   DeezerAPIRequest: function(path) {
-    /**
-     * Type de requête (GET ou POST)
-     *
-     * @property type
-     * @type {String}
-     * @default "GET"
-     */
-      this._type = "GET";
-      /**
-       * URL de requête
-       *
-       * @property url
-       * @type {String}
-       * @default "http://api.deezer.com"
-       */
-      this._url = "http://api.deezer.com" + path;
-      /**
-       * Type de données renvoyées (JSON, XML, ...)
-       *
-       * @property dataType
-       * @type {String}
-       * @default "jsonp"
-       */
-      this._dataType = "jsonp";
-      /**
-       * Paramètres de requête
-       *
-       * @property data
-       * @type {Object}
-       * @default {}
-       */
-      this._data = {
-          "output": "jsonp",
-      };
+      Ajax.Request.call(this, "GET", "http://api.deezer.com" + path, "jsonp", { "output": "jsonp" });
   },
   /**
    * Classe gérant les requêtes Ajax vers l'API d'Echo Nest
    *
    * @class EchoNestAPIRequest
    * @constructor
+   * @extends Request
    * @param {String} path Chemin de la requête
    */
   EchoNestAPIRequest: function(path) {
-    /**
-     * Type de requête (GET ou POST)
-     *
-     * @property type
-     * @type {String}
-     * @default "GET"
-     */
-      this._type = "GET";
-      /**
-       * URL de requête
-       *
-       * @property url
-       * @type {String}
-       * @default "http://developer.echonest.com/api/v4"
-       */
-      this._url = "http://developer.echonest.com/api/v4" + path;
-      /**
-       * Type de données renvoyées (JSON, XML, ...)
-       *
-       * @property dataType
-       * @type {String}
-       * @default "jsonp"
-       */
-      this._dataType = "jsonp";
-      /**
-       * Paramètres de requête
-       *
-       * @property data
-       * @type {Object}
-       * @default {}
-       */
-      this._data = {
-          "api_key": "VUSUA1HN4HMWUIN5P",
-          "format": "jsonp",
-          "bucket": "audio_summary"
-      };
+      Ajax.Request.call(this, "GET", "http://developer.echonest.com/api/v4" + path, "jsonp", {
+                    "api_key": "VUSUA1HN4HMWUIN5P",
+                    "format": "jsonp",
+                    "bucket": "audio_summary"
+                  });
   },
   /**
    * Classe construisant à la demande des requêtes Ajax d'un certain type

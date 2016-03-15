@@ -49,9 +49,7 @@ $( document ).ready(function() {
     $( "#search" ).submit(function(e) {
         e.preventDefault();
         searchTracks();
-        if (GUI.notifAllowed) {
-          alertify.message("Choisissez un morceau de référence", 5);
-        }
+        GUI.alert("message", "Choisissez un morceau de référence", 5);
 
         // Réinitialisation de la zone de recherche
         $( "#search input" ).val( "" );
@@ -165,13 +163,13 @@ function searchTracks() {
             }
 
             // Template d'un morceau
-            var html = '<div id="' + track.id + '" class="track">';
+            var html = '<div id="' + track.id + '" class="track" itemscope itemtype="https://schema.org/MusicRecording">';
                 html += ' <figure>';
                 html += '   <img class="lazyOwl" data-src="' + track.album.cover_medium + '" alt="' + track.title + '">';
                 html += '   <figcaption>';
                 html += '     <div>';
-                html += '       <h3 class="track-title">' + track.title + '</h3>';
-                html += '       <p class="artist-name">' + artistName + "</p>";
+                html += '       <h3 class="track-title" itemprop="name">' + track.title + '</h3>';
+                html += '       <p class="artist-name" itemprop="byArtist">' + artistName + "</p>";
                 html += '     </div>';
                 html += '   </figcaption>';
                 html += ' </figure>';
@@ -217,9 +215,7 @@ function getInitialAudioSummary(trackId) {
     function success(final) {
         // Le morceau est-il trouvé sur Echo Nest à partir de l'identifiant Deezer ?
         if (final.response.track !== undefined) {
-            if (GUI.notifAllowed) {
-              alertify.success("Trouvé sur Echo Nest !", 3);
-            }
+            GUI.alert("success", "Trouvé sur Echo Nest !", 3);
             // Le morceau trouvé sur Echo Nest a-t-il un résumé audio ?
             if (!$.isEmptyObject(final.response.track.audio_summary)) {
                 // console.log(final.response);
@@ -237,24 +233,18 @@ function getInitialAudioSummary(trackId) {
                 // On construit le profil du morceau de référence
                 buildRefTrackProfile(trackId, title, artist, "", key, mode, tempo);
 
-                if (GUI.notifAllowed) {
-                  titleNotif = alertify.message("« " + title + " » par " + artist, 0);
-                  keyNotif = alertify.message("Tonalité : " + key + " " + mode, 0);
-                  tempoNotif = alertify.message("Tempo : " + tempo + " BPM", 0);
-                }
+                titleNotif = GUI.alert("message", "« " + title + " » par " + artist, 0);
+                keyNotif = GUI.alert("message", "Tonalité : " + key + " " + mode, 0);
+                tempoNotif = GUI.alert("message", "Tempo : " + tempo + " BPM", 0);
             } else {
               buildRefTrackProfile(trackId, "", "", "", "", "", 0);
-              if (GUI.notifAllowed) {
-                alertify.error("Le résumé audio de ce morceau n'est pas disponible sur Echo Nest.", 10);
-                alertify.error("Suggestion harmonique impossible", 10);
-              }
+              GUI.alert("error", "Le résumé audio de ce morceau n'est pas disponible sur Echo Nest.", 10);
+              GUI.alert("error", "Suggestion harmonique impossible", 10);
             }
         } else {
           buildRefTrackProfile(trackId, "", "", "", "", "", 0);
-          if (GUI.notifAllowed) {
-            alertify.error("Ce morceau n'a pas été trouvé sur Echo Nest.", 10);
-            alertify.error("Suggestion harmonique impossible", 10);
-          }
+          GUI.alert("error", "Ce morceau n'a pas été trouvé sur Echo Nest.", 10);
+          GUI.alert("error", "Suggestion harmonique impossible", 10);
         }
     }
 
@@ -432,15 +422,15 @@ function displayTracks(tracks) {
     }
 
     // Création du template complet pour affichage des suggestions
-    html += '<a class="harmonic-track">';
+    html += '<a class="harmonic-track" itemscope itemtype="https://schema.org/MusicComposition">';
     html += ' <figure>';
     html += '   <img src="' + item.getCover() + '" alt="' + item.getTitle() + '">';
     html += '   <figcaption>';
     html += '     <div>';
-    html += '      <h3>' + item.getTitle() + '</h3>';
-    html += '      <p class="artist-name">' + artistName + '</p>';
-    html += '      <p class="' + tempoCssClass + '">Tempo : ' + item.getTempo() + ' BPM</p>';
-    html += '      <p class="' + tonalityCssClass + '">Tonalité : ' + item.getKey() + ' ' + item.getMode() + '</p>';
+    html += '      <h3 itemprop="name">' + item.getTitle() + '</h3>';
+    html += '      <p class="artist-name" itemprop="composer">' + artistName + '</p>';
+    html += '      <p class="' + tempoCssClass + '" itemprop="musicalKey">Tempo : ' + item.getTempo() + ' BPM</p>';
+    html += '      <p class="' + tonalityCssClass + '" itemprop="musicalKey">Tonalité : ' + item.getKey() + ' ' + item.getMode() + '</p>';
     html += '     </div>';
     html += '   </figcaption>';
     html += ' </figure>';

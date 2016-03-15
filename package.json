@@ -8,6 +8,7 @@
     "connect": "^3.4.0"
   },
   "devDependencies": {
+    "benchmark": "^2.1.0",
     "browser-sync": "^2.11.1",
     "debowerify": "^1.4.1",
     "del": "^2.2.0",
