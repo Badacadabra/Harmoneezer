@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Tests de performance avec Benchmark.js</title>
+    </head>
+    <body>
+        <h1>Tests de performance avec Benchmark.js</h1>
+        <hr>
+        <section>
+            Caching d'une longueur de tableau
+            <button onclick="arrays.run();">Test</button>
+        </section>
+        <hr>
+        <section>
+            Caching d'un sélecteur jQuery
+            <button onclick="selectors.run();">Test</button>
+        </section>
+        <hr>
+        <script src="/node_modules/benchmark/node_modules/lodash/lodash.js"></script>
+        <script src="/node_modules/benchmark/node_modules/platform/platform.js"></script>
+        <script src="/node_modules/benchmark/benchmark.js"></script>
+        <script src="/dist/js/bower.js"></script>
+        <script src="tests.js"></script>
+    </body>
+</html>

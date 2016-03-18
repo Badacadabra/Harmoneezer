@@ -1,0 +1,104 @@
+$dark: #131619;
+$blue: #188AE3;
+$red: #F04A3C;
+$green: #5AA628;
+$violet: #AE63E4;
+$maroon: #B66F2F;
+
+@keyframes backgroundAnimation {
+  from { background-position: 0 0; }
+  to { background-position: 0 -480px; }
+}
+
+#app {
+  background: $dark !important;
+}
+
+.pusher {
+  background: url('../images/background/responsive.jpg') repeat-y center center fixed !important;
+  animation: backgroundAnimation 30s linear infinite;
+}
+
+#search > div {
+  display: flex;
+  flex-direction: column;
+  height: initial;
+}
+
+#search input {
+  padding: 5px 10px !important;
+  font-size: 13px;
+  border-bottom: 0 !important;
+}
+
+#search input:focus {
+  border-bottom: 0 !important;
+}
+
+#search i {
+  display: none;
+}
+
+#logo {
+  margin-top: 5px;
+  border-top: solid 3px $blue !important;
+  border-bottom: solid 3px $red !important;
+
+  h1 {
+    width: 100%;
+    text-align: center;
+  }
+
+  &:hover {
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+  }
+}
+
+#logo + input {
+  width: 100% !important;
+  background-color: $dark !important;
+  text-align: center;
+}
+
+#ipod-wrapper {
+  display: none;
+}
+
+#about {
+  font-size: medium !important;
+}
+
+#atmospheres-btn {
+  display: none;
+}
+
+#user-not-connected {
+  flex-direction: column;
+
+  #user-msg {
+    font-size: small;
+    margin-bottom: 5px !important;
+  }
+
+  #login {
+    width: 70%;
+  }
+}
+
+#menu {
+  overflow: hidden;
+}
+
+#autocomplete {
+  width: 100%;
+}
+
+#favorites a:first-child,
+#fav-ipod,
+#fav-tooltip,
+#fav-notify,
+#fav-sound,
+#fav-autocomplete {
+  display: none;
+}

@@ -49,7 +49,7 @@ module.exports = Sorting = {
             similarTracks.splice(insertIndex, 0, track);
           };
 
-      for (var i = 0; i < similarTracks.length; i++) {
+      for (var i = 0, len = similarTracks.length; i < len; i++) {
         // Pour chaque morceau, on récupère toutes les infos indispensables
         var track = similarTracks[i],
             artist = track.getArtist(),
@@ -72,7 +72,7 @@ module.exports = Sorting = {
 
       // Si les doublons ne sont pas autorisés, on filtre
       if (!GUI.duplicatesAllowed) {
-        for (var i = 0; i < similarTracks.length; i++) {
+        for (var i = 0, len = similarTracks.length; i < len; i++) {
 
           var track = similarTracks[i],
               artist = track.getArtist();
@@ -119,7 +119,7 @@ module.exports = Sorting = {
             similarTracks.splice(insertIndex, 0, track);
           };
 
-      for (var i = 0; i < similarTracks.length; i++) {
+      for (var i = 0, len = similarTracks.length; i < len; i++) {
 
         // Pour chaque morceau, on récupère toutes les infos indispensables
         var track = similarTracks[i],
@@ -148,7 +148,7 @@ module.exports = Sorting = {
 
       // Si les doublons ne sont pas autorisés, on filtre
       if (!GUI.duplicatesAllowed) {
-        for (var i = 0; i < similarTracks.length; i++) {
+        for (var i = 0, len = similarTracks.length; i < len; i++) {
 
           var track = similarTracks[i],
               artist = track.getArtist();
@@ -195,7 +195,7 @@ module.exports = Sorting = {
             similarTracks.splice(insertIndex, 0, track);
           };
 
-      for (var i = 0; i < similarTracks.length; i++) {
+      for (var i = 0, len = similarTracks.length; i < len; i++) {
 
         // Pour chaque morceau, on récupère toutes les infos indispensables
         var track = similarTracks[i],
@@ -224,7 +224,7 @@ module.exports = Sorting = {
 
       // Si les doublons ne sont pas autorisés, on filtre
       if (!GUI.duplicatesAllowed) {
-        for (var i = 0; i < similarTracks.length; i++) {
+        for (var i = 0, len = similarTracks.length; i < len; i++) {
 
           var track = similarTracks[i],
               artist = track.getArtist();

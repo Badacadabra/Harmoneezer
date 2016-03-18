@@ -133,6 +133,12 @@ area {
   cursor: pointer;
 }
 
+#about {
+  font-size: x-large !important;
+  font-family: actionman_regular, sans-serif;
+  text-align: center !important;
+}
+
 /* ========================================== */
 /* ================= Search ================ */
 /* ======================================== */
@@ -444,6 +450,7 @@ form#search {
 
 #playlist, #favorites {
   margin-top: 71px !important;
+  padding-bottom: 150px !important;
 }
 
 #playlist {

@@ -1,0 +1,96 @@
+@keyframes backgroundAnimation {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 -480px;
+  }
+}
+#app {
+  background: #131619 !important;
+}
+
+.pusher {
+  background: url("../images/background/responsive.jpg") repeat-y center center fixed !important;
+  animation: backgroundAnimation 30s linear infinite;
+}
+
+#search > div {
+  display: flex;
+  flex-direction: column;
+  height: initial;
+}
+
+#search input {
+  padding: 5px 10px !important;
+  font-size: 13px;
+  border-bottom: 0 !important;
+}
+
+#search input:focus {
+  border-bottom: 0 !important;
+}
+
+#search i {
+  display: none;
+}
+
+#logo {
+  margin-top: 5px;
+  border-top: solid 3px #188AE3 !important;
+  border-bottom: solid 3px #F04A3C !important;
+}
+#logo h1 {
+  width: 100%;
+  text-align: center;
+}
+#logo:hover {
+  border-top-width: 5px;
+  border-bottom-width: 5px;
+}
+
+#logo + input {
+  width: 100% !important;
+  background-color: #131619 !important;
+  text-align: center;
+}
+
+#ipod-wrapper {
+  display: none;
+}
+
+#about {
+  font-size: medium !important;
+}
+
+#atmospheres-btn {
+  display: none;
+}
+
+#user-not-connected {
+  flex-direction: column;
+}
+#user-not-connected #user-msg {
+  font-size: small;
+  margin-bottom: 5px !important;
+}
+#user-not-connected #login {
+  width: 70%;
+}
+
+#menu {
+  overflow: hidden;
+}
+
+#autocomplete {
+  width: 100%;
+}
+
+#favorites a:first-child,
+#fav-ipod,
+#fav-tooltip,
+#fav-notify,
+#fav-sound,
+#fav-autocomplete {
+  display: none;
+}

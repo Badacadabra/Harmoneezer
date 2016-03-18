@@ -1,4 +1,5 @@
-var Playlist = require('./Playlist.js');
+var Player = require('./Player.js'),
+    Playlist = require('./Playlist.js');
 
 /**
  * Module gérant l'interface graphique
@@ -7,6 +8,14 @@ var Playlist = require('./Playlist.js');
  * @class GUI
  */
 module.exports = GUI = {
+  /**
+   * Attribut indiquant si les infobulles sont autorisées
+   *
+   * @property tooltipAllowed
+   * @type {Boolean}
+   * @default true
+   */
+  tooltipAllowed: true,
   /**
    * Attribut indiquant si les notifications sont autorisées
    *
@@ -24,7 +33,15 @@ module.exports = GUI = {
    */
   soundAllowed: true,
   /**
-   * Attribut indiquant si les doublons sont autorisés dans la recherche
+   * Attribut indiquant si l'autocomplétion est autorisée dans la recherche
+   *
+   * @property autocompleteAllowed
+   * @type {Boolean}
+   * @default true
+   */
+  autocompleteAllowed: true,
+  /**
+   * Attribut indiquant si les doublons sont autorisés dans les suggestions
    *
    * @property duplicatesAllowed
    * @type {Boolean}
@@ -65,6 +82,15 @@ module.exports = GUI = {
    */
   trackPosition: 0,
   /**
+   * Lecteur manipulé par l'interface graphique.
+   * C'est à la fois un Singleton et un Adapter.
+   *
+   * @property player
+   * @type {Object}
+   * @default null
+   */
+  player: null,
+  /**
    * Méthode chargée d'initialiser l'interface graphique.
    * Cette méthode s'inspire du pattern Template dans sa conception.
    *
@@ -95,14 +121,35 @@ module.exports = GUI = {
     });
     $( "#main" ).vegas('pause'); */
 
+    GUI.css();
     GUI.carousel();
     GUI.drag();
     GUI.tooltips();
-    GUI.scrollbar();
-    GUI.css();
     GUI.checkboxes();
     GUI.listeners();
+    GUI.scroll.init();
     GUI.playlist.retrieve();
+    GUI.player = Player.getPlayer();
+    GUI.player.init();
+  },
+  /**
+   * Hacks CSS
+   *
+   * @method css
+   */
+  css: function() {
+    $( ".pusher" ).css("height", "100%");
+    if ($( window ).width() <= 600) {
+      $( "#menu" ).switchClass( "five", "four" );
+      GUI.tooltipAllowed = false;
+      GUI.notifAllowed = false;
+      GUI.soundAllowed = false;
+    } else {
+      $( "#menu" ).switchClass( "four", "five" );
+      GUI.tooltipAllowed = true;
+      GUI.notifAllowed = true;
+      GUI.soundAllowed = true;
+    }
   },
   /**
    * Initialisation du carousel contenant les résultats de recherche.
@@ -136,32 +183,14 @@ module.exports = GUI = {
    * @method tooltips
    */
   tooltips: function() {
-    $( "#options > span" ).popup(); // Semantic UI
-    $( "[title != '']" ).qtip({ // qTip²
-      style: {
-          classes: 'qtip-dark'
-      }
-    });
-  },
-  /**
-   * Initialisation des scrollbars.
-   * Les scrollbars sont gérées par le plugin mCustomScrollbar.
-   *
-   * @method scrollbar
-   */
-  scrollbar: function() {
-    $( "#playlist, #favorites" ).mCustomScrollbar({
-      theme:"dark",
-      scrollInertia: 0
-    });
-  },
-  /**
-   * Hack CSS
-   *
-   * @method css
-   */
-  css: function() {
-    $( ".pusher" ).css("height", "100%");
+    if (GUI.tooltipAllowed) {
+      $( "[data-title != '']" ).popup(); // Semantic UI
+      $( "[title != '']" ).qtip({ // qTip²
+        style: {
+            classes: 'qtip-dark'
+        }
+      });
+    }
   },
   /**
    * Initialisation des checkboxes.
@@ -197,8 +226,8 @@ module.exports = GUI = {
                             ["#repeat-all-btn", "click", GUI.playlist.noRepeat, "async"],
                             ["#no-repeat-btn", "click", GUI.playlist.repeatOne, "async"],
                             ["#repeat-one-btn", "click", GUI.playlist.repeatAll, "async"],
-                            ["#mute-btn", "click", GUI.playlist.mute, "async"],
-                            ["#unmute-btn", "click", GUI.playlist.unmute, "async"],
+                            ["#mute-btn", "click", GUI.playlist.unmute, "async"],
+                            ["#unmute-btn", "click", GUI.playlist.mute, "async"],
                             ["#save-btn", "click", GUI.playlist.save],
                             ["#export-btn", "click", GUI.playlist.export],
                             ["#delete-btn", "click", GUI.playlist.delete],
@@ -214,8 +243,10 @@ module.exports = GUI = {
     // Écouteurs d'événements des favoris
     var favoritesEvents = [
                              ["#fav-ipod", "click", GUI.favorites.ipod],
+                             ["#fav-tooltip", "click", GUI.favorites.tooltip],
                              ["#fav-notify", "click", GUI.favorites.notify],
                              ["#fav-sound", "click", GUI.favorites.sound],
+                             ["#fav-autocomplete", "click", GUI.favorites.autocomplete],
                              ["#fav-duplicate", "click", GUI.favorites.duplicate],
                              ["#fav-tempo-range", "input", GUI.favorites.tempoRange],
                              ["#fav-default-sorting", "click", GUI.favorites.defaultSorting],
@@ -247,7 +278,8 @@ module.exports = GUI = {
     // Écouteurs d'événements divers
     var otherEvents = [
                         ["#logo", "click", GUI.misc.logo],
-                        ["#tracks-help", "click", GUI.misc.help, "async"]
+                        ["#tracks-help", "click", GUI.misc.help, "async"],
+                        [window, "resize", GUI.css]
                       ];
 
     // Ajout des écouteurs d'événements
@@ -260,7 +292,7 @@ module.exports = GUI = {
 
     // Fonctions d'ajout d'événements
     function addEvents(e) {
-      for (var i = 0; i < e.length; i++) {
+      for (var i = 0, len = e.length; i < len; i++) {
         if (e[i][3] == "async") {
           $( document ).on( e[i][1], e[i][0], e[i][2]); // délégation
         } else {
@@ -269,6 +301,101 @@ module.exports = GUI = {
       }
     }
 
+  },
+  /**
+   * Méthode template créant dynamiquement un fragment HTML
+   *
+   * @method template
+   * @param {String} type Type de template (suggestions de base ou harmoniques)
+   * @param {Object} track Objet représentant morceau de musique
+   * @param {Boolean} isTempoCompatible Compatibilité ou non du tempo
+   * @param {Boolean} isKeyCompatible Compatibilité ou non de la tonalité
+   */
+  template: function(type, track, isTempoCompatible, isKeyCompatible) {
+    if (type == "base-track") { // Morceau de base
+
+      var artistName = track.artist.name,
+          maxStringLength = 100;
+
+      // Si le nom de l'artiste est exagérément long, on le tronque à l'affichage
+      if (artistName.length > maxStringLength) {
+        artistName = artistName.substr(0, maxStringLength) + " ...";
+      }
+
+      var html = '<div id="submit-' + track.id + '" class="track" itemscope itemtype="https://schema.org/MusicRecording">';
+          html += ' <figure>';
+          html += '   <img class="lazyOwl" data-src="' + track.album.cover_medium + '" alt="' + track.title + '">';
+          html += '   <figcaption>';
+          html += '     <div>';
+          html += '       <h3 class="track-title" itemprop="name">' + track.title + '</h3>';
+          html += '       <p class="artist-name" itemprop="byArtist">' + artistName + "</p>";
+          html += '     </div>';
+          html += '   </figcaption>';
+          html += ' </figure>';
+          html += '</div>';
+
+      return html;
+
+    } else if (type == "harmonic-track") { // Morceau harmonique
+
+      var artistName = track.getArtist(),
+          maxStringLength = 100,
+          tempoCssClass = "red",
+          tonalityCssClass = "red";
+
+      // On gère le cas où le nom de l'artiste est exagérément long
+      if (artistName.length > maxStringLength) {
+        artistName = artistName.substr(0, maxStringLength) + " ...";
+      }
+
+      // On signale les morceaux compatibles en termes de tempo
+      if (isTempoCompatible) {
+        tempoCssClass = "green";
+      }
+
+      // On signale les morceaux compatibles en termes de tonalité
+      if (isKeyCompatible) {
+        tonalityCssClass = "green";
+      }
+
+      var html = '<a class="harmonic-track" itemscope itemtype="https://schema.org/MusicComposition">';
+          html += ' <figure>';
+          html += '   <img src="' + track.getCover() + '" alt="' + track.getTitle() + '">';
+          html += '   <figcaption>';
+          html += '     <div>';
+          html += '      <h3 itemprop="name">' + track.getTitle() + '</h3>';
+          html += '      <p class="artist-name" itemprop="composer">' + artistName + '</p>';
+          html += '      <p class="' + tempoCssClass + '" itemprop="musicalKey">Tempo : ' + track.getTempo() + ' BPM</p>';
+          html += '      <p class="' + tonalityCssClass + '" itemprop="musicalKey">Tonalité : ' + track.getKey() + ' ' + track.getMode() + '</p>';
+          html += '     </div>';
+          html += '   </figcaption>';
+          html += ' </figure>';
+          html += ' <input type="hidden" value="' + encodeURIComponent(JSON.stringify(track)) + '">';
+          html += '</a>';
+
+      return html;
+
+    } else if (type == "autocomplete") { // Autocomplétion
+
+      var html = '<div id="autocomplete-' + track.id + '">';
+          html += ' <strong>' + track.title + '</strong><br>';
+          html += ' <em>' + track.artist.name + '</em>';
+          html += '</div>';
+
+      return html;
+
+    } else { // Case d'aide
+
+      var html = '<a class="item title">';
+          html += ' <h2>Suggestions</h2>';
+          html += '</a>';
+          html += '<a id="tracks-help" href="#">';
+          html += '  <i class="help circle icon"></i>';
+          html += '</a>';
+
+      return html;
+
+    }
   },
   /**
    * Méthode Facade permettant d'éviter l'abondance de conditions dans le code
@@ -291,6 +418,82 @@ module.exports = GUI = {
           return alertify.message(message, timer);
           break;
       }
+    }
+  },
+  /**
+   * Suppression de toutes les notifications actives
+   *
+   * @method cleanNotifications
+   */
+  cleanNotifications: function() {
+    alertify.dismissAll();
+  },
+  /**
+   * Affichage des suggestions harmoniques à la fin du processus de recherche
+   *
+   * @method displayFinalTracklist
+   */
+  displayFinalTracklist: function() {
+    $( "#harmonic-tracks" )
+      .sidebar( "setting", "transition", "scale down" )
+      .sidebar( "show" );
+  },
+  /**
+   * Mini-classe de gestion des scrollbars.
+   * Les scrollbars dépendent du plugin mCustomScrollbar.
+   *
+   * @class scrollbar
+   */
+  scroll: {
+    /**
+     * Initialisation des scrollbars
+     *
+     * @method init
+     */
+    init: function() {
+      $( "#playlist, #favorites" ).mCustomScrollbar({
+        theme: "dark",
+        scrollInertia: 0
+      });
+    },
+    /**
+     * Réinitialisation complète d'une scrollbar
+     *
+     * @method reset
+     */
+    reset: function($container) {
+      $container.mCustomScrollbar();
+    },
+    /**
+     * Destruction d'une scrollbar
+     *
+     * @method destroy
+     */
+    destroy: function($container) {
+      $container.mCustomScrollbar( "destroy" );
+    }
+  },
+  /**
+   * Mini-classe interne gérant le chargement
+   *
+   * @class loading
+   */
+  loading: {
+    /**
+     * Activer le loader
+     *
+     * @method on
+     */
+    on: function() {
+      $( ".ui.page.dimmer" ).addClass( "active" );
+    },
+    /**
+     * Désactiver le loader
+     *
+     * @method off
+     */
+    off: function() {
+      $( ".ui.page.dimmer" ).removeClass( "active" );
     }
   },
   /**
@@ -404,7 +607,7 @@ module.exports = GUI = {
      * @method notRandom
      */
     notRandom: function() {
-      DZ.player.setShuffle(false);
+      GUI.player.random(false);
       $( "#random-btn .icon" ).switchClass( "random", "remove" );
       $( "#random-btn" ).attr( "id", "not-random-btn" );
       GUI.alert("error", "Lecture aléatoire désactivée", 5);
@@ -415,7 +618,7 @@ module.exports = GUI = {
      * @method random
      */
     random: function() {
-      DZ.player.setShuffle(true);
+      GUI.player.random(true);
       $( "#not-random-btn .icon" ).switchClass( "remove", "random" );
       $( "#not-random-btn" ).attr( "id", "random-btn" );
       GUI.alert("success", "Lecture aléatoire activée", 5);
@@ -426,7 +629,7 @@ module.exports = GUI = {
      * @method noRepeat
      */
     noRepeat: function() {
-      DZ.player.setRepeat(0);
+      GUI.player.repeat(0);
       $( "#repeat-all-btn .icon" ).switchClass( "refresh", "remove" );
       $( "#repeat-all-btn" ).attr( "id", "no-repeatbtn" );
       GUI.alert("message", "Pas de répétition", 5);
@@ -437,7 +640,7 @@ module.exports = GUI = {
      * @method repeatOne
      */
     repeatOne: function() {
-      DZ.player.setRepeat(2);
+      GUI.player.repeat(2);
       $( "#no-repeat-btn .icon" ).switchClass( "remove", "repeat" );
       $( "#no-repeat-btn" ).attr( "id", "repeat-one-btn" );
       GUI.alert("message", "Répétition du morceau en cours", 5);
@@ -448,7 +651,7 @@ module.exports = GUI = {
      * @method repeatAll
      */
     repeatAll: function() {
-      DZ.player.setRepeat(1);
+      GUI.player.repeat(1);
       $( "#repeat-one-btn .icon" ).switchClass( "repeat", "refresh" );
       $( "#repeat-one-btn" ).attr( "id", "repeat-all-btn" );
       GUI.alert("message", "Répétition de tous les morceaux", 5);
@@ -459,9 +662,9 @@ module.exports = GUI = {
      * @method mute
      */
     mute: function() {
-      DZ.player.setMute(true);
-      $( "#mute-btn .icon" ).switchClass( "mute", "unmute" );
-      $( "#mute-btn" ).attr( "id", "unmute-btn" );
+      GUI.player.mute(true);
+      $( "#unmute-btn .icon" ).switchClass( "unmute", "mute" );
+      $( "#unmute-btn" ).attr( "id", "mute-btn" );
       GUI.alert("error", "Son coupé !", 5);
     },
     /**
@@ -470,9 +673,9 @@ module.exports = GUI = {
      * @method unmute
      */
     unmute: function() {
-      DZ.player.setMute(false);
-      $( "#unmute-btn .icon" ).switchClass( "unmute", "mute" );
-      $( "#unmute-btn" ).attr( "id", "mute-btn" );
+      GUI.player.mute(false);
+      $( "#mute-btn .icon" ).switchClass( "mute", "unmute" );
+      $( "#mute-btn" ).attr( "id", "unmute-btn" );
       GUI.alert("success", "Son rétabli !", 5);
     },
     /**
@@ -510,7 +713,7 @@ module.exports = GUI = {
      * @method previous
      */
     previous: function() {
-      DZ.player.prev();
+      GUI.player.prev();
     },
     /**
      * Aller en arrière dans le morceau
@@ -521,7 +724,7 @@ module.exports = GUI = {
       if (GUI.trackPosition > 10) {
         GUI.trackPosition -= 10;
       }
-      DZ.player.seek(GUI.trackPosition);
+      GUI.player.seek(GUI.trackPosition);
     },
     /**
      * Lire un morceau
@@ -530,9 +733,9 @@ module.exports = GUI = {
      */
     play: function() {
       if (GUI.tracksLoaded) {
-        DZ.player.play();
+        GUI.player.play();
       } else {
-        DZ.player.playTracks(Playlist.tracksIds);
+        GUI.player.playTracks(Playlist.tracksIds);
         GUI.tracksLoaded = true;
       }
     },
@@ -542,7 +745,7 @@ module.exports = GUI = {
      * @method pause
      */
     pause: function() {
-      DZ.player.pause();
+      GUI.player.pause();
     },
     /**
      * Aller en avant dans le morceau
@@ -553,7 +756,7 @@ module.exports = GUI = {
       if (GUI.trackPosition < 90) {
         GUI.trackPosition += 10;
       }
-      DZ.player.seek(GUI.trackPosition);
+      GUI.player.seek(GUI.trackPosition);
     },
     /**
      * Passage au morceau suivant
@@ -561,7 +764,7 @@ module.exports = GUI = {
      * @method next
      */
     next: function() {
-      DZ.player.next();
+      GUI.player.next();
     },
     /**
      * Ajout d'un morceau à la playlist
@@ -593,6 +796,23 @@ module.exports = GUI = {
       GUI.favorites.changeState($ipodState, "iPod activé !", "iPod désactivé !");
     },
     /**
+     * Gestion des infobulles
+     *
+     * @method tooltip
+     */
+    tooltip: function() {
+      var $tooltipState = $( "#fav-tooltip .state" );
+      if (GUI.tooltipAllowed) {
+        GUI.tooltipAllowed = false;
+        $( "[title != '']" ).popup( "destroy" ); // Semantic UI
+        $( "[title != '']" ).qtip( "destroy", true ); // qTip²
+      } else {
+        GUI.tooltipAllowed = true;
+        GUI.tooltips();
+      }
+      GUI.favorites.changeState($tooltipState, "Infobulles activées !", "Infobulles désactivées !");
+    },
+    /**
      * Gestion des notifications
      *
      * @method notify
@@ -613,7 +833,22 @@ module.exports = GUI = {
       GUI.favorites.changeState($soundState, "Sons d'ambiance activés !", "Sons d'ambiance désactivés !");
     },
     /**
-     * Gestion des doublons
+     * Gestion de l'autocomplétion
+     *
+     * @method autocomplete
+     */
+    autocomplete: function() {
+      var $autocompleteState = $( "#fav-autocomplete .state" );
+      if (GUI.autocompleteAllowed) {
+        $( "#autocomplete" ).fadeOut();
+        GUI.autocompleteAllowed = false
+      } else {
+        GUI.autocompleteAllowed = true
+      }
+      GUI.favorites.changeState($autocompleteState, "Autocomplétion activée !", "Autocomplétion désactivée !");
+    },
+    /**
+     * Gestion des doublons dans les suggestions
      *
      * @method duplicate
      */
@@ -835,7 +1070,7 @@ module.exports = GUI = {
     }
   },
   /**
-   * Classe interne gérant divers éléments
+   * Classe interne gérant divers événements
    *
    * @class misc
    */
@@ -846,18 +1081,7 @@ module.exports = GUI = {
      * @method logo
      */
     logo: function() {
-      var pre = document.createElement('pre');
-      pre.style.maxHeight = "400px";
-      pre.style.overflowWrap = "break-word";
-      pre.style.margin = "-16px -16px -16px 0";
-      pre.style.paddingBottom = "24px";
-      pre.appendChild(document.createTextNode($('#about').text()));
-      alertify.confirm(pre, function(){
-              alertify.success('Accepted');
-          },function(){
-              alertify.error('Declined');
-          }).setting('labels',{'ok':'Accept', 'cancel': 'Decline'});
-
+      GUI.misc.showModal( $( "#about" ) );
     },
     /**
      * Gestion du clic sur la case d'aide
@@ -865,7 +1089,15 @@ module.exports = GUI = {
      * @method help
      */
     help: function() {
-      $( ".ui.modal" ).modal( "show" );
+      GUI.misc.showModal( $( "#help" ) );
+    },
+    /**
+     * Affichage d'une boîte modale
+     *
+     * @method showModal
+     */
+    showModal: function($selector) {
+      $selector.modal( "show" );
     }
   }
 }

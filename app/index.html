@@ -24,7 +24,8 @@
         <meta name="twitter:domain" content="http://localhost:8000/app/">
         <!-- Style -->
         <link rel="shortcut icon" href="images/foreground/favicon.png" type="image/png">
-        <link rel="stylesheet" href="stylesheets/style.css" media="all">
+        <link rel="stylesheet" href="stylesheets/style.css" media="screen">
+        <link rel="stylesheet" href="stylesheets/mobile.css" media="screen and (max-width: 600px)">
         <link rel="stylesheet" href="semantic/dist/semantic.min.css">
         <link rel="stylesheet" href="/dist/css/bower.css">
     </head>
@@ -69,8 +70,8 @@
                 <span id="no-repeat-btn" data-title="Répéter">
                   <i class="remove icon"></i>
                 </span>
-                <span id="mute-btn" data-title="Gérer le son">
-                  <i class="mute icon"></i>
+                <span id="unmute-btn" data-title="Gérer le son">
+                  <i class="unmute icon"></i>
                 </span>
                 <span id="save-btn" data-title="Sauvegarder">
                   <i class="bookmark icon"></i>
@@ -125,16 +126,25 @@
             </a>
             <a id="fav-ipod" class="item">
               <div class="inline field">
-                <div class="ui toggle checkbox">
+                <div class="ui toggle checkbox" data-title="iPod visible ou invisible." data-variation="inverted">
                   <input class="hidden" type="checkbox" checked>
                   <label>iPod</label>
                   <input type="hidden" class="state" value="on">
                 </div>
               </div>
             </a>
+            <a id="fav-tooltip" class="item">
+              <div class="inline field">
+                <div class="ui toggle checkbox" data-title="Indications utiles au survol de la souris." data-variation="inverted">
+                  <input class="hidden" type="checkbox" checked>
+                  <label>Infobulles</label>
+                  <input type="hidden" class="state" value="on">
+                </div>
+              </div>
+            </a>
             <a id="fav-notify" class="item">
               <div class="inline field">
-                <div class="ui toggle checkbox">
+                <div class="ui toggle checkbox" data-title="Alertes en temps réel, à droite de l'écran." data-variation="inverted">
                   <input class="hidden" type="checkbox" checked>
                   <label>Notifications</label>
                   <input type="hidden" class="state" value="on">
@@ -143,7 +153,7 @@
             </a>
             <a id="fav-sound" class="item">
               <div class="inline field">
-                <div class="ui toggle checkbox">
+                <div class="ui toggle checkbox" data-title="Sons joués lors du changement d'ambiance." data-variation="inverted">
                   <input class="hidden" type="checkbox" checked>
                   <label>Sons d'ambiance</label>
                   <input type="hidden" class="state" value="on">
@@ -153,17 +163,17 @@
             <a class="item title red-item">
               <h3>Critères de recherche</h3>
             </a>
-            <a id="fav-duplicate" class="item">
+            <a id="fav-autocomplete" class="item">
               <div class="inline field">
-                <div class="ui toggle checkbox">
-                  <input class="hidden" type="checkbox">
-                  <label>Doublons</label>
-                  <input type="hidden" class="state" value="off">
+                <div class="ui toggle checkbox" data-title="Suggestions en temp réel lors de vos recherches." data-variation="inverted">
+                  <input class="hidden" type="checkbox" checked>
+                  <label>Autocomplétion</label>
+                  <input type="hidden" class="state" value="on">
                 </div>
               </div>
             </a>
             <a id="fav-tempo-range" class="item title">
-              <div class="field">
+              <div class="field" data-title="Écart de tempo accepté par rapport au tempo du morceau de référence." data-variation="inverted">
                 <p>Variation du tempo</p>
                 <input type="range" value="5" max="100" min="0" step="1">
                 <span>5 %</span>
@@ -188,9 +198,18 @@
             <a class="item title red-item">
               <h3>Tri des suggestions</h3>
             </a>
+            <a id="fav-duplicate" class="item">
+              <div class="inline field">
+                <div class="ui toggle checkbox" data-title="Un seul morceau par artiste ?" data-variation="inverted">
+                  <input class="hidden" type="checkbox">
+                  <label>Doublons</label>
+                  <input type="hidden" class="state" value="off">
+                </div>
+              </div>
+            </a>
             <a id="fav-default-sorting" class="item">
               <div class="field">
-                <div class="ui radio checkbox">
+                <div class="ui radio checkbox" data-title="Les morceaux compatibles en tempo et en tonalité apparaissent en priorité." data-variation="inverted">
                   <input class="hidden" name="sorting" type="radio" checked>
                    <label>Tri par défaut</label>
                 </div>
@@ -198,7 +217,7 @@
             </a>
             <a id="fav-tempo-first-sorting" class="item">
               <div class="field">
-                <div class="ui radio checkbox">
+                <div class="ui radio checkbox" data-title="Idem que le tri par défaut, avec toutefois une valorisation du tempo." data-variation="inverted">
                   <input class="hidden" name="sorting" type="radio">
                    <label>Favoriser le tempo</label>
                 </div>
@@ -206,7 +225,7 @@
             </a>
             <a id="fav-key-first-sorting" class="item">
               <div class="field">
-                <div class="ui radio checkbox">
+                <div class="ui radio checkbox" data-title="Idem que le tri par défaut, avec toutefois une valorisation de la tonalité." data-variation="inverted">
                   <input class="hidden" name="sorting" type="radio">
                    <label>Favoriser la tonalité</label>
                 </div>
@@ -214,7 +233,7 @@
             </a>
             <a id="fav-asc-tempo-sorting" class="item">
               <div class="field">
-                <div class="ui radio checkbox">
+                <div class="ui radio checkbox" data-title="Le morceau le plus lent apparaît en premier et le plus rapide en dernier." data-variation="inverted">
                   <input class="hidden" name="sorting" type="radio">
                    <label>Tempo croissant</label>
                 </div>
@@ -222,7 +241,7 @@
             </a>
             <a id="fav-desc-tempo-sorting" class="item">
               <div class="field">
-                <div class="ui radio checkbox">
+                <div class="ui radio checkbox" data-title="Le morceau le plus rapide apparaît en premier et le plus lent en dernier." data-variation="inverted">
                   <input class="hidden" name="sorting" type="radio">
                    <label>Tempo décroissant</label>
                 </div>
@@ -230,7 +249,7 @@
             </a>
             <a id="fav-no-sorting" class="item">
               <div class="field">
-                <div class="ui radio checkbox">
+                <div class="ui radio checkbox" data-title="La liste des suggestions est affichée telle quelle, sans tri." data-variation="inverted">
                   <input class="hidden" name="sorting" type="radio">
                    <label>En vrac</label>
                 </div>
@@ -255,7 +274,7 @@
         <!-- Utilisateur -->
         <div id="user" class="ui bottom horizontal sidebar">
           <div id="user-not-connected">
-            <span id="user-msg">Vous pouvez vous connecter avec votre compte Deezer !</span>
+            <span id="user-msg">Connectez-vous avec votre compte Deezer !</span>
             <button id="login" class="ui brown inverted button">
               <i class="sign in icon"></i>
               Connexion
@@ -271,18 +290,6 @@
               Déconnexion
             </button>
           </div>
-        </div>
-        <!-- À propos -->
-        <div id="about" style="display:none;" itemprop="about">
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-Aliquam at fringilla ante. Morbi tincidunt tellus at convallis pharetra.
-Mauris malesuada nulla id pretium dignissim. Praesent sed mollis dolor.
-In ipsum ante, blandit nec luctus ac, facilisis eget tellus.
-Praesent tristique fringilla porttitor.In suscipit elit nec accumsan vestibulum.
-Ut lacinia eros malesuada eleifend dictum. Vivamus vitae varius ipsum.
-Cras non imperdiet leo. Proin et finibus purus.
-Aenean ac imperdiet tellus, non rhoncus sem. Pellentesque rutrum iaculis fringilla.
-<span itemprop="author">Baptiste Vannesson</span>
         </div>
         <!-- Contenu principal -->
         <div id="main" class="pusher">
@@ -328,7 +335,26 @@ Aenean ac imperdiet tellus, non rhoncus sem. Pellentesque rutrum iaculis fringil
               <i class="huge chevron up icon"></i>
           </div>
           <!-- Pop-ups -->
-          <div class="ui small basic modal transition">
+          <div id="about" class="ui huge basic modal transition" style="display:none;" itemprop="about">
+            <div class="ui icon header">
+              <i class="code icon"></i>
+            </div>
+            <div class="content">
+              <p>
+                HARMONEEZER est une application développée par
+                <a href="http://www.badacadabra.net" target="_blank" itemprop="author">Baptiste Vannesson</a>
+                dans le cadre du M2-DNR2I à l'université de Caen Normandie.
+              </p>
+              <p>
+                Le projet est sur GitHub :
+                <a href="https://github.com/Badacadabra/Harmoneezer" target="_blank" itemprop="name">HARMONEEZER</a>
+              </p>
+            </div>
+            <div class="actions">
+              <div class="ui green ok inverted button">OK</div>
+            </div>
+          </div>
+          <div id="help" class="ui small basic modal transition">
             <div class="ui icon header">
               À quoi correspond cette liste de suggestions ?
             </div>
