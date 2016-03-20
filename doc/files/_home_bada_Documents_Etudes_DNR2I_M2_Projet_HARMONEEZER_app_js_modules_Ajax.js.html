@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>/home/bada/Documents/Etudes/DNR2I/M2/Projet/playlist-harmonique/app/js/modules/Ajax.js</title>
+    <title>/home/bada/Documents/Etudes/DNR2I/M2/Projet/HARMONEEZER/app/js/modules/Ajax.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -51,6 +51,24 @@
             
                 <li><a href="../classes/EchoNestAPIRequest.html">EchoNestAPIRequest</a></li>
             
+                <li><a href="../classes/GUI.html">GUI</a></li>
+            
+                <li><a href="../classes/GUI.atmospheres.html">GUI.atmospheres</a></li>
+            
+                <li><a href="../classes/GUI.favorites.html">GUI.favorites</a></li>
+            
+                <li><a href="../classes/GUI.loading.html">GUI.loading</a></li>
+            
+                <li><a href="../classes/GUI.menu.html">GUI.menu</a></li>
+            
+                <li><a href="../classes/GUI.misc.html">GUI.misc</a></li>
+            
+                <li><a href="../classes/GUI.playlist.html">GUI.playlist</a></li>
+            
+                <li><a href="../classes/GUI.scroll.html">GUI.scroll</a></li>
+            
+                <li><a href="../classes/GUI.user.html">GUI.user</a></li>
+            
                 <li><a href="../classes/Harmony.html">Harmony</a></li>
             
                 <li><a href="../classes/Iterator.html">Iterator</a></li>
@@ -58,6 +76,10 @@
                 <li><a href="../classes/KeyFirst.html">KeyFirst</a></li>
             
                 <li><a href="../classes/None.html">None</a></li>
+            
+                <li><a href="../classes/Player.html">Player</a></li>
+            
+                <li><a href="../classes/Playlist.html">Playlist</a></li>
             
                 <li><a href="../classes/Request.html">Request</a></li>
             
@@ -68,6 +90,8 @@
                 <li><a href="../classes/TempoFirst.html">TempoFirst</a></li>
             
                 <li><a href="../classes/Track.html">Track</a></li>
+            
+                <li><a href="../classes/User.html">User</a></li>
             
                 <li><a href="../classes/Vocabulary.html">Vocabulary</a></li>
             
@@ -83,7 +107,13 @@
             
                 <li><a href="../modules/Music.html">Music</a></li>
             
+                <li><a href="../modules/Player.html">Player</a></li>
+            
+                <li><a href="../modules/Playlist.html">Playlist</a></li>
+            
                 <li><a href="../modules/Sorting.html">Sorting</a></li>
+            
+                <li><a href="../modules/User.html">User</a></li>
             
                 <li><a href="../modules/Vocabulary.html">Vocabulary</a></li>
             
@@ -122,7 +152,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: /home/bada/Documents/Etudes/DNR2I/M2/Projet/playlist-harmonique/app/js/modules/Ajax.js</h1>
+                        <h1 class="file-heading">File: /home/bada/Documents/Etudes/DNR2I/M2/Projet/HARMONEEZER/app/js/modules/Ajax.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -181,88 +211,26 @@ module.exports = Ajax = {
    *
    * @class DeezerAPIRequest
    * @constructor
+   * @extends Request
    * @param {String} path Chemin de la requête
    */
   DeezerAPIRequest: function(path) {
-    /**
-     * Type de requête (GET ou POST)
-     *
-     * @property type
-     * @type {String}
-     * @default &quot;GET&quot;
-     */
-      this._type = &quot;GET&quot;;
-      /**
-       * URL de requête
-       *
-       * @property url
-       * @type {String}
-       * @default &quot;http://api.deezer.com&quot;
-       */
-      this._url = &quot;http://api.deezer.com&quot; + path;
-      /**
-       * Type de données renvoyées (JSON, XML, ...)
-       *
-       * @property dataType
-       * @type {String}
-       * @default &quot;jsonp&quot;
-       */
-      this._dataType = &quot;jsonp&quot;;
-      /**
-       * Paramètres de requête
-       *
-       * @property data
-       * @type {Object}
-       * @default {}
-       */
-      this._data = {
-          &quot;output&quot;: &quot;jsonp&quot;,
-      };
+      Ajax.Request.call(this, &quot;GET&quot;, &quot;http://api.deezer.com&quot; + path, &quot;jsonp&quot;, { &quot;output&quot;: &quot;jsonp&quot; });
   },
   /**
    * Classe gérant les requêtes Ajax vers l&#x27;API d&#x27;Echo Nest
    *
    * @class EchoNestAPIRequest
    * @constructor
+   * @extends Request
    * @param {String} path Chemin de la requête
    */
   EchoNestAPIRequest: function(path) {
-    /**
-     * Type de requête (GET ou POST)
-     *
-     * @property type
-     * @type {String}
-     * @default &quot;GET&quot;
-     */
-      this._type = &quot;GET&quot;;
-      /**
-       * URL de requête
-       *
-       * @property url
-       * @type {String}
-       * @default &quot;http://developer.echonest.com/api/v4&quot;
-       */
-      this._url = &quot;http://developer.echonest.com/api/v4&quot; + path;
-      /**
-       * Type de données renvoyées (JSON, XML, ...)
-       *
-       * @property dataType
-       * @type {String}
-       * @default &quot;jsonp&quot;
-       */
-      this._dataType = &quot;jsonp&quot;;
-      /**
-       * Paramètres de requête
-       *
-       * @property data
-       * @type {Object}
-       * @default {}
-       */
-      this._data = {
-          &quot;api_key&quot;: &quot;VUSUA1HN4HMWUIN5P&quot;,
-          &quot;format&quot;: &quot;jsonp&quot;,
-          &quot;bucket&quot;: &quot;audio_summary&quot;
-      };
+      Ajax.Request.call(this, &quot;GET&quot;, &quot;http://developer.echonest.com/api/v4&quot; + path, &quot;jsonp&quot;, {
+                    &quot;api_key&quot;: &quot;VUSUA1HN4HMWUIN5P&quot;,
+                    &quot;format&quot;: &quot;jsonp&quot;,
+                    &quot;bucket&quot;: &quot;audio_summary&quot;
+                  });
   },
   /**
    * Classe construisant à la demande des requêtes Ajax d&#x27;un certain type

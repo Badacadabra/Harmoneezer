@@ -6,15 +6,27 @@ YUI.add("yuidoc-meta", function(Y) {
         "Default",
         "DescendingTempo",
         "EchoNestAPIRequest",
+        "GUI",
+        "GUI.atmospheres",
+        "GUI.favorites",
+        "GUI.loading",
+        "GUI.menu",
+        "GUI.misc",
+        "GUI.playlist",
+        "GUI.scroll",
+        "GUI.user",
         "Harmony",
         "Iterator",
         "KeyFirst",
         "None",
+        "Player",
+        "Playlist",
         "Request",
         "RequestFactory",
         "Strategy",
         "TempoFirst",
         "Track",
+        "User",
         "Vocabulary"
     ],
     "modules": [
@@ -22,7 +34,10 @@ YUI.add("yuidoc-meta", function(Y) {
         "GUI",
         "Iterator",
         "Music",
+        "Player",
+        "Playlist",
         "Sorting",
+        "User",
         "Vocabulary"
     ],
     "allModules": [
@@ -47,9 +62,24 @@ YUI.add("yuidoc-meta", function(Y) {
             "description": "Module fournissant des entités relatives à la musique."
         },
         {
+            "displayName": "Player",
+            "name": "Player",
+            "description": "Module encapsulant le lecteur audio fourni par Deezer (DZ.player).\nLa classe qu'il contient est à la fois un Singleton et un Adapter."
+        },
+        {
+            "displayName": "Playlist",
+            "name": "Playlist",
+            "description": "Module encapsulant le lecteur audio fourni par Deezer\nLe module s'appuie sur le modèle MVVM de Vue.js."
+        },
+        {
             "displayName": "Sorting",
             "name": "Sorting",
             "description": "Classe mettant en œuvre le pattern Strategy.\nCette classe fournit un moyen d'encapsuler une série d'algorithmes de tri."
+        },
+        {
+            "displayName": "User",
+            "name": "User",
+            "description": "Module fournissant une classe pour la gestion simplifiée des utilisateurs"
         },
         {
             "displayName": "Vocabulary",

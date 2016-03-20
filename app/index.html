@@ -64,17 +64,20 @@
             <a class="item title blue-item">
               <h3>Ma playlist</h3>
               <div id="options">
-                <span id="not-random-btn" data-title="Aléatoire">
-                  <i class="remove icon"></i>
+                <span id="not-random-btn" data-title="Lecture aléatoire">
+                  <i class="minus icon"></i>
                 </span>
-                <span id="no-repeat-btn" data-title="Répéter">
-                  <i class="remove icon"></i>
+                <span id="no-repeat-btn" data-title="Lecture en boucle">
+                  <i class="minus icon"></i>
                 </span>
-                <span id="unmute-btn" data-title="Gérer le son">
+                <span id="unmute-btn" data-title="Son on/off">
                   <i class="unmute icon"></i>
                 </span>
-                <span id="save-btn" data-title="Sauvegarder">
-                  <i class="bookmark icon"></i>
+                <span id="save-browser-btn" data-title="Garder dans le navigateur">
+                  <i class="star icon"></i>
+                </span>
+                <span id="save-deezer-btn" data-title="Sauvegarder sur Deezer">
+                  <i class="sound icon"></i>
                 </span>
                 <span id="export-btn" data-title="Exporter en CSV">
                   <i class="download icon"></i>
@@ -111,12 +114,14 @@
                 <strong>Ajoutez-y des morceaux !</strong>
               </div>
             </a>
-            <a class="item" v-for="selectedTrack in selectedTracks" itemprop="track">
+            <a class="item playlist-item" v-for="selectedTrack in selectedTracks" itemprop="track">
                 <img v-bind:src="selectedTrack._cover" alt="{{ selectedTrack._title }}">
-                <div itemscope itemtype="https://schema.org/MusicRecording">
+                <div class="playlist-track" itemscope itemtype="https://schema.org/MusicRecording">
                   <em itemprop="name">{{ selectedTrack._title }}</em><br>
                   <strong itemprop="byArtist">{{ selectedTrack._artist }}</strong>
+                  <input id="playlist-track-index" type="hidden" value="{{ $index }}">
                 </div>
+                <i class="remove circle outline icon" v-on:click="removeTrack($index)"></i>
             </a>
         </div>
         <!-- Favoris -->
@@ -126,7 +131,7 @@
             </a>
             <a id="fav-ipod" class="item">
               <div class="inline field">
-                <div class="ui toggle checkbox" data-title="iPod visible ou invisible." data-variation="inverted">
+                <div class="ui toggle checkbox" data-content="iPod visible ou invisible." data-variation="inverted">
                   <input class="hidden" type="checkbox" checked>
                   <label>iPod</label>
                   <input type="hidden" class="state" value="on">
@@ -135,7 +140,7 @@
             </a>
             <a id="fav-tooltip" class="item">
               <div class="inline field">
-                <div class="ui toggle checkbox" data-title="Indications utiles au survol de la souris." data-variation="inverted">
+                <div class="ui toggle checkbox" data-content="Indications utiles au survol de la souris." data-variation="inverted">
                   <input class="hidden" type="checkbox" checked>
                   <label>Infobulles</label>
                   <input type="hidden" class="state" value="on">
@@ -144,7 +149,7 @@
             </a>
             <a id="fav-notify" class="item">
               <div class="inline field">
-                <div class="ui toggle checkbox" data-title="Alertes en temps réel, à droite de l'écran." data-variation="inverted">
+                <div class="ui toggle checkbox" data-content="Alertes en temps réel, à droite de l'écran." data-variation="inverted">
                   <input class="hidden" type="checkbox" checked>
                   <label>Notifications</label>
                   <input type="hidden" class="state" value="on">
@@ -153,7 +158,7 @@
             </a>
             <a id="fav-sound" class="item">
               <div class="inline field">
-                <div class="ui toggle checkbox" data-title="Sons joués lors du changement d'ambiance." data-variation="inverted">
+                <div class="ui toggle checkbox" data-content="Sons joués lors du changement d'ambiance." data-variation="inverted">
                   <input class="hidden" type="checkbox" checked>
                   <label>Sons d'ambiance</label>
                   <input type="hidden" class="state" value="on">
@@ -165,7 +170,7 @@
             </a>
             <a id="fav-autocomplete" class="item">
               <div class="inline field">
-                <div class="ui toggle checkbox" data-title="Suggestions en temp réel lors de vos recherches." data-variation="inverted">
+                <div class="ui toggle checkbox" data-content="Suggestions en temp réel lors de vos recherches." data-variation="inverted">
                   <input class="hidden" type="checkbox" checked>
                   <label>Autocomplétion</label>
                   <input type="hidden" class="state" value="on">
@@ -173,7 +178,7 @@
               </div>
             </a>
             <a id="fav-tempo-range" class="item title">
-              <div class="field" data-title="Écart de tempo accepté par rapport au tempo du morceau de référence." data-variation="inverted">
+              <div class="field" data-content="Écart de tempo accepté par rapport au tempo du morceau de référence." data-variation="inverted">
                 <p>Variation du tempo</p>
                 <input type="range" value="5" max="100" min="0" step="1">
                 <span>5 %</span>
@@ -200,7 +205,7 @@
             </a>
             <a id="fav-duplicate" class="item">
               <div class="inline field">
-                <div class="ui toggle checkbox" data-title="Un seul morceau par artiste ?" data-variation="inverted">
+                <div class="ui toggle checkbox" data-content="Un seul morceau par artiste ?" data-variation="inverted">
                   <input class="hidden" type="checkbox">
                   <label>Doublons</label>
                   <input type="hidden" class="state" value="off">
@@ -209,7 +214,7 @@
             </a>
             <a id="fav-default-sorting" class="item">
               <div class="field">
-                <div class="ui radio checkbox" data-title="Les morceaux compatibles en tempo et en tonalité apparaissent en priorité." data-variation="inverted">
+                <div class="ui radio checkbox" data-content="Les morceaux compatibles en tempo et en tonalité apparaissent en priorité." data-variation="inverted">
                   <input class="hidden" name="sorting" type="radio" checked>
                    <label>Tri par défaut</label>
                 </div>
@@ -217,7 +222,7 @@
             </a>
             <a id="fav-tempo-first-sorting" class="item">
               <div class="field">
-                <div class="ui radio checkbox" data-title="Idem que le tri par défaut, avec toutefois une valorisation du tempo." data-variation="inverted">
+                <div class="ui radio checkbox" data-content="Idem que le tri par défaut, avec toutefois une valorisation du tempo." data-variation="inverted">
                   <input class="hidden" name="sorting" type="radio">
                    <label>Favoriser le tempo</label>
                 </div>
@@ -225,7 +230,7 @@
             </a>
             <a id="fav-key-first-sorting" class="item">
               <div class="field">
-                <div class="ui radio checkbox" data-title="Idem que le tri par défaut, avec toutefois une valorisation de la tonalité." data-variation="inverted">
+                <div class="ui radio checkbox" data-content="Idem que le tri par défaut, avec toutefois une valorisation de la tonalité." data-variation="inverted">
                   <input class="hidden" name="sorting" type="radio">
                    <label>Favoriser la tonalité</label>
                 </div>
@@ -233,7 +238,7 @@
             </a>
             <a id="fav-asc-tempo-sorting" class="item">
               <div class="field">
-                <div class="ui radio checkbox" data-title="Le morceau le plus lent apparaît en premier et le plus rapide en dernier." data-variation="inverted">
+                <div class="ui radio checkbox" data-content="Le morceau le plus lent apparaît en premier et le plus rapide en dernier." data-variation="inverted">
                   <input class="hidden" name="sorting" type="radio">
                    <label>Tempo croissant</label>
                 </div>
@@ -241,7 +246,7 @@
             </a>
             <a id="fav-desc-tempo-sorting" class="item">
               <div class="field">
-                <div class="ui radio checkbox" data-title="Le morceau le plus rapide apparaît en premier et le plus lent en dernier." data-variation="inverted">
+                <div class="ui radio checkbox" data-content="Le morceau le plus rapide apparaît en premier et le plus lent en dernier." data-variation="inverted">
                   <input class="hidden" name="sorting" type="radio">
                    <label>Tempo décroissant</label>
                 </div>
@@ -249,7 +254,7 @@
             </a>
             <a id="fav-no-sorting" class="item">
               <div class="field">
-                <div class="ui radio checkbox" data-title="La liste des suggestions est affichée telle quelle, sans tri." data-variation="inverted">
+                <div class="ui radio checkbox" data-content="La liste des suggestions est affichée telle quelle, sans tri." data-variation="inverted">
                   <input class="hidden" name="sorting" type="radio">
                    <label>En vrac</label>
                 </div>
@@ -283,7 +288,6 @@
           <div id="user-connected">
             <img id="user-img">
             <a id="user-name"></a>
-            <div id="user-email"></div>
             <div id="user-date"></div>
             <button id="logout" class="ui brown inverted button">
               <i class="sign out icon"></i>
@@ -297,11 +301,11 @@
           <div id="ipod-wrapper">
               <img id="ipod" src="images/foreground/ipod.png" alt="iPod" usemap="#map">
               <map name="map">
-                <area shape="rect" coords="53,110,72,119" title="Menu" class="toggle-menu">
-                <area shape="rect" coords="25,141,38,151" title="Précédent" class="previous-btn">
-                <area shape="rect" coords="85,142,99,151" title="Suivant" class="next-btn">
-                <area shape="rect" coords="54,174,70,183" title="Play/Pause" class="play-btn">
-                <area shape="circle" coords="62,146,14" title="Tableau de bord" class="toggle-all">
+                <area shape="rect" coords="53,110,72,119" data-title="Menu" class="toggle-menu">
+                <area shape="rect" coords="25,141,38,151" data-title="Précédent" class="previous-btn">
+                <area shape="rect" coords="85,142,99,151" data-title="Suivant" class="next-btn">
+                <area shape="rect" coords="54,174,70,183" data-title="Play/Pause" class="play-pause-btn">
+                <area shape="circle" coords="62,146,14" data-title="Tableau de bord" class="toggle-all">
               </map>
               <div id="player" itemprop="audio"></div>
           </div>

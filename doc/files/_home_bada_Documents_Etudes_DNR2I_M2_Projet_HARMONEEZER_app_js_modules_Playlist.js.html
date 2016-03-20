@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Vocabulary</title>
+    <title>/home/bada/Documents/Etudes/DNR2I/M2/Projet/HARMONEEZER/app/js/modules/Playlist.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -152,50 +152,79 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Vocabulary Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: /home/bada/Documents/Etudes/DNR2I/M2/Projet/HARMONEEZER/app/js/modules/Playlist.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Module encapsulant le lecteur audio fourni par Deezer
+ * Le module s&#x27;appuie sur le modèle MVVM de Vue.js.
+ *
+ * @module Playlist
+ * @class Playlist
+ */
+module.exports = Playlist = new Vue({
+  el: &quot;#app&quot;,
+  data: {
+    /**
+     * Attribut représentant l&#x27;id de la playlist sur Deezer
+     *
+     * @property deezerId
+     * @type {Number}
+     * @default -1
+     */
+    deezerId: -1,
+    /**
+     * Attribut représentant la liste des morceaux sous forme d&#x27;identifiants Deezer
+     *
+     * @property tracksIds
+     * @type {Array}
+     * @default []
+     */
+    tracksIds: [],
+    /**
+     * Attribut représentant la liste des morceaux sous forme d&#x27;objets Track
+     *
+     * @property selectedTracks
+     * @type {Array}
+     * @default []
+     */
+    selectedTracks: []
+  },
+  methods: {
+    /**
+     * Ajout d&#x27;un morceau à la playlist
+     *
+     * @method addTrack
+     * @param {Object} track Objet Track
+     */
+    addTrack: function(track) {
+      this.tracksIds.push(track._id);
+      this.selectedTracks.push(track);
+    },
+    /**
+     * Suppression d&#x27;un morceau de la playlist
+     *
+     * @method removeTrack
+     * @param {Number} i Index du morceau dans la playlist
+     */
+    removeTrack: function(i) {
+      this.tracksIds.splice(i, 1);
+      this.selectedTracks.splice(i, 1);
+    },
+    /**
+     * Réinitialiser la playlist
+     *
+     * @method reset
+     */
+    reset: function() {
+      this.tracksIds = [];
+      this.selectedTracks = [];
+    }
+  }
+});
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_Vocabulary.js.html#l1"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;Vocabulary.js:1</code></a>
-        </div>
-    
-
-    
-</div>
-
-
-
-<div class="box intro">
-    <p>Objets utiles pour le traitement des réponses venant d&#39;Echo Nest</p>
-
-</div>
-
-
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-            <p>This module provides the following classes:</p>
-
-            <ul class="module-classes">
-            
-                <li class="module-class">
-                    <a href="../classes/Vocabulary.html">
-                        Vocabulary
-                    </a>
-                </li>
-            
-            </ul>
-        
-    </div>
-
-    <div class="yui3-u-1-2">
-        
-    </div>
+    </pre>
 </div>
 
                     </div>

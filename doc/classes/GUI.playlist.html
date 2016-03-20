@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>playlist</title>
+    <title>GUI.playlist</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -43,8 +43,6 @@
             
                 <li><a href="../classes/AscendingTempo.html">AscendingTempo</a></li>
             
-                <li><a href="../classes/atmospheres.html">atmospheres</a></li>
-            
                 <li><a href="../classes/DeezerAPIRequest.html">DeezerAPIRequest</a></li>
             
                 <li><a href="../classes/Default.html">Default</a></li>
@@ -53,9 +51,23 @@
             
                 <li><a href="../classes/EchoNestAPIRequest.html">EchoNestAPIRequest</a></li>
             
-                <li><a href="../classes/favorites.html">favorites</a></li>
-            
                 <li><a href="../classes/GUI.html">GUI</a></li>
+            
+                <li><a href="../classes/GUI.atmospheres.html">GUI.atmospheres</a></li>
+            
+                <li><a href="../classes/GUI.favorites.html">GUI.favorites</a></li>
+            
+                <li><a href="../classes/GUI.loading.html">GUI.loading</a></li>
+            
+                <li><a href="../classes/GUI.menu.html">GUI.menu</a></li>
+            
+                <li><a href="../classes/GUI.misc.html">GUI.misc</a></li>
+            
+                <li><a href="../classes/GUI.playlist.html">GUI.playlist</a></li>
+            
+                <li><a href="../classes/GUI.scroll.html">GUI.scroll</a></li>
+            
+                <li><a href="../classes/GUI.user.html">GUI.user</a></li>
             
                 <li><a href="../classes/Harmony.html">Harmony</a></li>
             
@@ -63,15 +75,11 @@
             
                 <li><a href="../classes/KeyFirst.html">KeyFirst</a></li>
             
-                <li><a href="../classes/menu.html">menu</a></li>
-            
-                <li><a href="../classes/misc.html">misc</a></li>
-            
                 <li><a href="../classes/None.html">None</a></li>
             
                 <li><a href="../classes/Player.html">Player</a></li>
             
-                <li><a href="../classes/playlist.html">playlist</a></li>
+                <li><a href="../classes/Playlist.html">Playlist</a></li>
             
                 <li><a href="../classes/Request.html">Request</a></li>
             
@@ -83,7 +91,7 @@
             
                 <li><a href="../classes/Track.html">Track</a></li>
             
-                <li><a href="../classes/user.html">user</a></li>
+                <li><a href="../classes/User.html">User</a></li>
             
                 <li><a href="../classes/Vocabulary.html">Vocabulary</a></li>
             
@@ -104,6 +112,8 @@
                 <li><a href="../modules/Playlist.html">Playlist</a></li>
             
                 <li><a href="../modules/Sorting.html">Sorting</a></li>
+            
+                <li><a href="../modules/User.html">User</a></li>
             
                 <li><a href="../modules/Vocabulary.html">Vocabulary</a></li>
             
@@ -142,7 +152,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>playlist Class</h1>
+                        <h1>GUI.playlist Class</h1>
 <div class="box meta">
     
 
@@ -150,7 +160,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l361"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:361</code></a>
+            Defined in: <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l555"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:555</code></a>
         </div>
     
 
@@ -272,6 +282,20 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_playFrom">playFrom</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_playPause">playPause</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_previous">previous</a>
 
                                 
@@ -307,7 +331,14 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_save">save</a>
+                                <a href="#method_saveInBrowser">saveInBrowser</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_saveOnDeezer">saveOnDeezer</a>
 
                                 
                                 
@@ -368,7 +399,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l563"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:563</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l797"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:797</code></a>
         
         </p>
 
@@ -423,7 +454,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l544"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:544</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l778"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:778</code></a>
         
         </p>
 
@@ -478,7 +509,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l512"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:512</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l729"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:729</code></a>
         
         </p>
 
@@ -533,7 +564,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l492"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:492</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l687"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:687</code></a>
         
         </p>
 
@@ -588,7 +619,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l481"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:481</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l678"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:678</code></a>
         
         </p>
 
@@ -643,7 +674,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l443"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:443</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l633"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:633</code></a>
         
         </p>
 
@@ -698,7 +729,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l555"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:555</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l789"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:789</code></a>
         
         </p>
 
@@ -753,7 +784,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l404"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:404</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l600"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:600</code></a>
         
         </p>
 
@@ -808,7 +839,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l378"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:378</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l578"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:578</code></a>
         
         </p>
 
@@ -863,7 +894,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l536"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:536</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l762"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:762</code></a>
         
         </p>
 
@@ -918,7 +949,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l523"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:523</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l740"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:740</code></a>
         
         </p>
 
@@ -929,7 +960,117 @@
     </div>
 
     <div class="description">
-        <p>Lire un morceau</p>
+        <p>Lire la playlist depuis le début</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_playFrom" class="method item">
+    <h3 class="name"><code>playFrom</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l753"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:753</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Lire la playlist à partir d&#39;un morceau</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_playPause" class="method item">
+    <h3 class="name"><code>playPause</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l770"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:770</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Lecture ou pause</p>
 
     </div>
 
@@ -973,7 +1114,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l504"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:504</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l721"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:721</code></a>
         
         </p>
 
@@ -1028,7 +1169,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l391"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:391</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l589"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:589</code></a>
         
         </p>
 
@@ -1083,7 +1224,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l430"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:430</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l622"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:622</code></a>
         
         </p>
 
@@ -1138,7 +1279,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l417"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:417</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l611"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:611</code></a>
         
         </p>
 
@@ -1193,7 +1334,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l367"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:367</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l561"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:561</code></a>
         
         </p>
 
@@ -1216,8 +1357,8 @@
 </div>
 
                 
-                    <div id="method_save" class="method item">
-    <h3 class="name"><code>save</code></h3>
+                    <div id="method_saveInBrowser" class="method item">
+    <h3 class="name"><code>saveInBrowser</code></h3>
 
     
         <span class="paren">()</span>
@@ -1248,7 +1389,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l469"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:469</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l655"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:655</code></a>
         
         </p>
 
@@ -1260,6 +1401,61 @@
 
     <div class="description">
         <p>Sauvegarde de la playlist courante dans le local storage</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_saveOnDeezer" class="method item">
+    <h3 class="name"><code>saveOnDeezer</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l665"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:665</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Sauvegarde de la playlist courante sur Deezer</p>
 
     </div>
 
@@ -1303,7 +1499,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l456"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:456</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l644"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:644</code></a>
         
         </p>
 

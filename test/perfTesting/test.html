@@ -9,14 +9,27 @@
         <hr>
         <section>
             Caching d'une longueur de tableau
-            <button onclick="arrays.run();">Test</button>
+            <button onclick="arrays.run({ 'async': true });">Test</button>
         </section>
         <hr>
         <section>
             Caching d'un sélecteur jQuery
-            <button onclick="selectors.run();">Test</button>
+            <button onclick="selectors.run({ 'async': true });">Test</button>
         </section>
         <hr>
+        <section>
+            Valorisation d'un id en guise de sélecteur
+            <button onclick="ids.run({ 'async': true });">Test</button>
+        </section>
+        <hr>
+        <section>
+            Utilisation de la fonction append de jQuery
+            <button onclick="append.run({ 'async': true });">Test</button>
+        </section>
+        <hr>
+        <div id="append" style="display:none;"><ul></ul></div>
+        <div id="test" style="display:none;">Lorem ipsum dolor sit amet</div>
+        <div class="test" style="display:none;">Lorem ipsum dolor sit amet</div>
         <script src="/node_modules/benchmark/node_modules/lodash/lodash.js"></script>
         <script src="/node_modules/benchmark/node_modules/platform/platform.js"></script>
         <script src="/node_modules/benchmark/benchmark.js"></script>

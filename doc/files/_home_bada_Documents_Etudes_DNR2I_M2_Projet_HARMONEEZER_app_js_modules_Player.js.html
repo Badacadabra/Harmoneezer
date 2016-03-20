@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Vocabulary</title>
+    <title>/home/bada/Documents/Etudes/DNR2I/M2/Projet/HARMONEEZER/app/js/modules/Player.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -152,50 +152,166 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Vocabulary Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: /home/bada/Documents/Etudes/DNR2I/M2/Projet/HARMONEEZER/app/js/modules/Player.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Module encapsulant le lecteur audio fourni par Deezer (DZ.player).
+ * La classe qu&#x27;il contient est à la fois un Singleton et un Adapter.
+ *
+ * @module Player
+ * @class Player
+ */
+module.exports = Player = (function() {
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_Vocabulary.js.html#l1"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;Vocabulary.js:1</code></a>
-        </div>
-    
+  /**
+   * Attribut (privé) représentant une instance de la classe elle-même (cf. Singleton)
+   *
+   * @property player
+   * @type {Object}
+   * @default undefined
+   */
+  var player,
+    /**
+     * Constructeur (privé) chargé d&#x27;initialiser le player (cf. Singleton)
+     *
+     * @method construct
+     * @constructor
+     */
+      construct = function() {
+        /**
+         * Attribut indiquant si les morceaux sont chargés dans le lecteur
+         *
+         * @property tracksLoaded
+         * @type {Boolean}
+         * @default false
+         */
+        this.tracksLoaded = false,
+        /**
+         * Attribut indiquant la position de la tête de lecture dans le morceau en cours
+         * La valeur se situe entre 0 et 100.
+         *
+         * @property trackPosition
+         * @type {Number}
+         * @default 0
+         */
+        this.trackPosition = 0,
+        /**
+         * Méthode effectuant réellement l&#x27;initialisation
+         *
+         * @method init
+         */
+        this.init = function() {
+          DZ.init({
+              appId: &#x27;169711&#x27;,
+              channelUrl: &#x27;http://localhost:8000/app&#x27;,
+              player: {
+                container: &#x27;player&#x27;,
+                width: 80,
+                height: 80,
+                format: &#x27;square&#x27;
+              }
+          });
+        },
+        /**
+         * Chargement et lecture des morceaux
+         *
+         * @method playTracks
+         * @param {Array} ids Tableau contenant les identifiants des morceaux
+         * @param {Number} index Indice du premier morceau
+         */
+        this.playTracks = function(ids, index) {
+          DZ.player.playTracks(ids, index);
+        },
+        /**
+         * Lecture
+         *
+         * @method play
+         */
+        this.play = function() {
+          DZ.player.play();
+        },
+        /**
+         * Pause
+         *
+         * @method pause
+         */
+        this.pause = function() {
+          DZ.player.pause();
+        },
+        /**
+         * Suivant
+         *
+         * @method suivant
+         */
+        this.next = function() {
+          DZ.player.next();
+        },
+        /**
+         * Précédent
+         *
+         * @method prev
+         */
+        this.prev = function() {
+          DZ.player.prev();
+        },
+        /**
+         * Aller à...
+         *
+         * @method seek
+         * @param {Number} pos Position de la tête de lecture (entre 0 et 100)
+         */
+        this.seek = function(pos) {
+          DZ.player.seek(pos);
+        },
+        /**
+         * Activer/Désactiver le son
+         *
+         * @method mute
+         * @param {Boolean} isMute Vrai ou faux
+         */
+        this.mute = function(isMute) {
+          DZ.player.setMute(isMute);
+        },
+        /**
+         * Activer/Désactiver la lecture aléatoire
+         *
+         * @method random
+         * @param {Boolean} isRandom Vrai ou faux
+         */
+        this.random = function(isRandom) {
+          DZ.player.setShuffle(isRandom);
+        },
+        /**
+         * Activer/Désactiver la lecture répétée
+         *
+         * @method repeat
+         * @param {Number} code 0 (no repeat), 1 (repeat all), ou 2 (repeat one)
+         */
+        this.repeat = function(code) {
+          DZ.player.setRepeat(code);
+        }
+      };
 
-    
-</div>
+  return new function() {
+    /**
+     * Méthode délivrant l&#x27;unique instance de la classe (cf. Singleton)
+     *
+     * @method getPlayer
+     * @return {Object} Une instance de player
+     */
+    this.getPlayer = function() {
+      if (player === undefined) {
+        player = new construct();
+      }
+      return player;
+    };
+  };
 
+})();
 
-
-<div class="box intro">
-    <p>Objets utiles pour le traitement des réponses venant d&#39;Echo Nest</p>
-
-</div>
-
-
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-            <p>This module provides the following classes:</p>
-
-            <ul class="module-classes">
-            
-                <li class="module-class">
-                    <a href="../classes/Vocabulary.html">
-                        Vocabulary
-                    </a>
-                </li>
-            
-            </ul>
-        
-    </div>
-
-    <div class="yui3-u-1-2">
-        
-    </div>
+    </pre>
 </div>
 
                     </div>

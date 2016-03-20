@@ -442,6 +442,12 @@ form#search {
   width: 56px !important;
   margin-right: 20px !important;
 }
+#playlist .item .playlist-track {
+  width: 100%;
+}
+#playlist .item .playlist-track + i {
+  color: #188AE3;
+}
 
 #favorites {
   border-left: solid 3px #F04A3C !important;
@@ -481,7 +487,7 @@ form#search {
   text-align: center;
   font-size: xx-large;
   font-family: major_snafuregular, sans-serif;
-  padding-top: 50px;
+  padding-top: 80px;
   width: 100%;
   height: 100%;
   border-right: solid 3px white;

@@ -73,8 +73,7 @@ gulp.task('doc', function() {
     gulp.src('app/js/modules/*.js')
       .pipe(plugins.yuidoc.parser())
       .pipe(plugins.yuidoc.generator())
-      .pipe(gulp.dest('./doc'))
-      .pipe(plugins.open({uri: 'http://localhost:8000/doc/index.html'}));
+      .pipe(gulp.dest('./doc'));
 });
 
 // Validation du code HTML

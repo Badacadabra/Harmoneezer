@@ -15,14 +15,6 @@ module.exports = Player = (function() {
    * @default undefined
    */
   var player,
-  /**
-   * Attribut (privé) contenant une référence vers le SDK de Deezer
-   *
-   * @property Deezer
-   * @type {Object}
-   * @default DZ
-   */
-      Deezer = DZ, // https://cdns-files.dzcdn.net/js/min/dz.js
     /**
      * Constructeur (privé) chargé d'initialiser le player (cf. Singleton)
      *
@@ -31,12 +23,29 @@ module.exports = Player = (function() {
      */
       construct = function() {
         /**
+         * Attribut indiquant si les morceaux sont chargés dans le lecteur
+         *
+         * @property tracksLoaded
+         * @type {Boolean}
+         * @default false
+         */
+        this.tracksLoaded = false,
+        /**
+         * Attribut indiquant la position de la tête de lecture dans le morceau en cours
+         * La valeur se situe entre 0 et 100.
+         *
+         * @property trackPosition
+         * @type {Number}
+         * @default 0
+         */
+        this.trackPosition = 0,
+        /**
          * Méthode effectuant réellement l'initialisation
          *
-         * @method construct
+         * @method init
          */
         this.init = function() {
-          Deezer.init({
+          DZ.init({
               appId: '169711',
               channelUrl: 'http://localhost:8000/app',
               player: {
@@ -48,13 +57,14 @@ module.exports = Player = (function() {
           });
         },
         /**
-         * Chargement des morceaux dans le lecteur
+         * Chargement et lecture des morceaux
          *
          * @method playTracks
          * @param {Array} ids Tableau contenant les identifiants des morceaux
+         * @param {Number} index Indice du premier morceau
          */
-        this.playTracks = function(ids) {
-          Deezer.player.playTracks(ids);
+        this.playTracks = function(ids, index) {
+          DZ.player.playTracks(ids, index);
         },
         /**
          * Lecture
@@ -62,7 +72,7 @@ module.exports = Player = (function() {
          * @method play
          */
         this.play = function() {
-          Deezer.player.play();
+          DZ.player.play();
         },
         /**
          * Pause
@@ -70,7 +80,7 @@ module.exports = Player = (function() {
          * @method pause
          */
         this.pause = function() {
-          Deezer.player.pause();
+          DZ.player.pause();
         },
         /**
          * Suivant
@@ -78,7 +88,7 @@ module.exports = Player = (function() {
          * @method suivant
          */
         this.next = function() {
-          Deezer.player.next();
+          DZ.player.next();
         },
         /**
          * Précédent
@@ -86,7 +96,7 @@ module.exports = Player = (function() {
          * @method prev
          */
         this.prev = function() {
-          Deezer.player.prev();
+          DZ.player.prev();
         },
         /**
          * Aller à...
@@ -95,7 +105,7 @@ module.exports = Player = (function() {
          * @param {Number} pos Position de la tête de lecture (entre 0 et 100)
          */
         this.seek = function(pos) {
-          Deezer.player.seek(pos);
+          DZ.player.seek(pos);
         },
         /**
          * Activer/Désactiver le son
@@ -104,7 +114,7 @@ module.exports = Player = (function() {
          * @param {Boolean} isMute Vrai ou faux
          */
         this.mute = function(isMute) {
-          Deezer.player.setMute(isMute);
+          DZ.player.setMute(isMute);
         },
         /**
          * Activer/Désactiver la lecture aléatoire
@@ -113,7 +123,7 @@ module.exports = Player = (function() {
          * @param {Boolean} isRandom Vrai ou faux
          */
         this.random = function(isRandom) {
-          Deezer.player.setShuffle(isRandom);
+          DZ.player.setShuffle(isRandom);
         },
         /**
          * Activer/Désactiver la lecture répétée
@@ -122,7 +132,7 @@ module.exports = Player = (function() {
          * @param {Number} code 0 (no repeat), 1 (repeat all), ou 2 (repeat one)
          */
         this.repeat = function(code) {
-          Deezer.player.setRepeat(code);
+          DZ.player.setRepeat(code);
         }
       };
 

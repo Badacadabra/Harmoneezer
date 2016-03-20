@@ -502,6 +502,14 @@ form#search {
       margin-right: 20px !important;
     }
 
+    .playlist-track {
+      width: 100%;
+    }
+
+    .playlist-track + i {
+      color: $blue;
+    }
+
   }
 }
 
@@ -549,7 +557,7 @@ form#search {
   text-align: center;
   font-size: xx-large;
   font-family: major_snafuregular, sans-serif;
-  padding-top: 50px;
+  padding-top: 80px;
   width: 100%;
   height: 100%;
   border-right: solid 3px white;

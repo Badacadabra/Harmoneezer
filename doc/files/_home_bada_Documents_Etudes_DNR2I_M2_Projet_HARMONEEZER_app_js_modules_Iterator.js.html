@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Vocabulary</title>
+    <title>/home/bada/Documents/Etudes/DNR2I/M2/Projet/HARMONEEZER/app/js/modules/Iterator.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -152,50 +152,70 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Vocabulary Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: /home/bada/Documents/Etudes/DNR2I/M2/Projet/HARMONEEZER/app/js/modules/Iterator.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Classe mettant en œuvre le pattern Iterator.
+ * Cette classe fournit un moyen d&#x27;itérer plus simplement sur les collections.
+ *
+ * @module Iterator
+ * @class Iterator
+ * @constructor
+ * @param {Array} items Collection d&#x27;objets à parcourir
+ */
+module.exports = Iterator = function(items) {
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_Vocabulary.js.html#l1"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;Vocabulary.js:1</code></a>
-        </div>
-    
+  if (!(this instanceof Iterator)) {
+    throw new Error(&quot;Erreur ! La classe Iterator doit être instanciée avec l&#x27;opérateur « new »&quot;);
+  }
 
-    
-</div>
+  /**
+   * Index de base à partir duquel commence une itération.
+   *
+   * @property index
+   * @type {Number}
+   * @default 0
+   */
+  this._index = 0;
+  /**
+   * Collection d&#x27;objets à parcourir.
+   *
+   * @property items
+   * @type {Array}
+   * @default []
+   */
+  this._items = items;
 
+};
 
+/**
+ * Prototype de l&#x27;Iterator
+ */
+Iterator.prototype = {
+  /**
+   * Méthode vérifiant s&#x27;il y a un élément suivant dans la collection.
+   *
+   * @method hasNext
+   * @return {Boolean} Vrai s&#x27;il y a un élément suivant
+   */
+  hasNext: function() {
+    return this._index &lt; this._items.length;
+  },
+  /**
+   * Méthode renvoyant l&#x27;élément courant lors de l&#x27;itération.
+   * L&#x27;index est par ailleurs incrémenté pour continuer le parcours.
+   *
+   * @method next
+   * @return {Object} L&#x27;objet courant de la collection
+   */
+  next: function() {
+    return this._items[this._index++];
+  }
+};
 
-<div class="box intro">
-    <p>Objets utiles pour le traitement des réponses venant d&#39;Echo Nest</p>
-
-</div>
-
-
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-            <p>This module provides the following classes:</p>
-
-            <ul class="module-classes">
-            
-                <li class="module-class">
-                    <a href="../classes/Vocabulary.html">
-                        Vocabulary
-                    </a>
-                </li>
-            
-            </ul>
-        
-    </div>
-
-    <div class="yui3-u-1-2">
-        
-    </div>
+    </pre>
 </div>
 
                     </div>

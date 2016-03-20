@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>atmospheres</title>
+    <title>User</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -43,8 +43,6 @@
             
                 <li><a href="../classes/AscendingTempo.html">AscendingTempo</a></li>
             
-                <li><a href="../classes/atmospheres.html">atmospheres</a></li>
-            
                 <li><a href="../classes/DeezerAPIRequest.html">DeezerAPIRequest</a></li>
             
                 <li><a href="../classes/Default.html">Default</a></li>
@@ -53,9 +51,23 @@
             
                 <li><a href="../classes/EchoNestAPIRequest.html">EchoNestAPIRequest</a></li>
             
-                <li><a href="../classes/favorites.html">favorites</a></li>
-            
                 <li><a href="../classes/GUI.html">GUI</a></li>
+            
+                <li><a href="../classes/GUI.atmospheres.html">GUI.atmospheres</a></li>
+            
+                <li><a href="../classes/GUI.favorites.html">GUI.favorites</a></li>
+            
+                <li><a href="../classes/GUI.loading.html">GUI.loading</a></li>
+            
+                <li><a href="../classes/GUI.menu.html">GUI.menu</a></li>
+            
+                <li><a href="../classes/GUI.misc.html">GUI.misc</a></li>
+            
+                <li><a href="../classes/GUI.playlist.html">GUI.playlist</a></li>
+            
+                <li><a href="../classes/GUI.scroll.html">GUI.scroll</a></li>
+            
+                <li><a href="../classes/GUI.user.html">GUI.user</a></li>
             
                 <li><a href="../classes/Harmony.html">Harmony</a></li>
             
@@ -63,15 +75,11 @@
             
                 <li><a href="../classes/KeyFirst.html">KeyFirst</a></li>
             
-                <li><a href="../classes/menu.html">menu</a></li>
-            
-                <li><a href="../classes/misc.html">misc</a></li>
-            
                 <li><a href="../classes/None.html">None</a></li>
             
                 <li><a href="../classes/Player.html">Player</a></li>
             
-                <li><a href="../classes/playlist.html">playlist</a></li>
+                <li><a href="../classes/Playlist.html">Playlist</a></li>
             
                 <li><a href="../classes/Request.html">Request</a></li>
             
@@ -83,7 +91,7 @@
             
                 <li><a href="../classes/Track.html">Track</a></li>
             
-                <li><a href="../classes/user.html">user</a></li>
+                <li><a href="../classes/User.html">User</a></li>
             
                 <li><a href="../classes/Vocabulary.html">Vocabulary</a></li>
             
@@ -104,6 +112,8 @@
                 <li><a href="../modules/Playlist.html">Playlist</a></li>
             
                 <li><a href="../modules/Sorting.html">Sorting</a></li>
+            
+                <li><a href="../modules/User.html">User</a></li>
             
                 <li><a href="../modules/Vocabulary.html">Vocabulary</a></li>
             
@@ -142,7 +152,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>atmospheres Class</h1>
+                        <h1>User Class</h1>
 <div class="box meta">
     
 
@@ -150,13 +160,13 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l717"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:717</code></a>
+            Defined in: <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_User.js.html#l1"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;User.js:1</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/GUI.html">GUI</a>
+            Module: <a href="../modules/User.html">User</a>
         
     
 
@@ -166,7 +176,7 @@
 
 
 <div class="box intro">
-    <p>Classe interne gérant les éléments relatifs aux ambiances</p>
+    <p>Module fournissant une classe pour la gestion simplifiée des utilisateurs</p>
 
 </div>
 
@@ -179,6 +189,8 @@
         
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
+        
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
         
         
         
@@ -195,63 +207,80 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_apply">apply</a>
+                                <a href="#method_getId">getId</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_classical">classical</a>
+                                <a href="#method_getInscriptionDate">getInscriptionDate</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_electro">electro</a>
+                                <a href="#method_getLink">getLink</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_folk">folk</a>
+                                <a href="#method_getName">getName</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_hiphop">hiphop</a>
+                                <a href="#method_getPicture">getPicture</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_jazz">jazz</a>
+                    </ul>
+                </div>
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property">
+                                <a href="#property_id">id</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_metal">metal</a>
+                            <li class="index-item property">
+                                <a href="#property_inscriptionDate">inscriptionDate</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_neutral">neutral</a>
+                            <li class="index-item property">
+                                <a href="#property_link">link</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_rock">rock</a>
+                            <li class="index-item property">
+                                <a href="#property_name">name</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_picture">picture</a>
 
                                 
                                 
@@ -264,8 +293,6 @@
             
 
             
-
-            
         </div>
 
         
@@ -273,24 +300,91 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_apply" class="method item">
-    <h3 class="name"><code>apply</code></h3>
+                    <div id="method_getId" class="method item">
+    <h3 class="name"><code>getId</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
             
-                <li class="arg">
-                    
-                        <code>atmo</code>
-                    
-                </li>
+                
+                <p>
+                
+                Defined in
+                
             
-            </ul><span class="paren">)</span>
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_User.js.html#l66"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;User.js:66</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Accesseur pour l&#39;identifiant de l&#39;utilisateur</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                    <p>L&#39;id de l&#39;utilisateur</p>
+
+                
+            </div>
         </div>
     
 
     
+</div>
+
+                
+                    <div id="method_getInscriptionDate" class="method item">
+    <h3 class="name"><code>getInscriptionDate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
 
     
 
@@ -315,7 +409,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l723"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:723</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_User.js.html#l80"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;User.js:80</code></a>
         
         </p>
 
@@ -326,49 +420,43 @@
     </div>
 
     <div class="description">
-        <p>Changement d&#39;ambiance</p>
+        <p>Accesseur pour la date d&#39;inscription de l&#39;utilisateur</p>
 
     </div>
 
     
-        <div class="params">
-            <h4>Parameters:</h4>
 
-            <ul class="params-list">
-            
-                <li class="param">
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
                     
-                        <code class="param-name">atmo</code>
-                        <span class="type">String</span>
+                        <span class="type">String</span>:
                     
+                    <p>La date d&#39;inscription de l&#39;utilisateur</p>
 
-                    
-
-                    <div class="param-description">
-                        <p>Nom de l&#39;ambiance</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
+                
+            </div>
         </div>
     
 
     
-
-    
 </div>
 
                 
-                    <div id="method_classical" class="method item">
-    <h3 class="name"><code>classical</code></h3>
+                    <div id="method_getLink" class="method item">
+    <h3 class="name"><code>getLink</code></h3>
 
     
         <span class="paren">()</span>
     
 
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
     
 
     
@@ -394,7 +482,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l778"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:778</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_User.js.html#l93"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;User.js:93</code></a>
         
         </p>
 
@@ -405,25 +493,43 @@
     </div>
 
     <div class="description">
-        <p>Ambiance Classique</p>
+        <p>Accesseur pour le lien vers le profil de l&#39;utilisateur</p>
 
     </div>
 
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>Le lien vers le profil de l&#39;utilisateur</p>
+
+                
+            </div>
+        </div>
+    
 
     
 </div>
 
                 
-                    <div id="method_electro" class="method item">
-    <h3 class="name"><code>electro</code></h3>
+                    <div id="method_getName" class="method item">
+    <h3 class="name"><code>getName</code></h3>
 
     
         <span class="paren">()</span>
     
 
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
     
 
     
@@ -449,7 +555,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l754"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:754</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_User.js.html#l73"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;User.js:73</code></a>
         
         </p>
 
@@ -460,25 +566,43 @@
     </div>
 
     <div class="description">
-        <p>Ambiance Electro</p>
+        <p>Accesseur pour le pseudo de l&#39;utilisateur</p>
 
     </div>
 
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>Le pseudo de l&#39;utilisateur</p>
+
+                
+            </div>
+        </div>
+    
 
     
 </div>
 
                 
-                    <div id="method_folk" class="method item">
-    <h3 class="name"><code>folk</code></h3>
+                    <div id="method_getPicture" class="method item">
+    <h3 class="name"><code>getPicture</code></h3>
 
     
         <span class="paren">()</span>
     
 
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
     
 
     
@@ -504,7 +628,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l770"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:770</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_User.js.html#l100"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;User.js:100</code></a>
         
         </p>
 
@@ -515,287 +639,26 @@
     </div>
 
     <div class="description">
-        <p>Ambiance Folk</p>
+        <p>Accesseur pour l&#39;avatar de l&#39;utilisateur</p>
 
     </div>
 
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
 
-    
-</div>
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>L&#39;avatar de l&#39;utilisateur</p>
 
                 
-                    <div id="method_hiphop" class="method item">
-    <h3 class="name"><code>hiphop</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l762"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:762</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Ambiance Hip-Hop</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_jazz" class="method item">
-    <h3 class="name"><code>jazz</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l786"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:786</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Ambiance Jazz</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_metal" class="method item">
-    <h3 class="name"><code>metal</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l794"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:794</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Ambiance Metal</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_neutral" class="method item">
-    <h3 class="name"><code>neutral</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l738"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:738</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Ambiance neutre</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_rock" class="method item">
-    <h3 class="name"><code>rock</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l746"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:746</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Ambiance Rock</p>
-
-    </div>
-
-    
-
+            </div>
+        </div>
     
 
     
@@ -805,6 +668,247 @@
             </div>
         
 
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_id" class="property item">
+    <h3 class="name"><code>id</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_User.js.html#l19"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;User.js:19</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Identifiant</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_inscriptionDate" class="property item">
+    <h3 class="name"><code>inscriptionDate</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_User.js.html#l35"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;User.js:35</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Date d&#39;inscription</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> &quot;&quot;</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_link" class="property item">
+    <h3 class="name"><code>link</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_User.js.html#l43"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;User.js:43</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Lien vers le profil</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> &quot;&quot;</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_name" class="property item">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_User.js.html#l27"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;User.js:27</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Pseudo</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> &quot;&quot;</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_picture" class="property item">
+    <h3 class="name"><code>picture</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_User.js.html#l51"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;User.js:51</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Lien vers l&#39;avatar</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> &quot;&quot;</p>
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
         
 
         

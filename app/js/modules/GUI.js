@@ -1,5 +1,6 @@
 var Player = require('./Player.js'),
-    Playlist = require('./Playlist.js');
+    Playlist = require('./Playlist.js'),
+    User = require('./User.js');
 
 /**
  * Module gérant l'interface graphique
@@ -65,23 +66,6 @@ module.exports = GUI = {
    */
   selectedSorting: "default",
   /**
-   * Attribut indiquant si les morceaux sont chargés dans le lecteur
-   *
-   * @property tracksLoaded
-   * @type {Boolean}
-   * @default false
-   */
-  tracksLoaded: false,
-  /**
-   * Attribut indiquant la position de la tête de lecture dans le morceau en cours
-   * La valeur se situe entre 0 et 100.
-   *
-   * @property trackPosition
-   * @type {Number}
-   * @default 0
-   */
-  trackPosition: 0,
-  /**
    * Lecteur manipulé par l'interface graphique.
    * C'est à la fois un Singleton et un Adapter.
    *
@@ -91,36 +75,21 @@ module.exports = GUI = {
    */
   player: null,
   /**
+   * Utilisateur courant
+   *
+   * @property user
+   * @type {Object}
+   * @default null
+   */
+  user: null,
+  /**
    * Méthode chargée d'initialiser l'interface graphique.
    * Cette méthode s'inspire du pattern Template dans sa conception.
    *
    * @method init
    */
   init: function() {
-    /* $( "#main" ).vegas({
-        transition: 'fade',
-        slide: 0,
-        slides: [
-            { src: "./images/background/neutral.jpg" },
-            { src: "./images/background/rock.jpg" },
-            { src: "./images/background/electro.jpg" },
-            { src: "./images/background/hiphop.jpg" },
-            { src: "./images/background/folk.jpg" },
-            { src: "./images/background/classical.jpg" },
-            { src: "./images/background/jazz.jpg" },
-            { src: "./images/background/metal.jpg" }
-        ],
-        animation: 'kenburns',
-        walk: function (index, slideSettings) {
-          // console.log("Slide index " + index + " image " + slideSettings.src);
-          if (GUI.soundAllowed && index > 0) {
-            var audio = new Audio( "./sounds/" + index + ".ogg");
-            audio.play();
-          }
-        }
-    });
-    $( "#main" ).vegas('pause'); */
-
+    GUI.atmospheres.backgrounds(); // Position idéale pour éviter les bugs !?
     GUI.css();
     GUI.carousel();
     GUI.drag();
@@ -131,6 +100,7 @@ module.exports = GUI = {
     GUI.playlist.retrieve();
     GUI.player = Player.getPlayer();
     GUI.player.init();
+    GUI.account.status();
   },
   /**
    * Hacks CSS
@@ -184,12 +154,15 @@ module.exports = GUI = {
    */
   tooltips: function() {
     if (GUI.tooltipAllowed) {
-      $( "[data-title != '']" ).popup(); // Semantic UI
-      $( "[title != '']" ).qtip({ // qTip²
+      $( "[data-title != ''], [data-content != '']" ).popup(); // Semantic UI
+      /* $( "area" ).on( "mouseover", function() {
+        $( ".popup" ).eq(0).addClass( "top left visible" );
+      }); */
+      /* $( "area" ).qtip({ // qTip²
         style: {
             classes: 'qtip-dark'
         }
-      });
+      }); */
     }
   },
   /**
@@ -228,13 +201,16 @@ module.exports = GUI = {
                             ["#repeat-one-btn", "click", GUI.playlist.repeatAll, "async"],
                             ["#mute-btn", "click", GUI.playlist.unmute, "async"],
                             ["#unmute-btn", "click", GUI.playlist.mute, "async"],
-                            ["#save-btn", "click", GUI.playlist.save],
+                            ["#save-browser-btn", "click", GUI.playlist.saveInBrowser],
+                            ["#save-deezer-btn", "click", GUI.playlist.saveOnDeezer],
                             ["#export-btn", "click", GUI.playlist.export],
                             ["#delete-btn", "click", GUI.playlist.delete],
                             [".previous-btn", "click", GUI.playlist.previous],
                             [".back-btn", "click", GUI.playlist.back],
-                            [".play-btn", "click", GUI.playlist.play],
+                            [".play-btn", "click", GUI.playlist.play, "async"],
+                            [".playlist-item", "click", GUI.playlist.playFrom, "async"],
                             [".pause-btn", "click", GUI.playlist.pause],
+                            [".play-pause-btn", "click", GUI.playlist.playPause],
                             [".forth-btn", "click", GUI.playlist.forth],
                             [".next-btn", "click", GUI.playlist.next],
                             [".harmonic-track", "click", GUI.playlist.addTrack, "async"]
@@ -269,10 +245,10 @@ module.exports = GUI = {
                               ["#metal-atmo", "click", GUI.atmospheres.metal]
                             ];
 
-    // Écouteurs d'événements relatifs à l'utilisateur
+    // Écouteurs d'événements relatifs au compte utilisateur
     var userEvents = [
-                        ["#login", "click", GUI.user.login],
-                        ["#logout", "click", GUI.user.logout],
+                        ["#login", "click", GUI.account.login],
+                        ["#logout", "click", GUI.account.logout],
                       ];
 
     // Écouteurs d'événements divers
@@ -414,6 +390,9 @@ module.exports = GUI = {
         case "error":
           return alertify.error(message, timer);
           break;
+        case "warning":
+          return alertify.warning(message, timer);
+          break;
         case "message":
           return alertify.message(message, timer);
           break;
@@ -442,7 +421,7 @@ module.exports = GUI = {
    * Mini-classe de gestion des scrollbars.
    * Les scrollbars dépendent du plugin mCustomScrollbar.
    *
-   * @class scrollbar
+   * @class GUI.scroll
    */
   scroll: {
     /**
@@ -476,7 +455,7 @@ module.exports = GUI = {
   /**
    * Mini-classe interne gérant le chargement
    *
-   * @class loading
+   * @class GUI.loading
    */
   loading: {
     /**
@@ -499,7 +478,7 @@ module.exports = GUI = {
   /**
    * Classe interne gérant les éléments relatifs au menu
    *
-   * @class menu
+   * @class GUI.menu
    */
   menu: {
     /**
@@ -587,7 +566,7 @@ module.exports = GUI = {
   /**
    * Classe interne gérant les éléments relatifs à la playlist
    *
-   * @class playlist
+   * @class GUI.playlist
    */
   playlist: {
     /**
@@ -596,9 +575,15 @@ module.exports = GUI = {
      * @method retrieve
      */
     retrieve: function() {
-      var savedPlaylist = localStorage.getItem("playlist");
+      var savedPlaylist = localStorage.getItem("playlist"),
+          ids = [];
+
       if (savedPlaylist !== null) {
         Playlist.selectedTracks = JSON.parse(savedPlaylist);
+        for (var i = 0, len = Playlist.selectedTracks.length; i < len; i++) {
+          ids.push(Playlist.selectedTracks[i]._id);
+        }
+        Playlist.tracksIds = ids;
       }
     },
     /**
@@ -608,7 +593,7 @@ module.exports = GUI = {
      */
     notRandom: function() {
       GUI.player.random(false);
-      $( "#random-btn .icon" ).switchClass( "random", "remove" );
+      $( "#random-btn .icon" ).switchClass( "random", "minus" );
       $( "#random-btn" ).attr( "id", "not-random-btn" );
       GUI.alert("error", "Lecture aléatoire désactivée", 5);
     },
@@ -619,7 +604,7 @@ module.exports = GUI = {
      */
     random: function() {
       GUI.player.random(true);
-      $( "#not-random-btn .icon" ).switchClass( "remove", "random" );
+      $( "#not-random-btn .icon" ).switchClass( "minus", "random" );
       $( "#not-random-btn" ).attr( "id", "random-btn" );
       GUI.alert("success", "Lecture aléatoire activée", 5);
     },
@@ -630,8 +615,8 @@ module.exports = GUI = {
      */
     noRepeat: function() {
       GUI.player.repeat(0);
-      $( "#repeat-all-btn .icon" ).switchClass( "refresh", "remove" );
-      $( "#repeat-all-btn" ).attr( "id", "no-repeatbtn" );
+      $( "#repeat-all-btn .icon" ).switchClass( "refresh", "minus" );
+      $( "#repeat-all-btn" ).attr( "id", "no-repeat-btn" );
       GUI.alert("message", "Pas de répétition", 5);
     },
     /**
@@ -641,7 +626,7 @@ module.exports = GUI = {
      */
     repeatOne: function() {
       GUI.player.repeat(2);
-      $( "#no-repeat-btn .icon" ).switchClass( "remove", "repeat" );
+      $( "#no-repeat-btn .icon" ).switchClass( "minus", "repeat" );
       $( "#no-repeat-btn" ).attr( "id", "repeat-one-btn" );
       GUI.alert("message", "Répétition du morceau en cours", 5);
     },
@@ -681,12 +666,29 @@ module.exports = GUI = {
     /**
      * Sauvegarde de la playlist courante dans le local storage
      *
-     * @method save
+     * @method saveInBrowser
      */
-    save: function() {
+    saveInBrowser: function() {
       var playlist = JSON.stringify(Playlist.selectedTracks);
       localStorage.setItem("playlist", playlist);
       GUI.alert("success", "Playlist sauvegardée !", 5);
+    },
+    /**
+     * Sauvegarde de la playlist courante sur Deezer
+     *
+     * @method saveOnDeezer
+     */
+    saveOnDeezer: function() {
+      if (user !== null) {
+        DZ.api("user/me/playlists", "POST", {title : "HARMONEEZER"}, function(response) {
+           Playlist.deezerId = response.id;
+           DZ.api("playlist/" + response.id + "/tracks", "POST", {songs: Playlist.tracksIds.join()}, function(response) {
+              GUI.alert("success", "Votre playlist est sur Deezer !", 5);
+           });
+        });
+      } else {
+        GUI.alert("error", "Vous n'êtes pas connecté(e) !", 5);
+      }
     },
     /**
      * Export CSV de la playlist courante
@@ -703,9 +705,33 @@ module.exports = GUI = {
      * @method delete
      */
     delete: function() {
-      Playlist.selectedTracks = [];
-      localStorage.removeItem("playlist");
-      GUI.alert("success", "Playlist effacée !", 5);
+      if (Playlist.selectedTracks.length > 0) {
+        var message = "Voulez-vous vraiment supprimer votre playlist ?<br>";
+            message += "Celle-ci sera supprimée définitivement du navigateur et sur Deezer.";
+        alertify.defaults.glossary.title = "Attention !";
+        // Si l'utilisateur est d'accord :
+        alertify.confirm(message, function() {
+          // - on supprime la playlist de la session courante
+          Playlist.reset();
+          // - on supprime la playlist du local storage
+          if (localStorage.getItem("playlist") !== null) {
+            localStorage.removeItem("playlist");
+            GUI.alert("success", "Playlist effacée du navigateur !", 5);
+          } else {
+            GUI.alert("warning", "Playlist non sauvegardée localement", 5);
+          }
+          // - on supprime la playlist sur Deezer
+          if (Playlist.deezerId != -1) {
+            DZ.api("playlist/" + Playlist.deezerId, "DELETE", function(response) {
+              GUI.alert("success", "Playlist effacée sur Deezer !", 5);
+            });
+          } else {
+            GUI.alert("warning", "Playlist non sauvegardée sur Deezer", 5);
+          }
+        }).set("labels", { ok:"Oui", cancel:"Non" });
+      } else {
+        GUI.alert("error", "Votre playlist est vide !", 5);
+      }
     },
     /**
      * Passage au morceau précédent
@@ -721,23 +747,32 @@ module.exports = GUI = {
      * @method back
      */
     back: function() {
-      if (GUI.trackPosition > 10) {
-        GUI.trackPosition -= 10;
+      if (GUI.player.trackPosition > 10) {
+        GUI.player.trackPosition -= 10;
       }
-      GUI.player.seek(GUI.trackPosition);
+      GUI.player.seek(GUI.player.trackPosition);
     },
     /**
-     * Lire un morceau
+     * Lire la playlist depuis le début
      *
      * @method play
      */
     play: function() {
-      if (GUI.tracksLoaded) {
+      if (GUI.player.tracksLoaded) {
         GUI.player.play();
       } else {
         GUI.player.playTracks(Playlist.tracksIds);
-        GUI.tracksLoaded = true;
+        GUI.player.tracksLoaded = true;
       }
+    },
+    /**
+     * Lire la playlist à partir d'un morceau
+     *
+     * @method playFrom
+     */
+    playFrom: function() {
+      var index = parseInt($( this ).find( "#playlist-track-index" ).val());
+      GUI.player.playTracks(Playlist.tracksIds, index);
     },
     /**
      * Mettre en pause un morceau
@@ -748,15 +783,23 @@ module.exports = GUI = {
       GUI.player.pause();
     },
     /**
+     * Lecture ou pause
+     *
+     * @method playPause
+     */
+    playPause: function() {
+      DZ.player.isPlaying ? GUI.playlist.pause() : GUI.playlist.play();
+    },
+    /**
      * Aller en avant dans le morceau
      *
      * @method back
      */
     forth: function() {
-      if (GUI.trackPosition < 90) {
-        GUI.trackPosition += 10;
+      if (GUI.player.trackPosition < 90) {
+        GUI.player.trackPosition += 10;
       }
-      GUI.player.seek(GUI.trackPosition);
+      GUI.player.seek(GUI.player.trackPosition);
     },
     /**
      * Passage au morceau suivant
@@ -773,15 +816,15 @@ module.exports = GUI = {
      */
     addTrack: function() {
       var track = JSON.parse(decodeURIComponent($( this ).children().eq(1).val()));
-      Playlist.addTrackToPlaylist(track);
-      GUI.tracksLoaded = false;
+      Playlist.addTrack(track);
+      GUI.player.tracksLoaded = false;
       GUI.alert("success", "Morceau ajouté à votre playlist", 5);
     }
   },
   /**
    * Classe interne gérant les éléments relatifs aux favoris
    *
-   * @class favorites
+   * @class GUI.favorites
    */
   favorites: {
     /**
@@ -936,19 +979,44 @@ module.exports = GUI = {
   /**
    * Classe interne gérant les éléments relatifs aux ambiances
    *
-   * @class atmospheres
+   * @class GUI.atmospheres
    */
   atmospheres: {
+    /**
+     * Initialisation du plugin Vegas pour les backgrounds animés
+     *
+     * @method vegas
+     */
+    backgrounds: function() {
+      $( "#main" ).vegas({
+          transition: 'fade',
+          slide: 0,
+          slides: [
+              { src: "./images/background/neutral.jpg" },
+              { src: "./images/background/rock.jpg" },
+              { src: "./images/background/electro.jpg" },
+              { src: "./images/background/hiphop.jpg" },
+              { src: "./images/background/folk.jpg" },
+              { src: "./images/background/classical.jpg" },
+              { src: "./images/background/jazz.jpg" },
+              { src: "./images/background/metal.jpg" }
+          ],
+          animation: 'kenburns'
+      });
+      $( "#main" ).vegas('pause');
+    },
     /**
      * Changement d'ambiance
      *
      * @method apply
+     * @param {Number} index Indice de l'ambiance dans Vegas
      * @param {String} atmo Nom de l'ambiance
      */
-    apply: function(atmo) {
+    apply: function(index, atmo) {
       $( "#" + atmo + "-atmo" ).addClass( "green-item" );
       $( "#" + atmo + "-atmo" ).siblings().removeClass( "green-item" );
-      $( ".pusher" ).attr( "style", "background:url('images/background/" + atmo + ".jpg') no-repeat center center fixed !important" );
+      $( "#main" ).vegas("jump", index);
+      // $( ".pusher" ).attr( "style", "background:url('images/background/" + atmo + ".jpg') no-repeat center center fixed !important" );
       if (GUI.soundAllowed && atmo != "neutral") {
         var audio = new Audio( "./sounds/" + atmo + ".ogg");
         audio.play();
@@ -960,7 +1028,7 @@ module.exports = GUI = {
      * @method neutral
      */
     neutral: function() {
-      GUI.atmospheres.apply("neutral");
+      GUI.atmospheres.apply(0, "neutral");
     },
     /**
      * Ambiance Rock
@@ -968,7 +1036,7 @@ module.exports = GUI = {
      * @method rock
      */
     rock: function() {
-      GUI.atmospheres.apply("rock");
+      GUI.atmospheres.apply(1, "rock");
     },
     /**
      * Ambiance Electro
@@ -976,7 +1044,7 @@ module.exports = GUI = {
      * @method electro
      */
     electro: function() {
-      GUI.atmospheres.apply("electro");
+      GUI.atmospheres.apply(2, "electro");
     },
     /**
      * Ambiance Hip-Hop
@@ -984,7 +1052,7 @@ module.exports = GUI = {
      * @method hiphop
      */
     hiphop: function() {
-      GUI.atmospheres.apply("hiphop");
+      GUI.atmospheres.apply(3, "hiphop");
     },
     /**
      * Ambiance Folk
@@ -992,7 +1060,7 @@ module.exports = GUI = {
      * @method folk
      */
     folk: function() {
-      GUI.atmospheres.apply("folk");
+      GUI.atmospheres.apply(4, "folk");
     },
     /**
      * Ambiance Classique
@@ -1000,7 +1068,7 @@ module.exports = GUI = {
      * @method classical
      */
     classical: function() {
-      GUI.atmospheres.apply("classical");
+      GUI.atmospheres.apply(5, "classical");
     },
     /**
      * Ambiance Jazz
@@ -1008,7 +1076,7 @@ module.exports = GUI = {
      * @method jazz
      */
     jazz: function() {
-      GUI.atmospheres.apply("jazz");
+      GUI.atmospheres.apply(6, "jazz");
     },
     /**
      * Ambiance Metal
@@ -1016,45 +1084,44 @@ module.exports = GUI = {
      * @method metal
      */
     metal: function() {
-      GUI.atmospheres.apply("metal");
+      GUI.atmospheres.apply(7, "metal");
     }
   },
   /**
-   * Classe interne gérant les éléments relatifs à l'utilisateur
+   * Classe interne gérant les éléments relatifs au compte utilisateur
    *
-   * @class user
+   * @class GUI.account
    */
-  user: {
+  account: {
+    /**
+     * Vérification visant à connaître le statut de connexion
+     *
+     * @method status
+     */
+    status: function() {
+      DZ.getLoginStatus(function(response) {
+      	if (response.authResponse) {
+          GUI.account.info();
+      	}
+      });
+    },
     /**
      * Gestion de la connexion d'un utilisateur
      *
      * @method login
      */
     login: function() {
-      DZ.getLoginStatus(function(response) {
-        if (response.status != "connected") { // Si l'utilisateur n'est pas connecté
-          DZ.login(function(response) {
-            if (response.status == "connected") { // Si tout se passe bien
-              DZ.api("/user/me", function(response) {
-                $( "#user-img" ).attr({ src:response.picture_small, alt:response.name });
-                $( "#user-name" ).text( response.name ).attr( "href", response.link );
-                $( "#user-email" ).text( response.email );
-                var date = new Date(response.inscription_date),
-                    d = date.getDate(),
-                    m = date.getMonth() + 1,
-                    y = date.getFullYear();
-                $( "#user-date" ).text( "Inscrit le " + d + "/" + m + "/" + y );
-                $( "#user-not-connected" ).hide();
-                $( "#user-connected" ).show();
-              });
-              GUI.alert("success", "Connexion OK !", 3);
-              GUI.menu.toggleSidebar( "#user", "maroon" );
-            } else { // Si la connexion échoue
-              GUI.alert("error", "Connexion refusée !", 5);
-            }
-          }, { perms: "basic_access,email" });
-        }
-      });
+      if (GUI.user === null) {
+        DZ.login(function(response) {
+          if (response.authResponse && response.status == "connected") { // Si tout se passe bien
+            GUI.account.info();
+            GUI.alert("success", "Connexion OK !", 3);
+            GUI.menu.toggleSidebar( "#user", "maroon" );
+          } else { // Si la connexion échoue
+            GUI.alert("error", "Connexion refusée !", 5);
+          }
+        }, { perms: "basic_access,manage_library,delete_library" });
+      }
     },
     /**
      * Gestion de la déconnexion d'un utilisateur
@@ -1067,12 +1134,34 @@ module.exports = GUI = {
       $( "#user-not-connected" ).show();
       GUI.alert("success", "Déconnexion OK !", 3);
       $( "#user" ).sidebar( "toggle" );
+    },
+    /**
+     * Récupération des informations d'un utilisateur
+     *
+     * @method info
+     */
+    info: function() {
+      DZ.api("/user/me", function(response) {
+        var user = new User(
+                              response.id,
+                              response.name,
+                              response.inscription_date,
+                              response.link,
+                              response.picture_small
+                            );
+        GUI.user = user;
+        $( "#user-img" ).attr({ src:user.getPicture(), alt:user.getName() });
+        $( "#user-name" ).text( user.getName() ).attr( "href", user.getLink() );
+        $( "#user-date" ).text( "Inscrit le " + user.getInscriptionDate() );
+        $( "#user-not-connected" ).hide();
+        $( "#user-connected" ).show();
+      });
     }
   },
   /**
    * Classe interne gérant divers événements
    *
-   * @class misc
+   * @class GUI.misc
    */
   misc: {
     /**

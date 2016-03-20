@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>menu</title>
+    <title>GUI.atmospheres</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -43,8 +43,6 @@
             
                 <li><a href="../classes/AscendingTempo.html">AscendingTempo</a></li>
             
-                <li><a href="../classes/atmospheres.html">atmospheres</a></li>
-            
                 <li><a href="../classes/DeezerAPIRequest.html">DeezerAPIRequest</a></li>
             
                 <li><a href="../classes/Default.html">Default</a></li>
@@ -53,9 +51,23 @@
             
                 <li><a href="../classes/EchoNestAPIRequest.html">EchoNestAPIRequest</a></li>
             
-                <li><a href="../classes/favorites.html">favorites</a></li>
-            
                 <li><a href="../classes/GUI.html">GUI</a></li>
+            
+                <li><a href="../classes/GUI.atmospheres.html">GUI.atmospheres</a></li>
+            
+                <li><a href="../classes/GUI.favorites.html">GUI.favorites</a></li>
+            
+                <li><a href="../classes/GUI.loading.html">GUI.loading</a></li>
+            
+                <li><a href="../classes/GUI.menu.html">GUI.menu</a></li>
+            
+                <li><a href="../classes/GUI.misc.html">GUI.misc</a></li>
+            
+                <li><a href="../classes/GUI.playlist.html">GUI.playlist</a></li>
+            
+                <li><a href="../classes/GUI.scroll.html">GUI.scroll</a></li>
+            
+                <li><a href="../classes/GUI.user.html">GUI.user</a></li>
             
                 <li><a href="../classes/Harmony.html">Harmony</a></li>
             
@@ -63,15 +75,11 @@
             
                 <li><a href="../classes/KeyFirst.html">KeyFirst</a></li>
             
-                <li><a href="../classes/menu.html">menu</a></li>
-            
-                <li><a href="../classes/misc.html">misc</a></li>
-            
                 <li><a href="../classes/None.html">None</a></li>
             
                 <li><a href="../classes/Player.html">Player</a></li>
             
-                <li><a href="../classes/playlist.html">playlist</a></li>
+                <li><a href="../classes/Playlist.html">Playlist</a></li>
             
                 <li><a href="../classes/Request.html">Request</a></li>
             
@@ -83,7 +91,7 @@
             
                 <li><a href="../classes/Track.html">Track</a></li>
             
-                <li><a href="../classes/user.html">user</a></li>
+                <li><a href="../classes/User.html">User</a></li>
             
                 <li><a href="../classes/Vocabulary.html">Vocabulary</a></li>
             
@@ -104,6 +112,8 @@
                 <li><a href="../modules/Playlist.html">Playlist</a></li>
             
                 <li><a href="../modules/Sorting.html">Sorting</a></li>
+            
+                <li><a href="../modules/User.html">User</a></li>
             
                 <li><a href="../modules/Vocabulary.html">Vocabulary</a></li>
             
@@ -142,7 +152,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>menu Class</h1>
+                        <h1>GUI.atmospheres Class</h1>
 <div class="box meta">
     
 
@@ -150,7 +160,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l273"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:273</code></a>
+            Defined in: <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l964"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:964</code></a>
         </div>
     
 
@@ -166,7 +176,7 @@
 
 
 <div class="box intro">
-    <p>Classe interne gérant les éléments relatifs au menu</p>
+    <p>Classe interne gérant les éléments relatifs aux ambiances</p>
 
 </div>
 
@@ -195,56 +205,70 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_toggle">toggle</a>
+                                <a href="#method_apply">apply</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_toggleAll">toggleAll</a>
+                                <a href="#method_classical">classical</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_toggleAtmospheres">toggleAtmospheres</a>
+                                <a href="#method_electro">electro</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_toggleFavorites">toggleFavorites</a>
+                                <a href="#method_folk">folk</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_toggleHarmonicTracks">toggleHarmonicTracks</a>
+                                <a href="#method_hiphop">hiphop</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_togglePlaylist">togglePlaylist</a>
+                                <a href="#method_jazz">jazz</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_toggleSidebar">toggleSidebar</a>
+                                <a href="#method_metal">metal</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_toggleUser">toggleUser</a>
+                                <a href="#method_neutral">neutral</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_rock">rock</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_vegas">vegas</a>
 
                                 
                                 
@@ -266,8 +290,119 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_toggle" class="method item">
-    <h3 class="name"><code>toggle</code></h3>
+                    <div id="method_apply" class="method item">
+    <h3 class="name"><code>apply</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>index</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>atmo</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l993"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:993</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Changement d&#39;ambiance</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">index</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Indice de l&#39;ambiance dans Vegas</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">atmo</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Nom de l&#39;ambiance</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_classical" class="method item">
+    <h3 class="name"><code>classical</code></h3>
 
     
         <span class="paren">()</span>
@@ -298,7 +433,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l279"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:279</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l1050"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:1050</code></a>
         
         </p>
 
@@ -309,7 +444,7 @@
     </div>
 
     <div class="description">
-        <p>Afficher/Cacher le menu (sidebar)</p>
+        <p>Ambiance Classique</p>
 
     </div>
 
@@ -321,8 +456,8 @@
 </div>
 
                 
-                    <div id="method_toggleAll" class="method item">
-    <h3 class="name"><code>toggleAll</code></h3>
+                    <div id="method_electro" class="method item">
+    <h3 class="name"><code>electro</code></h3>
 
     
         <span class="paren">()</span>
@@ -353,7 +488,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l345"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:345</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l1026"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:1026</code></a>
         
         </p>
 
@@ -364,7 +499,7 @@
     </div>
 
     <div class="description">
-        <p>Afficher/Cacher toutes les sidebars</p>
+        <p>Ambiance Electro</p>
 
     </div>
 
@@ -376,8 +511,8 @@
 </div>
 
                 
-                    <div id="method_toggleAtmospheres" class="method item">
-    <h3 class="name"><code>toggleAtmospheres</code></h3>
+                    <div id="method_folk" class="method item">
+    <h3 class="name"><code>folk</code></h3>
 
     
         <span class="paren">()</span>
@@ -408,7 +543,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l303"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:303</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l1042"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:1042</code></a>
         
         </p>
 
@@ -419,7 +554,7 @@
     </div>
 
     <div class="description">
-        <p>Afficher/Cacher les ambiances (sidebar)</p>
+        <p>Ambiance Folk</p>
 
     </div>
 
@@ -431,8 +566,8 @@
 </div>
 
                 
-                    <div id="method_toggleFavorites" class="method item">
-    <h3 class="name"><code>toggleFavorites</code></h3>
+                    <div id="method_hiphop" class="method item">
+    <h3 class="name"><code>hiphop</code></h3>
 
     
         <span class="paren">()</span>
@@ -463,7 +598,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l295"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:295</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l1034"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:1034</code></a>
         
         </p>
 
@@ -474,7 +609,7 @@
     </div>
 
     <div class="description">
-        <p>Afficher/Cacher les favoris (sidebar)</p>
+        <p>Ambiance Hip-Hop</p>
 
     </div>
 
@@ -486,8 +621,8 @@
 </div>
 
                 
-                    <div id="method_toggleHarmonicTracks" class="method item">
-    <h3 class="name"><code>toggleHarmonicTracks</code></h3>
+                    <div id="method_jazz" class="method item">
+    <h3 class="name"><code>jazz</code></h3>
 
     
         <span class="paren">()</span>
@@ -518,7 +653,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l311"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:311</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l1058"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:1058</code></a>
         
         </p>
 
@@ -529,7 +664,7 @@
     </div>
 
     <div class="description">
-        <p>Afficher/Cacher les morceaux harmoniques (sidebar)</p>
+        <p>Ambiance Jazz</p>
 
     </div>
 
@@ -541,8 +676,8 @@
 </div>
 
                 
-                    <div id="method_togglePlaylist" class="method item">
-    <h3 class="name"><code>togglePlaylist</code></h3>
+                    <div id="method_metal" class="method item">
+    <h3 class="name"><code>metal</code></h3>
 
     
         <span class="paren">()</span>
@@ -573,7 +708,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l287"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:287</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l1066"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:1066</code></a>
         
         </p>
 
@@ -584,7 +719,7 @@
     </div>
 
     <div class="description">
-        <p>Afficher/Cacher la playlist (sidebar)</p>
+        <p>Ambiance Metal</p>
 
     </div>
 
@@ -596,8 +731,8 @@
 </div>
 
                 
-                    <div id="method_toggleSidebar" class="method item">
-    <h3 class="name"><code>toggleSidebar</code></h3>
+                    <div id="method_neutral" class="method item">
+    <h3 class="name"><code>neutral</code></h3>
 
     
         <span class="paren">()</span>
@@ -628,7 +763,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l327"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:327</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l1010"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:1010</code></a>
         
         </p>
 
@@ -639,7 +774,7 @@
     </div>
 
     <div class="description">
-        <p>Afficher/Cacher une sidebar</p>
+        <p>Ambiance neutre</p>
 
     </div>
 
@@ -651,8 +786,8 @@
 </div>
 
                 
-                    <div id="method_toggleUser" class="method item">
-    <h3 class="name"><code>toggleUser</code></h3>
+                    <div id="method_rock" class="method item">
+    <h3 class="name"><code>rock</code></h3>
 
     
         <span class="paren">()</span>
@@ -683,7 +818,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l319"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:319</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l1018"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:1018</code></a>
         
         </p>
 
@@ -694,7 +829,62 @@
     </div>
 
     <div class="description">
-        <p>Afficher/Cacher l&#39;utilisateur (sidebar)</p>
+        <p>Ambiance Rock</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_vegas" class="method item">
+    <h3 class="name"><code>vegas</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l970"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:970</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Initialisation du plugin Vegas pour les backgrounds animés</p>
 
     </div>
 

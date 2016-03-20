@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Iterator</title>
+    <title>GUI.scroll</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -152,7 +152,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Iterator Class</h1>
+                        <h1>GUI.scroll Class</h1>
 <div class="box meta">
     
 
@@ -160,13 +160,13 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_Iterator.js.html#l1"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;Iterator.js:1</code></a>
+            Defined in: <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l409"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:409</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Iterator.html">Iterator</a>
+            Module: <a href="../modules/GUI.html">GUI</a>
         
     
 
@@ -176,8 +176,8 @@
 
 
 <div class="box intro">
-    <p>Classe mettant en œuvre le pattern Iterator.
-Cette classe fournit un moyen d&#39;itérer plus simplement sur les collections.</p>
+    <p>Mini-classe de gestion des scrollbars.
+Les scrollbars dépendent du plugin mCustomScrollbar.</p>
 
 </div>
 
@@ -190,8 +190,6 @@ Cette classe fournit un moyen d&#39;itérer plus simplement sur les collections.
         
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
-        
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
         
         
         
@@ -208,14 +206,21 @@ Cette classe fournit un moyen d&#39;itérer plus simplement sur les collections.
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_hasNext">hasNext</a>
+                                <a href="#method_destroy">destroy</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_next">next</a>
+                                <a href="#method_init">init</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_reset">reset</a>
 
                                 
                                 
@@ -225,28 +230,6 @@ Cette classe fournit un moyen d&#39;itérer plus simplement sur les collections.
                 </div>
             
 
-            
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                        
-                            <li class="index-item property">
-                                <a href="#property_index">index</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_items">items</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
             
 
             
@@ -259,18 +242,14 @@ Cette classe fournit un moyen d&#39;itérer plus simplement sur les collections.
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_hasNext" class="method item">
-    <h3 class="name"><code>hasNext</code></h3>
+                    <div id="method_destroy" class="method item">
+    <h3 class="name"><code>destroy</code></h3>
 
     
         <span class="paren">()</span>
     
 
     
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
 
     
 
@@ -295,7 +274,7 @@ Cette classe fournit un moyen d&#39;itérer plus simplement sur les collections.
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_Iterator.js.html#l39"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;Iterator.js:39</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l435"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:435</code></a>
         
         </p>
 
@@ -306,43 +285,80 @@ Cette classe fournit un moyen d&#39;itérer plus simplement sur les collections.
     </div>
 
     <div class="description">
-        <p>Méthode vérifiant s&#39;il y a un élément suivant dans la collection.</p>
+        <p>Destruction d&#39;une scrollbar</p>
 
     </div>
 
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                    <p>Vrai s&#39;il y a un élément suivant</p>
-
-                
-            </div>
-        </div>
-    
 
     
 </div>
 
                 
-                    <div id="method_next" class="method item">
-    <h3 class="name"><code>next</code></h3>
+                    <div id="method_init" class="method item">
+    <h3 class="name"><code>init</code></h3>
 
     
         <span class="paren">()</span>
     
 
     
-        <span class="returns-inline">
-            <span class="type">Object</span>
-        </span>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l416"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:416</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Initialisation des scrollbars</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_reset" class="method item">
+    <h3 class="name"><code>reset</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
     
 
     
@@ -368,7 +384,7 @@ Cette classe fournit un moyen d&#39;itérer plus simplement sur les collections.
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_Iterator.js.html#l48"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;Iterator.js:48</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l427"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:427</code></a>
         
         </p>
 
@@ -379,27 +395,12 @@ Cette classe fournit un moyen d&#39;itérer plus simplement sur les collections.
     </div>
 
     <div class="description">
-        <p>Méthode renvoyant l&#39;élément courant lors de l&#39;itération.
-L&#39;index est par ailleurs incrémenté pour continuer le parcours.</p>
+        <p>Réinitialisation complète d&#39;une scrollbar</p>
 
     </div>
 
     
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Object</span>:
-                    
-                    <p>L&#39;objet courant de la collection</p>
-
-                
-            </div>
-        </div>
     
 
     
@@ -409,106 +410,6 @@ L&#39;index est par ailleurs incrémenté pour continuer le parcours.</p>
             </div>
         
 
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-                
-                    <div id="property_index" class="property item">
-    <h3 class="name"><code>index</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_Iterator.js.html#l16"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;Iterator.js:16</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Index de base à partir duquel commence une itération.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_items" class="property item">
-    <h3 class="name"><code>items</code></h3>
-    <span class="type">Array</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_Iterator.js.html#l24"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;Iterator.js:24</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Collection d&#39;objets à parcourir.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> []</p>
-    
-
-    
-
-    
-</div>
-
-                
-            </div>
         
 
         

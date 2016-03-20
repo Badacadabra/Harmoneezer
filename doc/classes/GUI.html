@@ -43,8 +43,6 @@
             
                 <li><a href="../classes/AscendingTempo.html">AscendingTempo</a></li>
             
-                <li><a href="../classes/atmospheres.html">atmospheres</a></li>
-            
                 <li><a href="../classes/DeezerAPIRequest.html">DeezerAPIRequest</a></li>
             
                 <li><a href="../classes/Default.html">Default</a></li>
@@ -53,9 +51,23 @@
             
                 <li><a href="../classes/EchoNestAPIRequest.html">EchoNestAPIRequest</a></li>
             
-                <li><a href="../classes/favorites.html">favorites</a></li>
-            
                 <li><a href="../classes/GUI.html">GUI</a></li>
+            
+                <li><a href="../classes/GUI.atmospheres.html">GUI.atmospheres</a></li>
+            
+                <li><a href="../classes/GUI.favorites.html">GUI.favorites</a></li>
+            
+                <li><a href="../classes/GUI.loading.html">GUI.loading</a></li>
+            
+                <li><a href="../classes/GUI.menu.html">GUI.menu</a></li>
+            
+                <li><a href="../classes/GUI.misc.html">GUI.misc</a></li>
+            
+                <li><a href="../classes/GUI.playlist.html">GUI.playlist</a></li>
+            
+                <li><a href="../classes/GUI.scroll.html">GUI.scroll</a></li>
+            
+                <li><a href="../classes/GUI.user.html">GUI.user</a></li>
             
                 <li><a href="../classes/Harmony.html">Harmony</a></li>
             
@@ -63,15 +75,11 @@
             
                 <li><a href="../classes/KeyFirst.html">KeyFirst</a></li>
             
-                <li><a href="../classes/menu.html">menu</a></li>
-            
-                <li><a href="../classes/misc.html">misc</a></li>
-            
                 <li><a href="../classes/None.html">None</a></li>
             
                 <li><a href="../classes/Player.html">Player</a></li>
             
-                <li><a href="../classes/playlist.html">playlist</a></li>
+                <li><a href="../classes/Playlist.html">Playlist</a></li>
             
                 <li><a href="../classes/Request.html">Request</a></li>
             
@@ -83,7 +91,7 @@
             
                 <li><a href="../classes/Track.html">Track</a></li>
             
-                <li><a href="../classes/user.html">user</a></li>
+                <li><a href="../classes/User.html">User</a></li>
             
                 <li><a href="../classes/Vocabulary.html">Vocabulary</a></li>
             
@@ -104,6 +112,8 @@
                 <li><a href="../modules/Playlist.html">Playlist</a></li>
             
                 <li><a href="../modules/Sorting.html">Sorting</a></li>
+            
+                <li><a href="../modules/User.html">User</a></li>
             
                 <li><a href="../modules/Vocabulary.html">Vocabulary</a></li>
             
@@ -150,7 +160,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l3"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:3</code></a>
+            Defined in: <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l5"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:5</code></a>
         </div>
     
 
@@ -197,6 +207,13 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
+                                <a href="#method_alert">alert</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_carousel">carousel</a>
 
                                 
@@ -211,7 +228,21 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_cleanNotifications">cleanNotifications</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_css">css</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_displayFinalTracklist">displayFinalTracklist</a>
 
                                 
                                 
@@ -239,7 +270,7 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_scrollbar">scrollbar</a>
+                                <a href="#method_template">template</a>
 
                                 
                                 
@@ -263,6 +294,13 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
+                                <a href="#property_autocompleteAllowed">autocompleteAllowed</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_duplicatesAllowed">duplicatesAllowed</a>
 
                                 
@@ -271,6 +309,13 @@
                         
                             <li class="index-item property">
                                 <a href="#property_notifAllowed">notifAllowed</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_player">player</a>
 
                                 
                                 
@@ -298,14 +343,7 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_trackPosition">trackPosition</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_tracksLoaded">tracksLoaded</a>
+                                <a href="#property_tooltipAllowed">tooltipAllowed</a>
 
                                 
                                 
@@ -323,6 +361,139 @@
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_alert" class="method item">
+    <h3 class="name"><code>alert</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>type</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>message</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>timer</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l365"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:365</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode Facade permettant d&#39;éviter l&#39;abondance de conditions dans le code</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">type</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Type d&#39;alerte (succès, erreur, message)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">message</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Message d&#39;alerte</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">timer</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Durée de vie de la notification</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="method_carousel" class="method item">
@@ -357,7 +528,7 @@
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l107"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:107</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l116"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:116</code></a>
         
         </p>
 
@@ -413,7 +584,7 @@ Le carousel est géré par le plugin OWL Carousel.</p>
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l166"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:166</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l157"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:157</code></a>
         
         </p>
 
@@ -426,6 +597,61 @@ Le carousel est géré par le plugin OWL Carousel.</p>
     <div class="description">
         <p>Initialisation des checkboxes.
 Les checkboxes sont gérées par Semantic UI.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_cleanNotifications" class="method item">
+    <h3 class="name"><code>cleanNotifications</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l391"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:391</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Suppression de toutes les notifications actives</p>
 
     </div>
 
@@ -469,7 +695,7 @@ Les checkboxes sont gérées par Semantic UI.</p>
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l158"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:158</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l97"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:97</code></a>
         
         </p>
 
@@ -480,7 +706,62 @@ Les checkboxes sont gérées par Semantic UI.</p>
     </div>
 
     <div class="description">
-        <p>Hack CSS</p>
+        <p>Hacks CSS</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_displayFinalTracklist" class="method item">
+    <h3 class="name"><code>displayFinalTracklist</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l399"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:399</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Affichage des suggestions harmoniques à la fin du processus de recherche</p>
 
     </div>
 
@@ -524,7 +805,7 @@ Les checkboxes sont gérées par Semantic UI.</p>
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l123"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:123</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l132"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:132</code></a>
         
         </p>
 
@@ -580,7 +861,7 @@ Le drag &amp; drop est géré par jQuery UI.</p>
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l67"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:67</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l77"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:77</code></a>
         
         </p>
 
@@ -636,7 +917,7 @@ Cette méthode s&#39;inspire du pattern Template dans sa conception.</p>
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l175"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:175</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l166"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:166</code></a>
         
         </p>
 
@@ -659,11 +940,39 @@ Cette méthode s&#39;inspire du pattern Template dans sa conception.</p>
 </div>
 
                 
-                    <div id="method_scrollbar" class="method item">
-    <h3 class="name"><code>scrollbar</code></h3>
+                    <div id="method_template" class="method item">
+    <h3 class="name"><code>template</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>type</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>track</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>isTempoCompatible</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>isKeyCompatible</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -691,7 +1000,7 @@ Cette méthode s&#39;inspire du pattern Template dans sa conception.</p>
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l146"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:146</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l270"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:270</code></a>
         
         </p>
 
@@ -702,11 +1011,82 @@ Cette méthode s&#39;inspire du pattern Template dans sa conception.</p>
     </div>
 
     <div class="description">
-        <p>Initialisation des scrollbars.
-Les scrollbars sont gérées par le plugin mCustomScrollbar.</p>
+        <p>Méthode template créant dynamiquement un fragment HTML</p>
 
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">type</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Type de template (suggestions de base ou harmoniques)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">track</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Objet représentant morceau de musique</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">isTempoCompatible</code>
+                        <span class="type">Boolean</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Compatibilité ou non du tempo</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">isKeyCompatible</code>
+                        <span class="type">Boolean</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Compatibilité ou non de la tonalité</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -747,7 +1127,7 @@ Les scrollbars sont gérées par le plugin mCustomScrollbar.</p>
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l132"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:132</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l141"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:141</code></a>
         
         </p>
 
@@ -779,6 +1159,53 @@ Les tooltips sont gérées par Semantic UI et qTip².</p>
                 <h2 class="off-left">Properties</h2>
 
                 
+                    <div id="property_autocompleteAllowed" class="property item">
+    <h3 class="name"><code>autocompleteAllowed</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l36"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:36</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Attribut indiquant si l&#39;autocomplétion est autorisée dans la recherche</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_duplicatesAllowed" class="property item">
     <h3 class="name"><code>duplicatesAllowed</code></h3>
     <span class="type">Boolean</span>
@@ -802,7 +1229,7 @@ Les tooltips sont gérées par Semantic UI et qTip².</p>
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l26"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:26</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l44"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:44</code></a>
         
         </p>
 
@@ -812,7 +1239,7 @@ Les tooltips sont gérées par Semantic UI et qTip².</p>
     </div>
 
     <div class="description">
-        <p>Attribut indiquant si les doublons sont autorisés dans la recherche</p>
+        <p>Attribut indiquant si les doublons sont autorisés dans les suggestions</p>
 
     </div>
 
@@ -849,7 +1276,7 @@ Les tooltips sont gérées par Semantic UI et qTip².</p>
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l10"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:10</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l20"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:20</code></a>
         
         </p>
 
@@ -865,6 +1292,54 @@ Les tooltips sont gérées par Semantic UI et qTip².</p>
 
     
         <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_player" class="property item">
+    <h3 class="name"><code>player</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l68"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:68</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Lecteur manipulé par l&#39;interface graphique.
+C&#39;est à la fois un Singleton et un Adapter.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> null</p>
     
 
     
@@ -896,7 +1371,7 @@ Les tooltips sont gérées par Semantic UI et qTip².</p>
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l42"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:42</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l60"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:60</code></a>
         
         </p>
 
@@ -943,7 +1418,7 @@ Les tooltips sont gérées par Semantic UI et qTip².</p>
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l18"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:18</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l28"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:28</code></a>
         
         </p>
 
@@ -990,7 +1465,7 @@ Les tooltips sont gérées par Semantic UI et qTip².</p>
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l34"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:34</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l52"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:52</code></a>
         
         </p>
 
@@ -1014,56 +1489,8 @@ Les tooltips sont gérées par Semantic UI et qTip².</p>
 </div>
 
                 
-                    <div id="property_trackPosition" class="property item">
-    <h3 class="name"><code>trackPosition</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l58"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:58</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Attribut indiquant la position de la tête de lecture dans le morceau en cours
-La valeur se situe entre 0 et 100.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_tracksLoaded" class="property item">
-    <h3 class="name"><code>tracksLoaded</code></h3>
+                    <div id="property_tooltipAllowed" class="property item">
+    <h3 class="name"><code>tooltipAllowed</code></h3>
     <span class="type">Boolean</span>
 
     
@@ -1085,7 +1512,7 @@ La valeur se situe entre 0 et 100.</p>
             
         
         
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l50"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:50</code></a>
+        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l12"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:12</code></a>
         
         </p>
 
@@ -1095,12 +1522,12 @@ La valeur se situe entre 0 et 100.</p>
     </div>
 
     <div class="description">
-        <p>Attribut indiquant si les morceaux sont chargés dans le lecteur</p>
+        <p>Attribut indiquant si les infobulles sont autorisées</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> false</p>
+        <p><strong>Default:</strong> true</p>
     
 
     

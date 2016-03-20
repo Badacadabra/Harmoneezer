@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>/home/bada/Documents/Etudes/DNR2I/M2/Projet/playlist-harmonique/app/js/modules/Sorting.js</title>
+    <title>/home/bada/Documents/Etudes/DNR2I/M2/Projet/HARMONEEZER/app/js/modules/Sorting.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -51,6 +51,24 @@
             
                 <li><a href="../classes/EchoNestAPIRequest.html">EchoNestAPIRequest</a></li>
             
+                <li><a href="../classes/GUI.html">GUI</a></li>
+            
+                <li><a href="../classes/GUI.atmospheres.html">GUI.atmospheres</a></li>
+            
+                <li><a href="../classes/GUI.favorites.html">GUI.favorites</a></li>
+            
+                <li><a href="../classes/GUI.loading.html">GUI.loading</a></li>
+            
+                <li><a href="../classes/GUI.menu.html">GUI.menu</a></li>
+            
+                <li><a href="../classes/GUI.misc.html">GUI.misc</a></li>
+            
+                <li><a href="../classes/GUI.playlist.html">GUI.playlist</a></li>
+            
+                <li><a href="../classes/GUI.scroll.html">GUI.scroll</a></li>
+            
+                <li><a href="../classes/GUI.user.html">GUI.user</a></li>
+            
                 <li><a href="../classes/Harmony.html">Harmony</a></li>
             
                 <li><a href="../classes/Iterator.html">Iterator</a></li>
@@ -58,6 +76,10 @@
                 <li><a href="../classes/KeyFirst.html">KeyFirst</a></li>
             
                 <li><a href="../classes/None.html">None</a></li>
+            
+                <li><a href="../classes/Player.html">Player</a></li>
+            
+                <li><a href="../classes/Playlist.html">Playlist</a></li>
             
                 <li><a href="../classes/Request.html">Request</a></li>
             
@@ -68,6 +90,8 @@
                 <li><a href="../classes/TempoFirst.html">TempoFirst</a></li>
             
                 <li><a href="../classes/Track.html">Track</a></li>
+            
+                <li><a href="../classes/User.html">User</a></li>
             
                 <li><a href="../classes/Vocabulary.html">Vocabulary</a></li>
             
@@ -83,7 +107,13 @@
             
                 <li><a href="../modules/Music.html">Music</a></li>
             
+                <li><a href="../modules/Player.html">Player</a></li>
+            
+                <li><a href="../modules/Playlist.html">Playlist</a></li>
+            
                 <li><a href="../modules/Sorting.html">Sorting</a></li>
+            
+                <li><a href="../modules/User.html">User</a></li>
             
                 <li><a href="../modules/Vocabulary.html">Vocabulary</a></li>
             
@@ -122,7 +152,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: /home/bada/Documents/Etudes/DNR2I/M2/Projet/playlist-harmonique/app/js/modules/Sorting.js</h1>
+                        <h1 class="file-heading">File: /home/bada/Documents/Etudes/DNR2I/M2/Projet/HARMONEEZER/app/js/modules/Sorting.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -177,7 +207,7 @@ module.exports = Sorting = {
             similarTracks.splice(insertIndex, 0, track);
           };
 
-      for (var i = 0; i &lt; similarTracks.length; i++) {
+      for (var i = 0, len = similarTracks.length; i &lt; len; i++) {
         // Pour chaque morceau, on récupère toutes les infos indispensables
         var track = similarTracks[i],
             artist = track.getArtist(),
@@ -200,7 +230,7 @@ module.exports = Sorting = {
 
       // Si les doublons ne sont pas autorisés, on filtre
       if (!GUI.duplicatesAllowed) {
-        for (var i = 0; i &lt; similarTracks.length; i++) {
+        for (var i = 0, len = similarTracks.length; i &lt; len; i++) {
 
           var track = similarTracks[i],
               artist = track.getArtist();
@@ -216,7 +246,7 @@ module.exports = Sorting = {
       }
 
       return tracks;
-    }
+    };
   },
   /**
    * Classe encapsulant l&#x27;algorithme de tri valorisant le tempo.
@@ -247,7 +277,7 @@ module.exports = Sorting = {
             similarTracks.splice(insertIndex, 0, track);
           };
 
-      for (var i = 0; i &lt; similarTracks.length; i++) {
+      for (var i = 0, len = similarTracks.length; i &lt; len; i++) {
 
         // Pour chaque morceau, on récupère toutes les infos indispensables
         var track = similarTracks[i],
@@ -276,7 +306,7 @@ module.exports = Sorting = {
 
       // Si les doublons ne sont pas autorisés, on filtre
       if (!GUI.duplicatesAllowed) {
-        for (var i = 0; i &lt; similarTracks.length; i++) {
+        for (var i = 0, len = similarTracks.length; i &lt; len; i++) {
 
           var track = similarTracks[i],
               artist = track.getArtist();
@@ -292,7 +322,7 @@ module.exports = Sorting = {
       }
 
       return tracks;
-    }
+    };
   },
   /**
    * Classe encapsulant l&#x27;algorithme de tri valorisant la tonalité.
@@ -323,7 +353,7 @@ module.exports = Sorting = {
             similarTracks.splice(insertIndex, 0, track);
           };
 
-      for (var i = 0; i &lt; similarTracks.length; i++) {
+      for (var i = 0, len = similarTracks.length; i &lt; len; i++) {
 
         // Pour chaque morceau, on récupère toutes les infos indispensables
         var track = similarTracks[i],
@@ -352,7 +382,7 @@ module.exports = Sorting = {
 
       // Si les doublons ne sont pas autorisés, on filtre
       if (!GUI.duplicatesAllowed) {
-        for (var i = 0; i &lt; similarTracks.length; i++) {
+        for (var i = 0, len = similarTracks.length; i &lt; len; i++) {
 
           var track = similarTracks[i],
               artist = track.getArtist();
@@ -368,7 +398,7 @@ module.exports = Sorting = {
       }
 
       return tracks;
-    }
+    };
   },
   /**
    * Classe encapsulant l&#x27;algorithme de tri croissant, en fonction du tempo.
@@ -389,7 +419,7 @@ module.exports = Sorting = {
      */
     this.sort = function(refTrack, harmony, similarTracks) {
       return _.sortBy(similarTracks, &#x27;_tempo&#x27;);
-    }
+    };
   },
   /**
    * Classe encapsulant l&#x27;algorithme de tri décroissant, en fonction du tempo.
@@ -411,7 +441,7 @@ module.exports = Sorting = {
     this.sort = function(refTrack, harmony, similarTracks) {
       similarTracks = _.sortBy(similarTracks, &#x27;_tempo&#x27;);
       return similarTracks.reverse();
-    }
+    };
   },
   /**
    * Classe définissant un algorithme fictif n&#x27;effectuant aucun tri.
@@ -432,9 +462,9 @@ module.exports = Sorting = {
      */
     this.sort = function(refTrack, harmony, similarTracks) {
       return similarTracks;
-    }
+    };
   }
-}
+};
 
 /**
  * Prototype de la classe Strategy
@@ -471,7 +501,7 @@ Sorting.Strategy.prototype = {
   sort: function(refTrack, harmony, similarTracks) {
     return this._algorithm.sort(refTrack, harmony, similarTracks);
   }
-}
+};
 
     </pre>
 </div>

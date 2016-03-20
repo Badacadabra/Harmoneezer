@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>user</title>
+    <title>/home/bada/Documents/Etudes/DNR2I/M2/Projet/HARMONEEZER/app/js/modules/User.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -43,8 +43,6 @@
             
                 <li><a href="../classes/AscendingTempo.html">AscendingTempo</a></li>
             
-                <li><a href="../classes/atmospheres.html">atmospheres</a></li>
-            
                 <li><a href="../classes/DeezerAPIRequest.html">DeezerAPIRequest</a></li>
             
                 <li><a href="../classes/Default.html">Default</a></li>
@@ -53,9 +51,23 @@
             
                 <li><a href="../classes/EchoNestAPIRequest.html">EchoNestAPIRequest</a></li>
             
-                <li><a href="../classes/favorites.html">favorites</a></li>
-            
                 <li><a href="../classes/GUI.html">GUI</a></li>
+            
+                <li><a href="../classes/GUI.atmospheres.html">GUI.atmospheres</a></li>
+            
+                <li><a href="../classes/GUI.favorites.html">GUI.favorites</a></li>
+            
+                <li><a href="../classes/GUI.loading.html">GUI.loading</a></li>
+            
+                <li><a href="../classes/GUI.menu.html">GUI.menu</a></li>
+            
+                <li><a href="../classes/GUI.misc.html">GUI.misc</a></li>
+            
+                <li><a href="../classes/GUI.playlist.html">GUI.playlist</a></li>
+            
+                <li><a href="../classes/GUI.scroll.html">GUI.scroll</a></li>
+            
+                <li><a href="../classes/GUI.user.html">GUI.user</a></li>
             
                 <li><a href="../classes/Harmony.html">Harmony</a></li>
             
@@ -63,15 +75,11 @@
             
                 <li><a href="../classes/KeyFirst.html">KeyFirst</a></li>
             
-                <li><a href="../classes/menu.html">menu</a></li>
-            
-                <li><a href="../classes/misc.html">misc</a></li>
-            
                 <li><a href="../classes/None.html">None</a></li>
             
                 <li><a href="../classes/Player.html">Player</a></li>
             
-                <li><a href="../classes/playlist.html">playlist</a></li>
+                <li><a href="../classes/Playlist.html">Playlist</a></li>
             
                 <li><a href="../classes/Request.html">Request</a></li>
             
@@ -83,7 +91,7 @@
             
                 <li><a href="../classes/Track.html">Track</a></li>
             
-                <li><a href="../classes/user.html">user</a></li>
+                <li><a href="../classes/User.html">User</a></li>
             
                 <li><a href="../classes/Vocabulary.html">Vocabulary</a></li>
             
@@ -104,6 +112,8 @@
                 <li><a href="../modules/Playlist.html">Playlist</a></li>
             
                 <li><a href="../modules/Sorting.html">Sorting</a></li>
+            
+                <li><a href="../modules/User.html">User</a></li>
             
                 <li><a href="../modules/Vocabulary.html">Vocabulary</a></li>
             
@@ -142,207 +152,119 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>user Class</h1>
-<div class="box meta">
-    
+                        <h1 class="file-heading">File: /home/bada/Documents/Etudes/DNR2I/M2/Projet/HARMONEEZER/app/js/modules/User.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Module fournissant une classe pour la gestion simplifiée des utilisateurs
+ *
+ * @module User
+ * @class User
+ * @constructor
+ * @param {Number} id Identifiant
+ * @param {String} name Pseudo
+ * @param {String} inscriptionDate Date d&#x27;inscription
+ * @param {String} link Lien vers le profil
+ * @param {String} picture Lien vers l&#x27;avatar
+ */
+module.exports = User = function(id, name, inscriptionDate, link, picture) {
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l803"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:803</code></a>
-        </div>
-    
+  if (!(this instanceof User)) {
+    throw new Error(&quot;Erreur ! La classe User doit être instanciée avec l&#x27;opérateur « new »&quot;);
+  }
 
-    
-        
-            Module: <a href="../modules/GUI.html">GUI</a>
-        
-    
+  /**
+   * Identifiant
+   *
+   * @property id
+   * @type {Number}
+   * @default 0
+   */
+  this._id = id;
+  /**
+   * Pseudo
+   *
+   * @property name
+   * @type {String}
+   * @default &quot;&quot;
+   */
+  this._name = name;
+  /**
+   * Date d&#x27;inscription
+   *
+   * @property inscriptionDate
+   * @type {String}
+   * @default &quot;&quot;
+   */
+  this._inscriptionDate = inscriptionDate;
+  /**
+   * Lien vers le profil
+   *
+   * @property link
+   * @type {String}
+   * @default &quot;&quot;
+   */
+  this._link = link;
+  /**
+   * Lien vers l&#x27;avatar
+   *
+   * @property picture
+   * @type {String}
+   * @default &quot;&quot;
+   */
+  this._picture = picture;
 
-    
-</div>
+};
 
+/**
+ * Prototype de User
+ */
+User.prototype = {
+  /**
+   * Accesseur pour l&#x27;identifiant de l&#x27;utilisateur
+   *
+   * @method getId
+   * @return {Number} L&#x27;id de l&#x27;utilisateur
+   */
+  getId: function() { return this._id; },
+  /**
+   * Accesseur pour le pseudo de l&#x27;utilisateur
+   *
+   * @method getName
+   * @return {String} Le pseudo de l&#x27;utilisateur
+   */
+  getName: function() { return this._name; },
+  /**
+   * Accesseur pour la date d&#x27;inscription de l&#x27;utilisateur
+   *
+   * @method getInscriptionDate
+   * @return {String} La date d&#x27;inscription de l&#x27;utilisateur
+   */
+  getInscriptionDate: function() {
+    var date = new Date(this._inscriptionDate),
+        d = date.getDate(),
+        m = date.getMonth() + 1,
+        y = date.getFullYear();
+    return d + &quot;/&quot; + m + &quot;/&quot; + y;
+  },
+  /**
+   * Accesseur pour le lien vers le profil de l&#x27;utilisateur
+   *
+   * @method getLink
+   * @return {String} Le lien vers le profil de l&#x27;utilisateur
+   */
+  getLink: function() { return this._link; },
+  /**
+   * Accesseur pour l&#x27;avatar de l&#x27;utilisateur
+   *
+   * @method getPicture
+   * @return {String} L&#x27;avatar de l&#x27;utilisateur
+   */
+  getPicture: function() { return this._picture; }
+};
 
-
-<div class="box intro">
-    <p>Classe interne gérant les éléments relatifs à l&#39;utilisateur</p>
-
-</div>
-
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-        
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods">
-                        
-                            <li class="index-item method">
-                                <a href="#method_login">login</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_logout">logout</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
-
-            
-
-            
-
-            
-        </div>
-
-        
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-                
-                    <div id="method_login" class="method item">
-    <h3 class="name"><code>login</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l809"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:809</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Gestion de la connexion d&#39;un utilisateur</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_logout" class="method item">
-    <h3 class="name"><code>logout</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_home_bada_Documents_Etudes_DNR2I_M2_Projet_HARMONEEZER_app_js_modules_GUI.js.html#l840"><code>&#x2F;home&#x2F;bada&#x2F;Documents&#x2F;Etudes&#x2F;DNR2I&#x2F;M2&#x2F;Projet&#x2F;HARMONEEZER&#x2F;app&#x2F;js&#x2F;modules&#x2F;GUI.js:840</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Gestion de la déconnexion d&#39;un utilisateur</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-            </div>
-        
-
-        
-
-        
-
-        
-    </div>
+    </pre>
 </div>
 
                     </div>

@@ -21,7 +21,6 @@ module.exports = Iterator = function(items) {
    * @default 0
    */
   this._index = 0;
-
   /**
    * Collection d'objets à parcourir.
    *
@@ -30,6 +29,7 @@ module.exports = Iterator = function(items) {
    * @default []
    */
   this._items = items;
+
 };
 
 /**
