@@ -1,6 +1,6 @@
 {
-  "name": "playlist-harmonique",
-  "description": "",
+  "name": "HARMONEEZER",
+  "description": "Application web d'aide à la création de playlists harmoniques",
   "main": "server.js",
   "authors": [
     "Baptiste Vannesson"
@@ -11,7 +11,7 @@
     "playlist",
     "harmony"
   ],
-  "homepage": "https://github.com/Badacadabra/playlist-harmonique",
+  "homepage": "https://github.com/Badacadabra/Harmoneezer",
   "moduleType": [
     "node"
   ],

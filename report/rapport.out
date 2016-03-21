@@ -1,0 +1,62 @@
+\BOOKMARK [0][-]{part.1}{I Contexte}{}% 1
+\BOOKMARK [1][-]{section.1}{Constats empiriques}{part.1}% 2
+\BOOKMARK [2][-]{subsection.1.1}{La crise de l'industrie du disque}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.2}{L'essor de la musique num\351rique}{section.1}% 4
+\BOOKMARK [1][-]{section.2}{\311tude de l'existant}{part.1}% 5
+\BOOKMARK [2][-]{subsection.2.1}{Plateformes de t\351l\351chargement}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.2}{Plateformes de streaming}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.3}{Webradios}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.4}{APIs et bases de donn\351es musicales}{section.2}% 9
+\BOOKMARK [2][-]{subsection.2.5}{Crowdfunding musical}{section.2}% 10
+\BOOKMARK [0][-]{part.2}{II Pr\351sentation du projet}{}% 11
+\BOOKMARK [1][-]{section.3}{Le mix harmonique}{part.2}% 12
+\BOOKMARK [2][-]{subsection.3.1}{Roue de Camelot}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.2}{Tempo}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.3}{Tonalit\351}{section.3}% 15
+\BOOKMARK [3][-]{subsubsection.3.3.1}{Degr\351s}{subsection.3.3}% 16
+\BOOKMARK [3][-]{subsubsection.3.3.2}{\311chelle chromatique \046 alt\351rations}{subsection.3.3}% 17
+\BOOKMARK [3][-]{subsubsection.3.3.3}{Modes}{subsection.3.3}% 18
+\BOOKMARK [1][-]{section.4}{GUI \046 UX}{part.2}% 19
+\BOOKMARK [2][-]{subsection.4.1}{Mod\350le de navigation}{section.4}% 20
+\BOOKMARK [2][-]{subsection.4.2}{Charte graphique}{section.4}% 21
+\BOOKMARK [1][-]{section.5}{Fonctionnalit\351s}{part.2}% 22
+\BOOKMARK [2][-]{subsection.5.1}{Recherche et suggestion de morceaux pertinents}{section.5}% 23
+\BOOKMARK [2][-]{subsection.5.2}{Gestion des favoris}{section.5}% 24
+\BOOKMARK [2][-]{subsection.5.3}{Cr\351ation et gestion de playlists personnalis\351es}{section.5}% 25
+\BOOKMARK [2][-]{subsection.5.4}{S\351lection d'ambiance}{section.5}% 26
+\BOOKMARK [2][-]{subsection.5.5}{Synchronisation d'un compte Deezer}{section.5}% 27
+\BOOKMARK [0][-]{part.3}{III R\351alisation technique}{}% 28
+\BOOKMARK [1][-]{section.6}{Environnement de travail}{part.3}% 29
+\BOOKMARK [2][-]{subsection.6.1}{Gestionnaires de paquets}{section.6}% 30
+\BOOKMARK [3][-]{subsubsection.6.1.1}{npm}{subsection.6.1}% 31
+\BOOKMARK [3][-]{subsubsection.6.1.2}{Bower}{subsection.6.1}% 32
+\BOOKMARK [2][-]{subsection.6.2}{Preprocessing CSS}{section.6}% 33
+\BOOKMARK [2][-]{subsection.6.3}{Workflow avec task runner}{section.6}% 34
+\BOOKMARK [2][-]{subsection.6.4}{Modularisation et empaquetage}{section.6}% 35
+\BOOKMARK [2][-]{subsection.6.5}{Versioning}{section.6}% 36
+\BOOKMARK [1][-]{section.7}{Conception \046 D\351veloppement}{part.3}% 37
+\BOOKMARK [2][-]{subsection.7.1}{Introduction \340 JavaScript}{section.7}% 38
+\BOOKMARK [2][-]{subsection.7.2}{Programmation orient\351e objet \(POO\)}{section.7}% 39
+\BOOKMARK [3][-]{subsubsection.7.2.1}{Classe}{subsection.7.2}% 40
+\BOOKMARK [3][-]{subsubsection.7.2.2}{Encapsulation}{subsection.7.2}% 41
+\BOOKMARK [3][-]{subsubsection.7.2.3}{H\351ritage}{subsection.7.2}% 42
+\BOOKMARK [2][-]{subsection.7.3}{Design patterns utilis\351s}{section.7}% 43
+\BOOKMARK [3][-]{subsubsection.7.3.1}{Patterns cr\351ationnels}{subsection.7.3}% 44
+\BOOKMARK [4][-]{paragraph.7.3.1.1}{Singleton}{subsubsection.7.3.1}% 45
+\BOOKMARK [4][-]{paragraph.7.3.1.2}{Factory}{subsubsection.7.3.1}% 46
+\BOOKMARK [3][-]{subsubsection.7.3.2}{Patterns structurels}{subsection.7.3}% 47
+\BOOKMARK [4][-]{paragraph.7.3.2.1}{Fa\347ade}{subsubsection.7.3.2}% 48
+\BOOKMARK [4][-]{paragraph.7.3.2.2}{Adapter}{subsubsection.7.3.2}% 49
+\BOOKMARK [3][-]{subsubsection.7.3.3}{Patterns comportementaux}{subsection.7.3}% 50
+\BOOKMARK [4][-]{paragraph.7.3.3.1}{Iterator}{subsubsection.7.3.3}% 51
+\BOOKMARK [4][-]{paragraph.7.3.3.2}{Strategy}{subsubsection.7.3.3}% 52
+\BOOKMARK [3][-]{subsubsection.7.3.4}{Autres patterns}{subsection.7.3}% 53
+\BOOKMARK [4][-]{paragraph.7.3.4.1}{Module}{subsubsection.7.3.4}% 54
+\BOOKMARK [4][-]{paragraph.7.3.4.2}{MVVM}{subsubsection.7.3.4}% 55
+\BOOKMARK [2][-]{subsection.7.4}{Interrogation de deux APIs RESTful}{section.7}% 56
+\BOOKMARK [2][-]{subsection.7.5}{Cr\351ation d'interface graphique}{section.7}% 57
+\BOOKMARK [2][-]{subsection.7.6}{Documentation des modules}{section.7}% 58
+\BOOKMARK [2][-]{subsection.7.7}{Tests}{section.7}% 59
+\BOOKMARK [3][-]{subsubsection.7.7.1}{Tests unitaires}{subsection.7.7}% 60
+\BOOKMARK [3][-]{subsubsection.7.7.2}{Tests fonctionnels}{subsection.7.7}% 61
+\BOOKMARK [3][-]{subsubsection.7.7.3}{Tests de performance}{subsection.7.7}% 62

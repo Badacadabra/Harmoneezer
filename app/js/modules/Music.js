@@ -78,7 +78,7 @@ module.exports = Music = {
      *
      * @property _tempo
      * @type {Number}
-     * @default ""
+     * @default 0
      */
     this._tempo = tempo;
     /**

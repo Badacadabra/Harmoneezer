@@ -51,6 +51,16 @@
     height: 100%;
 }
 
+a {
+    text-decoration: none !important;
+}
+
+a:hover {
+    background-color: initial !important;
+    box-shadow: none !important;
+    color: #F04A3C !important;
+}
+
 h1 {
     color: white !important;
     font-family: "actionman_regular", sans-serif !important;
@@ -103,81 +113,199 @@ h1 {
 }
 
 /* ========================================== */
-/* ============== Backgrounds ============== */
+/* ================ Pop-ups ================ */
 /* ======================================== */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+    background-color: rgba(19, 22, 25, 0.8);
+    display: none;
+}
+
+.overlay.active {
+    display: block;
+}
+
+.overlay-content {
+    width: 80%;
+    height: 80%;
+    margin: 2em auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-close {
+    color: black;
+    text-decoration: none;
+    padding: 0.5em;
+    position: fixed;
+    top: 0em;
+    right: 1.5em;
+    display: block;
+    border-radius: 0 0 3px 3px ;
+    background-color: rgba(255,255,255,0.8);
+}
+
+@keyframes roueCamelot {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.overlay #camelot-wheel {
+    animation: roueCamelot 5s ease;
+}
+
+/* ========================================== */
+/* ============ Pages internes ============= */
+/* ======================================== */
+
+.flowtime .ft-page {
+    overflow: hidden;
+}
+
+.sub-page {
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: white;
+       -moz-transition: left 0.3s;
+    -webkit-transition: left 0.3s;
+            transition: left 0.3s;
+}
+
+.sub-page.active {
+    left: 0;
+}
+
+#uml {
+    height: 75%;
+    display: block;
+    margin: auto;
+}
+
+/* ========================================== */
+/* ================ Thèmes ================= */
+/* ======================================== */
+
+/* ============== Accueil =============== */
 
 .neutral {
     background-image: url('../../app/images/background/neutral.jpg');
 }
 
-.electro {
-    background-image: url('../../app/images/background/electro.jpg');
-}
-
-.hip-hop {
-    background-image: url('../../app/images/background/hiphop.jpg');
-}
-
-.fire-guitar {
-    background-image: url('../../app/images/background/fire-guitar.jpg');
-}
-
-.saxo {
-    background-image: url('../../app/images/background/saxo.jpg');
-}
-
-.vinyl {
-    background-image: url('../../app/images/background/vinyl.jpg');
-}
-
-.crowd {
-    background-image: url('../../app/images/background/crowd.jpg');
-}
-
-.live {
-    background-image: url('../../app/images/background/live.jpg');
-}
+/* ======== Main (Noir & Blanc) ========= */
 
 .microphone {
     background-image: url('../../app/images/background/microphone.jpg');
-}
-
-.cassette {
-    background-image: url('../../app/images/background/cassette.jpg');
-}
-
-.marshall {
-    background-image: url('../../app/images/background/marshall.jpg');
-}
-
-.soundboard {
-    background-image: url('../../app/images/background/soundboard.jpg');
-}
-
-.bass {
-    background-image: url('../../app/images/background/bass.jpg');
 }
 
 .headphones {
     background-image: url('../../app/images/background/headphones.jpg');
 }
 
+.piano {
+    background-image: url('../../app/images/background/piano.jpg');
+}
+
 .rec {
     background-image: url('../../app/images/background/rec.jpg');
 }
 
-.symphony {
-    background-image: url('../../app/images/background/symphony.jpg');
+.cassette {
+    background-image: url('../../app/images/background/cassette.jpg');
+}
+
+/* ========= Contexte (Vert) ========== */
+
+.context strong {
+    color: #5AA628 !important;
+}
+
+.context ul li:before {
+    color: #5AA628 !important;
 }
 
 .studio {
     background-image: url('../../app/images/background/studio.jpg');
 }
 
-.piano {
-    background-image: url('../../app/images/background/piano.jpg');
+.crowd {
+    background-image: url('../../app/images/background/crowd.jpg');
+}
+
+/* ========= Projet (Jaune) ========== */
+
+.overlay-link {
+    color: #FF9900 !important;
+}
+
+.marshall {
+    background-image: url('../../app/images/background/marshall.jpg');
 }
 
 .speaker {
     background-image: url('../../app/images/background/speaker.jpg');
+}
+
+.vinyl {
+    background-image: url('../../app/images/background/vinyl.jpg');
+}
+
+/* ===== Technique (Bleu/Violet) ===== */
+
+.drums strong {
+    color: #188AE3 !important;
+}
+
+.drums ul li:before {
+    color: #188AE3 !important;
+}
+
+.drums {
+    background-image: url('../../app/images/background/drums.jpg');
+}
+
+.mixer {
+    background-image: url('../../app/images/background/mixer.jpg');
+}
+
+.mixer strong {
+    color: #AE63E4 !important;
+}
+
+.mixer ul li, .mixer strong {
+    text-shadow: 1px 2px 2px black !important;
+}
+
+.mixer ul li:before {
+    color: #AE63E4 !important;
+}
+
+/* ============= Conclusion ============= */
+
+.conclusion strong {
+    color: #131619 !important;
+    text-shadow: none !important;
+}
+
+.conclusion ul li:before {
+    color: #131619 !important;
+}
+
+.sunset {
+    background-image: url('../../app/images/background/sunset.jpg');
+}
+
+.fire-guitar {
+    background-image: url('../../app/images/background/fire-guitar.jpg');
 }

@@ -10,6 +10,23 @@ var Player = require('./Player.js'),
  */
 module.exports = GUI = {
   /**
+   * Lecteur manipulé par l'interface graphique.
+   * C'est à la fois un Singleton et un Adapter.
+   *
+   * @property player
+   * @type {Object}
+   * @default null
+   */
+  player: null,
+  /**
+   * Utilisateur courant
+   *
+   * @property user
+   * @type {Object}
+   * @default null
+   */
+  user: null,
+  /**
    * Attribut indiquant si les infobulles sont autorisées
    *
    * @property tooltipAllowed
@@ -65,23 +82,6 @@ module.exports = GUI = {
    * @default "default"
    */
   selectedSorting: "default",
-  /**
-   * Lecteur manipulé par l'interface graphique.
-   * C'est à la fois un Singleton et un Adapter.
-   *
-   * @property player
-   * @type {Object}
-   * @default null
-   */
-  player: null,
-  /**
-   * Utilisateur courant
-   *
-   * @property user
-   * @type {Object}
-   * @default null
-   */
-  user: null,
   /**
    * Méthode chargée d'initialiser l'interface graphique.
    * Cette méthode s'inspire du pattern Template dans sa conception.

@@ -123,6 +123,23 @@
                 </div>
                 <i class="remove circle outline icon" v-on:click="removeTrack($index)"></i>
             </a>
+            <!-- Playlist sous forme de tableau (pour l'export CSV) -->
+            <table id="csv-export" style="display:none;">
+              <tr>
+                <th>Titre</th>
+                <th>Artiste</th>
+                <th>Tonalité</th>
+                <th>Mode</th>
+                <th>Tempo</th>
+              </tr>
+              <tr v-for="selectedTrack in selectedTracks" itemscope itemtype="https://schema.org/MusicComposition">
+                <td itemprop="name">{{ selectedTrack._title }}</td>
+                <td itemprop="composer">{{ selectedTrack._artist }}</td>
+                <td itemprop="musicalKey">{{ selectedTrack._key }}</td>
+                <td itemprop="musicalKey">{{ selectedTrack._mode }}</td>
+                <td itemprop="musicalKey">{{ selectedTrack._tempo }}</td>
+              </tr>
+            </table>
         </div>
         <!-- Favoris -->
         <div id="favorites" class="ui right vertical wide sidebar menu form">
@@ -184,6 +201,7 @@
                 <span>5 %</span>
               </div>
             </a>
+            <!--
             <a id="fav-default-search" class="item">
               <div class="field">
                 <div class="ui radio checkbox">
@@ -200,6 +218,7 @@
                 </div>
               </div>
             </a>
+            -->
             <a class="item title red-item">
               <h3>Tri des suggestions</h3>
             </a>
@@ -382,23 +401,6 @@
               <div class="ui green ok inverted button">OK</div>
             </div>
           </div>
-          <!-- Playlist sous forme de tableau (pour l'export CSV) -->
-          <table id="csv-export" style="display:none;">
-            <tr>
-              <th>Titre</th>
-              <th>Artiste</th>
-              <th>Tonalité</th>
-              <th>Mode</th>
-              <th>Tempo</th>
-            </tr>
-            <tr v-for="selectedTrack in selectedTracks" itemscope itemtype="https://schema.org/MusicComposition">
-              <td itemprop="name">{{ selectedTrack._title }}</td>
-              <td itemprop="composer">{{ selectedTrack._artist }}</td>
-              <td itemprop="musicalKey">{{ selectedTrack._key }}</td>
-              <td itemprop="musicalKey">{{ selectedTrack._mode }}</td>
-              <td itemprop="musicalKey">{{ selectedTrack._tempo }}</td>
-            </tr>
-          </table>
         </div>
         <script src="/dist/js/bower.js"></script>
         <script src="semantic/dist/semantic.min.js"></script>
