@@ -21,10 +21,10 @@
 \BOOKMARK [2][-]{subsection.4.2}{Charte graphique}{section.4}% 21
 \BOOKMARK [1][-]{section.5}{Fonctionnalit\351s}{part.2}% 22
 \BOOKMARK [2][-]{subsection.5.1}{Recherche et suggestion de morceaux pertinents}{section.5}% 23
-\BOOKMARK [2][-]{subsection.5.2}{Gestion des favoris}{section.5}% 24
-\BOOKMARK [2][-]{subsection.5.3}{Cr\351ation et gestion de playlists personnalis\351es}{section.5}% 25
-\BOOKMARK [2][-]{subsection.5.4}{S\351lection d'ambiance}{section.5}% 26
-\BOOKMARK [2][-]{subsection.5.5}{Synchronisation d'un compte Deezer}{section.5}% 27
+\BOOKMARK [2][-]{subsection.5.2}{Cr\351ation et gestion de playlists personnalis\351es}{section.5}% 24
+\BOOKMARK [2][-]{subsection.5.3}{Synchronisation d'un compte Deezer}{section.5}% 25
+\BOOKMARK [2][-]{subsection.5.4}{Gestion des favoris}{section.5}% 26
+\BOOKMARK [2][-]{subsection.5.5}{S\351lection d'ambiance}{section.5}% 27
 \BOOKMARK [0][-]{part.3}{III R\351alisation technique}{}% 28
 \BOOKMARK [1][-]{section.6}{Environnement de travail}{part.3}% 29
 \BOOKMARK [2][-]{subsection.6.1}{Gestionnaires de paquets}{section.6}% 30
@@ -40,7 +40,7 @@
 \BOOKMARK [3][-]{subsubsection.7.2.1}{Classe}{subsection.7.2}% 40
 \BOOKMARK [3][-]{subsubsection.7.2.2}{Encapsulation}{subsection.7.2}% 41
 \BOOKMARK [3][-]{subsubsection.7.2.3}{H\351ritage}{subsection.7.2}% 42
-\BOOKMARK [2][-]{subsection.7.3}{Design patterns utilis\351s}{section.7}% 43
+\BOOKMARK [2][-]{subsection.7.3}{Design patterns impl\351ment\351s}{section.7}% 43
 \BOOKMARK [3][-]{subsubsection.7.3.1}{Patterns cr\351ationnels}{subsection.7.3}% 44
 \BOOKMARK [4][-]{paragraph.7.3.1.1}{Singleton}{subsubsection.7.3.1}% 45
 \BOOKMARK [4][-]{paragraph.7.3.1.2}{Factory}{subsubsection.7.3.1}% 46
@@ -53,10 +53,12 @@
 \BOOKMARK [3][-]{subsubsection.7.3.4}{Autres patterns}{subsection.7.3}% 53
 \BOOKMARK [4][-]{paragraph.7.3.4.1}{Module}{subsubsection.7.3.4}% 54
 \BOOKMARK [4][-]{paragraph.7.3.4.2}{MVVM}{subsubsection.7.3.4}% 55
-\BOOKMARK [2][-]{subsection.7.4}{Interrogation de deux APIs RESTful}{section.7}% 56
-\BOOKMARK [2][-]{subsection.7.5}{Cr\351ation d'interface graphique}{section.7}% 57
-\BOOKMARK [2][-]{subsection.7.6}{Documentation des modules}{section.7}% 58
-\BOOKMARK [2][-]{subsection.7.7}{Tests}{section.7}% 59
-\BOOKMARK [3][-]{subsubsection.7.7.1}{Tests unitaires}{subsection.7.7}% 60
-\BOOKMARK [3][-]{subsubsection.7.7.2}{Tests fonctionnels}{subsection.7.7}% 61
-\BOOKMARK [3][-]{subsubsection.7.7.3}{Tests de performance}{subsection.7.7}% 62
+\BOOKMARK [2][-]{subsection.7.4}{Structure de l'application}{section.7}% 56
+\BOOKMARK [2][-]{subsection.7.5}{Interrogation de deux APIs RESTful}{section.7}% 57
+\BOOKMARK [2][-]{subsection.7.6}{Cr\351ation d'interface graphique}{section.7}% 58
+\BOOKMARK [2][-]{subsection.7.7}{Balisage s\351mantique avec m\351tadonn\351es}{section.7}% 59
+\BOOKMARK [2][-]{subsection.7.8}{Documentation des modules}{section.7}% 60
+\BOOKMARK [2][-]{subsection.7.9}{Tests}{section.7}% 61
+\BOOKMARK [3][-]{subsubsection.7.9.1}{Tests unitaires}{subsection.7.9}% 62
+\BOOKMARK [3][-]{subsubsection.7.9.2}{Tests fonctionnels}{subsection.7.9}% 63
+\BOOKMARK [3][-]{subsubsection.7.9.3}{Tests de performance}{subsection.7.9}% 64

@@ -5,6 +5,7 @@ var Vocabulary = require('../../app/js/modules/Vocabulary.js'),
     Sorting = require('../../app/js/modules/Sorting.js'),
     Player = require('../../app/js/modules/Player'),
     Playlist = require('../../app/js/modules/Playlist'),
+    User = require('../../app/js/modules/User'),
     // Le module GUI n'est pas vraiment testé ici. Voir les tests fonctionnels.
     GUI = require('../../app/js/modules/GUI');
 
@@ -250,12 +251,36 @@ QUnit.test( "Playlist", function( assert ) {
   assert.ok(Playlist.selectedTracks.length == 0, "La playlist est vide à l'initialisation (1/2)");
   assert.ok(Playlist.tracksIds.length == 0, "La playlist est vide à l'initialisation (2/2)");
 
-  Playlist.addTrackToPlaylist(track);
+  Playlist.addTrack(track);
   assert.notOk(Playlist.selectedTracks.length == 0, "La playlist est mise à jour lors d'un ajout (1/2)");
   assert.notOk(Playlist.tracksIds.length == 0, "La playlist est mise à jour lors d'un ajout (2/2)");
   assert.equal(Playlist.selectedTracks[0].getTitle(), "Far Beyond The Sun", "Le morceau est chargé dans la playlist");
 
-  Playlist.removeTrackFromPlaylist(0);
+  Playlist.removeTrack(0);
   assert.ok(Playlist.selectedTracks.length == 0, "La playlist est mise à jour lors d'une suppression (1/2)");
   assert.ok(Playlist.tracksIds.length == 0, "La playlist est mise à jour lors d'une suppression (2/2)");
+});
+
+/* ========================================================================== */
+
+QUnit.test( "User", function( assert ) {
+  assert.expect( 3 );
+
+  var id = 1,
+      name = "Toto",
+      inscriptionDate = "01/01/2000",
+      link = "http://www.url.com",
+      picture = "http://www.url.com/image",
+      user = new User(id, name, inscriptionDate, link, picture);
+
+  assert.ok(user instanceof User, "Utilisateur créé");
+  assert.equal(user.getName(), name, "Hydratation OK");
+  assert.throws(
+    function() {
+      User(id, name, inscriptionDate, link, picture)
+    },
+    Error,
+    "Erreur ! La classe User doit être instanciée avec l'opérateur « new »"
+  );
+
 });

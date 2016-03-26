@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.18)  21 MAR 2016 21:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.18)  26 MAR 2016 06:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -800,7 +800,7 @@ LaTeX Info: Redefining \nameref on input line 82.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <20.74> not available
 (Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 84.
 
-<logo-harmoneezer.png, id=253, 501.875pt x 501.875pt>
+<logo-harmoneezer.png, id=261, 501.875pt x 501.875pt>
 File: logo-harmoneezer.png Graphic file (type png)
 
 <use logo-harmoneezer.png>
@@ -834,349 +834,391 @@ Overfull \hbox (16.70276pt too wide) in paragraph at lines 152--153
 tie du t^^Sel^^Sechargement
  []
 
-[9] [10] [11] [12] [13] <camelot-wheel.jpg, id=413, 752.8125pt x 752.8125pt>
+[9] [10] [11] [12] [13] <camelot-wheel.jpg, id=423, 752.8125pt x 752.8125pt>
 File: camelot-wheel.jpg Graphic file (type jpg)
 
 <use camelot-wheel.jpg>
-Package pdftex.def Info: camelot-wheel.jpg used on input line 212.
+Package pdftex.def Info: camelot-wheel.jpg used on input line 214.
 (pdftex.def)             Requested size: 376.40532pt x 376.40532pt.
  [14 <./camelot-wheel.jpg>]
-<camelot-wheel-harmony.jpg, id=418, 752.8125pt x 752.8125pt>
+<camelot-wheel-harmony.jpg, id=428, 752.8125pt x 752.8125pt>
 File: camelot-wheel-harmony.jpg Graphic file (type jpg)
 
 <use camelot-wheel-harmony.jpg>
-Package pdftex.def Info: camelot-wheel-harmony.jpg used on input line 221.
+Package pdftex.def Info: camelot-wheel-harmony.jpg used on input line 223.
 (pdftex.def)             Requested size: 376.40532pt x 376.40532pt.
  [15 <./camelot-wheel-harmony.jpg>] [16]
-<gamme-do.png, id=427, 584.1825pt x 127.47626pt>
+<gamme-do.png, id=437, 584.1825pt x 127.47626pt>
 File: gamme-do.png Graphic file (type png)
  <use gamme-do.png>
-Package pdftex.def Info: gamme-do.png used on input line 275.
+Package pdftex.def Info: gamme-do.png used on input line 279.
 (pdftex.def)             Requested size: 292.09053pt x 63.73796pt.
- [17 <./gamme-do.png>] <gamme-do-degres.png, id=432, 1027.84pt x 109.40875pt>
+ [17 <./gamme-do.png>] <gamme-do-degres.png, id=442, 1027.84pt x 109.40875pt>
 File: gamme-do-degres.png Graphic file (type png)
 
 <use gamme-do-degres.png>
-Package pdftex.def Info: gamme-do-degres.png used on input line 285.
+Package pdftex.def Info: gamme-do-degres.png used on input line 289.
 (pdftex.def)             Requested size: 411.12872pt x 43.76271pt.
 
-Overfull \hbox (21.12872pt too wide) in paragraph at lines 285--286
+Overfull \hbox (21.12872pt too wide) in paragraph at lines 289--290
  [] 
  []
 
 [18 <./gamme-do-degres.png>]
-<gamme-chromatique.png, id=438, 718.685pt x 355.3275pt>
+<gamme-chromatique.png, id=448, 718.685pt x 355.3275pt>
 File: gamme-chromatique.png Graphic file (type png)
 
 <use gamme-chromatique.png>
-Package pdftex.def Info: gamme-chromatique.png used on input line 320.
+Package pdftex.def Info: gamme-chromatique.png used on input line 324.
 (pdftex.def)             Requested size: 359.34161pt x 177.6633pt.
- <clavier-piano.png, id=439, 983.675pt x 481.8pt>
+ <clavier-piano.png, id=449, 983.675pt x 481.8pt>
 File: clavier-piano.png Graphic file (type png)
 
 <use clavier-piano.png>
-Package pdftex.def Info: clavier-piano.png used on input line 329.
+Package pdftex.def Info: clavier-piano.png used on input line 333.
 (pdftex.def)             Requested size: 393.46303pt x 192.71658pt.
 
-Overfull \hbox (3.46303pt too wide) in paragraph at lines 329--330
+Overfull \hbox (3.46303pt too wide) in paragraph at lines 333--334
  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[19 <./gamme-chromatique.png>] [20 <./clavier-piano.png>] [21]
-Overfull \hbox (25.12895pt too wide) in paragraph at lines 391--392
+[19 <./gamme-chromatique.png>] [20 <./clavier-piano.png>] [21] [22]
+Overfull \hbox (25.12895pt too wide) in paragraph at lines 398--399
 []\OT1/cmr/m/n/12 Lorsque l'uti-li-sa-teur voit cette premi^^Rere liste de sug-
 ges-tions, il peut s^^Selectionner
  []
 
-[22] <processus.png, id=459, 933.4875pt x 387.4475pt>
+<processus.png, id=470, 1240.635pt x 607.26875pt>
 File: processus.png Graphic file (type png)
  <use processus.png>
-Package pdftex.def Info: processus.png used on input line 395.
-(pdftex.def)             Requested size: 373.38838pt x 154.97624pt.
-
-[23 <./processus.png>] [24] [25] [26]
-<logo-npm.png, id=477, 520.94624pt x 202.7575pt>
+Package pdftex.def Info: processus.png used on input line 402.
+(pdftex.def)             Requested size: 372.19337pt x 182.18202pt.
+ [23 <./processus.png>] [24] [25] [26] <logo-npm.png, id=488, 520.94624pt x 202
+.7575pt>
 File: logo-npm.png Graphic file (type png)
- <use logo-npm.png>
-Package pdftex.def Info: logo-npm.png used on input line 504.
+
+<use logo-npm.png>
+Package pdftex.def Info: logo-npm.png used on input line 517.
 (pdftex.def)             Requested size: 104.1874pt x 40.55078pt.
- [27]
-<logo-bower.png, id=482, 371.789pt x 326.821pt>
+ [27] <logo-bower.png, id=493, 371.789pt x 326.821pt>
 File: logo-bower.png Graphic file (type png)
- <use logo-bower.png>
-Package pdftex.def Info: logo-bower.png used on input line 516.
+
+<use logo-bower.png>
+Package pdftex.def Info: logo-bower.png used on input line 529.
 (pdftex.def)             Requested size: 74.35648pt x 65.36304pt.
 
-Overfull \hbox (2.09766pt too wide) in paragraph at lines 520--521
+Overfull \hbox (2.09766pt too wide) in paragraph at lines 533--534
 \OT1/cmr/m/n/12 wer[]components []. []A ce titre, Bo-wer a ^^Set^^Se lo-gi-que-
 ment uti-lis^^Se pour t^^Sel^^Secharger
  []
 
-<logo-sass.png, id=483, 428.60126pt x 321.2pt>
+[28 <./logo-npm.png> <./logo-bower.png>]
+<logo-sass.png, id=500, 428.60126pt x 321.2pt>
 File: logo-sass.png Graphic file (type png)
  <use logo-sass.png>
-Package pdftex.def Info: logo-sass.png used on input line 528.
+Package pdftex.def Info: logo-sass.png used on input line 543.
 (pdftex.def)             Requested size: 85.71872pt x 64.23886pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[28 <./logo-npm.png> <./logo-bower.png>]
-<logo-gulp.png, id=490, 228.855pt x 511.9125pt>
-File: logo-gulp.png Graphic file (type png)
- <use logo-gulp.png>
-Package pdftex.def Info: logo-gulp.png used on input line 540.
-(pdftex.def)             Requested size: 45.77019pt x 102.38068pt.
- [29 <./logo-sass.png> <./logo-gulp.png>]
-LaTeX Font Info:    Try loading font information for TS1+cmtt on input line 552
-.
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd
-File: ts1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 555.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 556.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 555.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 556.
+ [29 <./logo-sass.png>] <logo-gulp.png, id=524, 228.855pt x 511.9125pt>
+File: logo-gulp.png Graphic file (type png)
+ <use logo-gulp.png>
+Package pdftex.def Info: logo-gulp.png used on input line 575.
+(pdftex.def)             Requested size: 45.77019pt x 102.38068pt.
+LaTeX Font Info:    Try loading font information for TS1+cmtt on input line 589
+.
 
-<logo-browserify.png, id=497, 179.41656pt x 79.8206pt>
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd
+File: ts1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+) [30 <./logo-gulp.png>] <logo-browserify.png, id=542, 179.41656pt x 79.8206pt>
 File: logo-browserify.png Graphic file (type png)
 
 <use logo-browserify.png>
-Package pdftex.def Info: logo-browserify.png used on input line 567.
+Package pdftex.def Info: logo-browserify.png used on input line 606.
 (pdftex.def)             Requested size: 125.59071pt x 55.87402pt.
- [30 <./logo-browserify.png>]
-<logo-git.png, id=518, 913.4125pt x 381.425pt>
+ <logo-git.png, id=543, 913.4125pt x 381.425pt>
 File: logo-git.png Graphic file (type png)
- <use logo-git.png>
-Package pdftex.def Info: logo-git.png used on input line 581.
+
+<use logo-git.png>
+Package pdftex.def Info: logo-git.png used on input line 620.
 (pdftex.def)             Requested size: 137.00597pt x 57.21127pt.
-
-<logo-github.png, id=519, 1003.75pt x 411.5375pt>
+ <logo-github.png, id=544, 1003.75pt x 411.5375pt>
 File: logo-github.png Graphic file (type png)
- <use logo-github.png>
-Package pdftex.def Info: logo-github.png used on input line 582.
-(pdftex.def)             Requested size: 150.556pt x 61.72795pt.
 
-[31 <./logo-git.png> <./logo-github.png>]
-<logo-jquery.png, id=527, 321.2pt x 78.2925pt>
+<use logo-github.png>
+Package pdftex.def Info: logo-github.png used on input line 621.
+(pdftex.def)             Requested size: 150.556pt x 61.72795pt.
+ [31 <./logo-browserify.png>]
+<logo-jquery.png, id=551, 321.2pt x 78.2925pt>
 File: logo-jquery.png Graphic file (type png)
  <use logo-jquery.png>
-Package pdftex.def Info: logo-jquery.png used on input line 600.
+Package pdftex.def Info: logo-jquery.png used on input line 641.
 (pdftex.def)             Requested size: 96.36073pt x 23.48792pt.
 
-<logo-javascript.png, id=528, 200.75pt x 200.75pt>
+<logo-javascript.png, id=552, 200.75pt x 200.75pt>
 File: logo-javascript.png Graphic file (type png)
  <use logo-javascript.png>
-Package pdftex.def Info: logo-javascript.png used on input line 608.
+Package pdftex.def Info: logo-javascript.png used on input line 649.
 (pdftex.def)             Requested size: 60.22545pt x 60.22545pt.
 
-[32 <./logo-jquery.png> <./logo-javascript.png>] [33] [34] [35] [36]
-Overfull \hbox (0.58345pt too wide) in paragraph at lines 752--753
+[32 <./logo-git.png> <./logo-github.png> <./logo-jquery.png>]
+Overfull \hbox (2.50967pt too wide) in paragraph at lines 659--660
+[]\OT1/cmr/m/n/12 Pendant long-temps, Ja-vaS-cript a eu une mau-vaise r^^Seputa
+tion, li^^See ^^Ra l'usage
+ []
+
+[33 <./logo-javascript.png>] [34] [35] [36] [37]
+Overfull \hbox (0.58345pt too wide) in paragraph at lines 799--800
 []\OT1/cmr/m/n/12 Les de-sign pat-terns sont des so-lu-tions concr^^Retes ^^Ra 
 des probl^^Remes r^^Securrents
  []
 
-[37] <Singleton.png, id=629, 230.8625pt x 147.55125pt>
+<Singleton.png, id=651, 230.8625pt x 147.55125pt>
 File: Singleton.png Graphic file (type png)
  <use Singleton.png>
-Package pdftex.def Info: Singleton.png used on input line 772.
+Package pdftex.def Info: Singleton.png used on input line 819.
 (pdftex.def)             Requested size: 115.43095pt x 73.77544pt.
 
-<Factory.png, id=630, 794.97pt x 342.27875pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[38] <Factory.png, id=660, 794.97pt x 342.27875pt>
 File: Factory.png Graphic file (type png)
  <use Factory.png>
-Package pdftex.def Info: Factory.png used on input line 785.
+Package pdftex.def Info: Factory.png used on input line 836.
 (pdftex.def)             Requested size: 397.48402pt x 171.13895pt.
 
-Overfull \hbox (7.48402pt too wide) in paragraph at lines 785--786
+Overfull \hbox (7.48402pt too wide) in paragraph at lines 836--837
  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[38 <./Singleton.png>] [39 <./Factory.png>] [40]
-<Adapter.png, id=666, 999.735pt x 340.27126pt>
+[39 <./Singleton.png>] [40 <./Factory.png>] [41]
+<Adapter.png, id=698, 999.735pt x 340.27126pt>
 File: Adapter.png Graphic file (type png)
  <use Adapter.png>
-Package pdftex.def Info: Adapter.png used on input line 837.
+Package pdftex.def Info: Adapter.png used on input line 904.
 (pdftex.def)             Requested size: 399.88692pt x 136.10608pt.
 
-Overfull \hbox (9.88692pt too wide) in paragraph at lines 837--838
+Overfull \hbox (9.88692pt too wide) in paragraph at lines 904--905
  [] 
  []
 
-<Iterator.png, id=667, 680.5425pt x 170.6375pt>
+[42 <./Adapter.png>] <Iterator.png, id=703, 680.5425pt x 170.6375pt>
 File: Iterator.png Graphic file (type png)
- <use Iterator.png>
-Package pdftex.def Info: Iterator.png used on input line 852.
+
+<use Iterator.png>
+Package pdftex.def Info: Iterator.png used on input line 923.
 (pdftex.def)             Requested size: 340.27042pt x 85.31853pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[41 <./Adapter.png>] <Strategy.png, id=673, 803.0pt x 391.4625pt>
+ <Strategy.png, id=704, 803.0pt x 391.4625pt>
 File: Strategy.png Graphic file (type png)
 
 <use Strategy.png>
-Package pdftex.def Info: Strategy.png used on input line 867.
+Package pdftex.def Info: Strategy.png used on input line 936.
 (pdftex.def)             Requested size: 401.49902pt x 195.73076pt.
 
-Overfull \hbox (11.49902pt too wide) in paragraph at lines 867--868
+Overfull \hbox (11.49902pt too wide) in paragraph at lines 936--937
  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[42 <./Iterator.png>] [43 <./Strategy.png>] [44]
-<logo-vuejs.png, id=719, 401.5pt x 401.5pt>
+[43 <./Iterator.png>] [44 <./Strategy.png>] [45] [46]
+<logo-vuejs.png, id=766, 401.5pt x 401.5pt>
 File: logo-vuejs.png Graphic file (type png)
  <use logo-vuejs.png>
-Package pdftex.def Info: logo-vuejs.png used on input line 978.
+Package pdftex.def Info: logo-vuejs.png used on input line 1053.
 (pdftex.def)             Requested size: 80.29857pt x 80.29857pt.
- [45 <./logo-vuejs.png>] [46]
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 1012
+ [47 <./logo-vuejs.png>]
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 1091
 .
  (/usr/share/texlive/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 1012.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 1091.
 
-
-[47] <App.png, id=778, 1668.2325pt x 886.31125pt>
+ [48]
+<App.png, id=808, 1668.2325pt x 886.31125pt>
 File: App.png Graphic file (type png)
  <use App.png>
-Package pdftex.def Info: App.png used on input line 1020.
+Package pdftex.def Info: App.png used on input line 1105.
 (pdftex.def)             Requested size: 667.28119pt x 354.51822pt.
 
-Overfull \hbox (75.28119pt too wide) in paragraph at lines 1020--1021
+Overfull \hbox (75.28119pt too wide) in paragraph at lines 1105--1106
  [] 
  []
 
 
-LaTeX Warning: Float too large for page by 5.35153pt on input line 1023.
+LaTeX Warning: Float too large for page by 5.35153pt on input line 1108.
 
-[48 <./App.png>] <logo-deezer.jpg, id=783, 297.11pt x 174.6525pt>
+[49 <./App.png>] <logo-deezer.jpg, id=814, 297.11pt x 174.6525pt>
 File: logo-deezer.jpg Graphic file (type jpg)
 
 <use logo-deezer.jpg>
-Package pdftex.def Info: logo-deezer.jpg used on input line 1030.
+Package pdftex.def Info: logo-deezer.jpg used on input line 1115.
 (pdftex.def)             Requested size: 148.55463pt x 87.32603pt.
- <logo-echonest.png, id=784, 220.825pt x 174.6525pt>
+ <logo-echonest.png, id=815, 220.825pt x 174.6525pt>
 File: logo-echonest.png Graphic file (type png)
 
 <use logo-echonest.png>
-Package pdftex.def Info: logo-echonest.png used on input line 1031.
+Package pdftex.def Info: logo-echonest.png used on input line 1116.
 (pdftex.def)             Requested size: 110.41222pt x 87.32603pt.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1050.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1135.
 
- [49
+ [50
 
 
  <./logo-deezer.jpg> <./logo-echonest.png>]
-<logo-semanticui.png, id=792, 286.06876pt x 74.2775pt>
+Overfull \hbox (0.8153pt too wide) in paragraph at lines 1139--1140
+[]\OT1/cmr/m/n/12 Si l'on se lance dans un ra-pide com-pa-ra-tif, du point de v
+ue du d^^Seveloppeur,
+ []
+
+[51] <logo-semanticui.png, id=830, 286.06876pt x 74.2775pt>
 File: logo-semanticui.png Graphic file (type png)
 
 <use logo-semanticui.png>
-Package pdftex.def Info: logo-semanticui.png used on input line 1056.
+Package pdftex.def Info: logo-semanticui.png used on input line 1161.
 (pdftex.def)             Requested size: 143.03403pt x 37.13866pt.
- <logo-yuidoc.png, id=793, 234.8775pt x 104.39pt>
+ <logo-opengraph.png, id=831, 301.125pt x 301.125pt>
+File: logo-opengraph.png Graphic file (type png)
+
+<use logo-opengraph.png>
+Package pdftex.def Info: logo-opengraph.png used on input line 1175.
+(pdftex.def)             Requested size: 60.22392pt x 60.22392pt.
+ [52 <./logo-semanticui.png> <./logo-opengraph.png>]
+Overfull \hbox (6.58324pt too wide) in paragraph at lines 1205--1206
+[]\OT1/cmr/m/n/12 Quant aux mi-cro-data, in-tro-duites par HTML5, il faut dire 
+qu'elles s'av^^Rerent
+ []
+
+[53] <logo-yuidoc.png, id=855, 234.8775pt x 104.39pt>
 File: logo-yuidoc.png Graphic file (type png)
-
-<use logo-yuidoc.png>
-Package pdftex.def Info: logo-yuidoc.png used on input line 1070.
+ <use logo-yuidoc.png>
+Package pdftex.def Info: logo-yuidoc.png used on input line 1224.
 (pdftex.def)             Requested size: 117.43846pt x 52.19485pt.
- [50 <./logo-semanticui.png> <./logo-yuidoc.png>]
-<logo-qunit.png, id=800, 219.82124pt x 86.3225pt>
+
+[54 <./logo-yuidoc.png>] <logo-qunit.png, id=873, 219.82124pt x 86.3225pt>
 File: logo-qunit.png Graphic file (type png)
- <use logo-qunit.png>
-Package pdftex.def Info: logo-qunit.png used on input line 1100.
+
+<use logo-qunit.png>
+Package pdftex.def Info: logo-qunit.png used on input line 1262.
 (pdftex.def)             Requested size: 153.87381pt x 60.42531pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[51] [52 <./logo-qunit.png>]
-<logo-phantomjs.png, id=837, 180.675pt x 180.675pt>
+ [55 <./logo-qunit.png>] [56]
+<logo-phantomjs.png, id=899, 180.675pt x 180.675pt>
 File: logo-phantomjs.png Graphic file (type png)
  <use logo-phantomjs.png>
-Package pdftex.def Info: logo-phantomjs.png used on input line 1133.
+Package pdftex.def Info: logo-phantomjs.png used on input line 1309.
 (pdftex.def)             Requested size: 90.33727pt x 90.33727pt.
 
-<logo-casperjs.jpg, id=838, 180.675pt x 180.675pt>
+<logo-casperjs.jpg, id=900, 180.675pt x 180.675pt>
 File: logo-casperjs.jpg Graphic file (type jpg)
  <use logo-casperjs.jpg>
-Package pdftex.def Info: logo-casperjs.jpg used on input line 1134.
+Package pdftex.def Info: logo-casperjs.jpg used on input line 1310.
 (pdftex.def)             Requested size: 90.33727pt x 90.33727pt.
 
-[53 <./logo-phantomjs.png> <./logo-casperjs.jpg>] [54]
-<logo-benchmarkjs.png, id=885, 401.5pt x 401.5pt>
+[57 <./logo-phantomjs.png> <./logo-casperjs.jpg>] [58]
+<logo-benchmarkjs.png, id=954, 401.5pt x 401.5pt>
 File: logo-benchmarkjs.png Graphic file (type png)
  <use logo-benchmarkjs.png>
-Package pdftex.def Info: logo-benchmarkjs.png used on input line 1197.
+Package pdftex.def Info: logo-benchmarkjs.png used on input line 1375.
 (pdftex.def)             Requested size: 80.29857pt x 80.29857pt.
 
-[55 <./logo-benchmarkjs.png>] [56]
-Overfull \hbox (18.37784pt too wide) in paragraph at lines 1256--1257
+[59 <./logo-benchmarkjs.png>] [60]
+Overfull \hbox (18.37784pt too wide) in paragraph at lines 1443--1444
 []\OT1/cmr/m/n/12 HARMONEEZER est une ap-pli-ca-tion web in-ter-ac-tive qui s'i
 ns-crit r^^Sesolument
  []
 
 
-Overfull \hbox (6.75421pt too wide) in paragraph at lines 1262--1263
+Overfull \hbox (6.75421pt too wide) in paragraph at lines 1449--1450
 \OT1/cmr/m/n/12 conscience de la puis-sance de ce mod^^Rele pro-to-ty-pal et de
  cette flexi-lit^^Se inh^^Serente
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1265.
-[57]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1265.
+[61]
+Overfull \hbox (3.39981pt too wide) in paragraph at lines 1462--1463
+[][][]$\OT1/cmtt/m/n/12 https : / / fr . wikipedia . org / wiki / Partage _ de 
+_ fichiers _ en _ pair _
+ []
+
+
+Overfull \hbox (10.07481pt too wide) in paragraph at lines 1469--1470
+[][][]$\OT1/cmtt/m/n/12 http : / / fr . audiofanzine . com / bien-[]debuter / e
+ditorial / dossiers /
+ []
+
+
+Overfull \hbox (9.57481pt too wide) in paragraph at lines 1484--1485
+[][][]$\OT1/cmtt/m/n/12 https : / / addyosmani . com / resources / essentialjsd
+esignpatterns /
+ []
+
+
+Overfull \hbox (10.07481pt too wide) in paragraph at lines 1496--1497
+[][][]$\OT1/cmtt/m/n/12 http : / / sass-[]lang . com / documentation / file . S
+ASS _ REFERENCE . html$[][] 
+ []
+
+[62]
+Overfull \hbox (10.07481pt too wide) in paragraph at lines 1515--1516
+[][][]$\OT1/cmtt/m/n/12 http : / / www . owlcarousel . owlgraphic . com / docs 
+/ started-[]welcome .
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1525.
+[63]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1525.
  (./rapport.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1265.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1265.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1525.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1525.
 
 Package rerunfilecheck Info: File `rapport.out' has not changed.
-(rerunfilecheck)             Checksum: 71727790365BDE68FA45897204FF5535;4468.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1265.
+(rerunfilecheck)             Checksum: F2B88AE436ECCEDA278C466B997AFA5A;4645.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1525.
  ) 
 Here is how much of TeX's memory you used:
- 10719 strings out of 494991
- 150925 string characters out of 6180055
- 370267 words of memory out of 5000000
- 13361 multiletter control sequences out of 15000+600000
- 14903 words of font info for 53 fonts, out of 8000000 for 9000
+ 10802 strings out of 494991
+ 151985 string characters out of 6180055
+ 393267 words of memory out of 5000000
+ 13404 multiletter control sequences out of 15000+600000
+ 15072 words of font info for 54 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 29i,10n,40p,1789b,1893s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,10n,40p,1006b,1887s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.p
-fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf/font
-s/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-su
-per/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on rapport.pdf (57 pages, 1224461 bytes).
+e1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf/fonts/type
+1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sf
+rm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
+Output written on rapport.pdf (63 pages, 1256076 bytes).
 PDF statistics:
- 1069 PDF objects out of 1200 (max. 8388607)
- 934 compressed objects within 10 object streams
- 406 named destinations out of 1000 (max. 500000)
- 657 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1200 PDF objects out of 1200 (max. 8388607)
+ 1055 compressed objects within 11 object streams
+ 445 named destinations out of 1000 (max. 500000)
+ 678 words of extra memory for PDF output out of 10000 (max. 10000000)
 

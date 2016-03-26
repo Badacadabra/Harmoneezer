@@ -31,7 +31,6 @@
     "alertify-js": "~1.6.1",
     "malihu-custom-scrollbar-plugin": "~3.1.3",
     "tabletoCSV": "~0.1.0",
-    "qtip2": "~2.2.1",
     "vegas": "~2.1.3"
   },
   "overrides": {
@@ -39,7 +38,10 @@
       "main": "**/jquery.min.js"
     },
     "jquery-ui": {
-      "main": "**/jquery-ui.min.js"
+      "main": [
+         "**/jquery-ui.min.js",
+         "**/themes/vader/jquery-ui.min.css"
+      ]
     },
     "vue": {
       "main": "**/vue.min.js"
@@ -48,22 +50,33 @@
       "main": "**/underscore-min.js"
     },
     "owlcarousel": {
-      "main": ["**/owl.carousel.min.js", "**/owl.carousel.css", "**/owl.theme.css"]
+      "main": [
+        "**/owl.carousel.min.js",
+        "**/owl.carousel.css",
+        "**/owl.theme.css"
+      ]
     },
     "alertify-js": {
-      "main": ["**/alertify.min.js", "**/alertify.min.css", "**/default.min.css"]
+      "main": [
+        "**/alertify.min.js",
+        "**/alertify.min.css",
+        "**/default.min.css"
+      ]
     },
     "malihu-custom-scrollbar-plugin": {
-      "main": ["**/jquery.mCustomScrollbar.concat.min.js", "**/jquery.mCustomScrollbar.min.css"]
+      "main": [
+        "**/jquery.mCustomScrollbar.concat.min.js",
+        "**/jquery.mCustomScrollbar.min.css"
+      ]
     },
     "tabletoCSV": {
       "main": "**/jquery.tabletoCSV.js"
     },
-    "qtip2": {
-      "main": ["**/jquery.qtip.min.js", "**/jquery.qtip.min.css"]
-    },
     "vegas": {
-      "main": ["**/vegas.min.js", "**/vegas.min.css"]
+      "main": [
+        "**/vegas.min.js",
+        "**/vegas.min.css"
+      ]
     }
   },
   "devDependencies": {

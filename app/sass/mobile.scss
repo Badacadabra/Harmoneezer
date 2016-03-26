@@ -27,7 +27,7 @@ $maroon: #B66F2F;
 
 #search input {
   padding: 5px 10px !important;
-  font-size: 13px;
+  font-size: 0.7em;
   border-bottom: 0 !important;
 }
 
@@ -41,12 +41,13 @@ $maroon: #B66F2F;
 
 #logo {
   margin-top: 5px;
-  border-top: solid 3px $blue !important;
-  border-bottom: solid 3px $red !important;
+  border-top: solid 5px $blue !important;
+  border-bottom: solid 5px $red !important;
 
   h1 {
     width: 100%;
     text-align: center;
+    font-size: 1.7em;
   }
 
   &:hover {
@@ -100,5 +101,9 @@ $maroon: #B66F2F;
 #fav-notify,
 #fav-sound,
 #fav-autocomplete {
+  display: none;
+}
+
+#toggle-carousel {
   display: none;
 }

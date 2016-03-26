@@ -12,6 +12,8 @@ module.exports = Music = {
    * @param {Number} id Identifiant Deezer
    * @param {String} title Titre
    * @param {String} artist Artiste
+   * @param {String} album Nom de l'album
+   * @param {String} date Date de sortie de l'album
    * @param {String} cover Pochette d'album
    * @param {String} key Tonalité
    * @param {String} mode Mode (majeur ou mineur)
@@ -19,7 +21,7 @@ module.exports = Music = {
    * @param {String} camelotTag Tag du morceau sur la roue de Camelot
    * @param {Array} harmonies Tags compatibles sur la roue de Camelot
    */
-  Track: function(id, title, artist, cover, key, mode, tempo, camelotTag, harmonies) {
+  Track: function(id, title, artist, album, date, cover, key, mode, tempo, camelotTag, harmonies) {
 
     if (!(this instanceof Music.Track)) {
       throw new Error("Erreur ! La classe Track doit être instanciée avec l'opérateur « new »");
@@ -49,6 +51,22 @@ module.exports = Music = {
      * @default ""
      */
     this._artist = artist;
+    /**
+     * Nom de l'album
+     *
+     * @property _album
+     * @type {String}
+     * @default ""
+     */
+    this._album = album;
+    /**
+     * Date de sortie de l'album
+     *
+     * @property _date
+     * @type {String}
+     * @default ""
+     */
+    this._date = date;
     /**
      * Pochette d'album
      *
@@ -104,11 +122,11 @@ module.exports = Music = {
    *
    * @class Harmony
    * @constructor
-   * @param {Object} track Un objet morceau (Track)
+   * @param {Object} refTrack Morceau de référence
+   * @param {Object} otherTrack Autre morceau, pour la comparaison
    * @param {Number} tempoVariation Variation du tempo
-   * @param {Boolean} isActive L'harmonie est-elle effective ?
    */
-  Harmony: function(track, tempoVariation, isActive) {
+  Harmony: function(refTrack, otherTrack, tempoVariation) {
 
     if (!(this instanceof Music.Harmony)) {
       throw new Error("Erreur ! La classe Harmony doit être instanciée avec l'opérateur « new »");
@@ -117,11 +135,19 @@ module.exports = Music = {
     /**
      * Morceau de référence
      *
-     * @property _track
+     * @property _refTrack
      * @type {Object}
      * @default {}
      */
-    this._track = track,
+    this._refTrack = refTrack,
+    /**
+     * Autre morceau, pour la comparaison
+     *
+     * @property _otherTrack
+     * @type {Object}
+     * @default {}
+     */
+    this._otherTrack = otherTrack,
     /**
      * Variation du tempo par rapport à un morceau de référence
      *
@@ -131,21 +157,13 @@ module.exports = Music = {
      */
     this._tempoVariation = tempoVariation,
     /**
-     * Booléen vérifiant si l'harmonie est effective ou non
-     *
-     * @property _isActive
-     * @type {Boolean}
-     * @default false
-     */
-    this._isActive = isActive,
-    /**
      * Méthode calculant le tempo minimal au regard de la variation autorisée
      *
      * @method tempoMin
      * @return {Number} Le tempo minimal
      */
     this.tempoMin = function() {
-        return Math.round(track.getTempo() - (track.getTempo() * this._tempoVariation));
+        return Math.round(this._refTrack.getTempo() - (this._refTrack.getTempo() * this._tempoVariation));
     },
     /**
      * Méthode calculant le tempo maximal au regard de la variation autorisée
@@ -154,7 +172,25 @@ module.exports = Music = {
      * @return {Number} Le tempo maximal
      */
     this.tempoMax = function() {
-        return Math.round(track.getTempo() + (track.getTempo() * this._tempoVariation));
+        return Math.round(this._refTrack.getTempo() + (this._refTrack.getTempo() * this._tempoVariation));
+    },
+    /**
+     * Méthode déterminant la compatibilité en tempo entre les deux morceaux comparés
+     *
+     * @method tempoCompatibility
+     * @return {Boolean} Vrai en cas de compatibilité, faux sinon
+     */
+    this.tempoCompatibility = function() {
+        return (this._otherTrack.getTempo() >= this.tempoMin() && this._otherTrack.getTempo() <= this.tempoMax());
+    },
+    /**
+     * Méthode déterminant la compatibilité en tonalité entre les deux morceaux comparés
+     *
+     * @method keyCompatibility
+     * @return {Boolean} Vrai en cas de compatibilité, faux sinon
+     */
+    this.keyCompatibility = function() {
+        return ($.inArray(this._otherTrack.getCamelotTag(), this._refTrack.getHarmonies()) != -1);
     };
 
   }
@@ -200,6 +236,34 @@ Music.Track.prototype = {
    * @param {String} Le nouvel artiste du morceau
    */
   setArtist: function(artist) { this._artist = artist; },
+  /**
+   * Accesseur pour le nom de l'album
+   *
+   * @method getAlbum
+   * @return {String} Le nom de l'album
+   */
+  getAlbum: function() { return this._album; },
+  /**
+   * Mutateur pour le nom de l'album
+   *
+   * @method setAlbum
+   * @param {String} Le nouveau nom de l'album
+   */
+  setAlbum: function(album) { this._album = album; },
+  /**
+   * Accesseur pour la date de sortie de l'album
+   *
+   * @method getDate
+   * @return {String} La date de sortie de l'album
+   */
+  getDate: function() { return this._date; },
+  /**
+   * Mutateur pour la date de sortie de l'album
+   *
+   * @method setDate
+   * @param {String} La nouvelle date de sortie de l'album
+   */
+  setDate: function(date) { this._date = date; },
   /**
    * Accesseur pour la pochette d'album
    *
@@ -293,17 +357,31 @@ Music.Harmony.prototype = {
   /**
    * Accesseur pour le morceau de référence
    *
-   * @method getTrack
+   * @method getRefTrack
    * @return {Object} Le morceau de référence
    */
-  getTrack: function() { return this._track; },
+  getRefTrack: function() { return this._refTrack; },
   /**
    * Mutateur pour le morceau de référence
    *
-   * @method setTrack
+   * @method setRefTrack
    * @param {Object} Le nouveau morceau de référence
    */
-  setTrack: function(track) { this._track = track; },
+  setRefTrack: function(refTrack) { this._refTrack = refTrack; },
+  /**
+   * Accesseur pour l'autre morceau, utilisé à titre de comparaison
+   *
+   * @method getOtherTrack
+   * @return {Object} Le morceau à comparer avec le morceau de référence
+   */
+  getOtherTrack: function() { return this._otherTrack; },
+  /**
+   * Mutateur pour l'autre morceau, utilisé à titre de comparaison
+   *
+   * @method setOtherTrack
+   * @param {Object} Le nouveau morceau à comparer avec le morceau de référence
+   */
+  setOtherTrack: function(otherTrack) { this._otherTrack = otherTrack; },
   /**
    * Accesseur pour la variation du tempo
    *
@@ -317,12 +395,5 @@ Music.Harmony.prototype = {
    * @method setTempoVariation
    * @param {Number} La nouvelle variation du tempo
    */
-   setTempoVariation: function(tempoVariation) { this._tempoVariation = tempoVariation; },
-  /**
-   * Accesseur pour savoir si l'harmonie est effective ou non
-   *
-   * @method isActive
-   * @return {Boolean} Vrai ou faux
-   */
-  isActive: function() { return this._isActive; }
+   setTempoVariation: function(tempoVariation) { this._tempoVariation = tempoVariation; }
 };

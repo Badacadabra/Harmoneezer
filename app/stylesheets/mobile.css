@@ -23,7 +23,7 @@
 
 #search input {
   padding: 5px 10px !important;
-  font-size: 13px;
+  font-size: 0.7em;
   border-bottom: 0 !important;
 }
 
@@ -37,12 +37,13 @@
 
 #logo {
   margin-top: 5px;
-  border-top: solid 3px #188AE3 !important;
-  border-bottom: solid 3px #F04A3C !important;
+  border-top: solid 5px #188AE3 !important;
+  border-bottom: solid 5px #F04A3C !important;
 }
 #logo h1 {
   width: 100%;
   text-align: center;
+  font-size: 1.7em;
 }
 #logo:hover {
   border-top-width: 5px;
@@ -92,5 +93,9 @@
 #fav-notify,
 #fav-sound,
 #fav-autocomplete {
+  display: none;
+}
+
+#toggle-carousel {
   display: none;
 }

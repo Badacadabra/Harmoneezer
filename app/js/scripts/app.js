@@ -4,12 +4,15 @@ var Vocabulary = require('../modules/Vocabulary.js'),
     Music = require('../modules/Music.js'),
     Ajax = require('../modules/Ajax.js'),
     GUI = require('../modules/GUI.js'),
-    Sorting = require('../modules/Sorting.js');
+    Sorting = require('../modules/Sorting.js'),
+    Playlist = require('../modules/Playlist.js');
 
 // Variables diverses
 var similarTracks = [],
+    refId,
     refTrack,
-    harmony;
+    baseHarmony,
+    factory;
 
 // Sélecteurs jQuery
 var $search,
@@ -33,19 +36,18 @@ function init() {
 
     GUI.init();
 
-    $search = $( "#search" );
-    $owl = $( "#tracks" );
+    $search = $( "#search" ),
+    $owl = $( "#tracks" ),
     $harmonicTracks = $( "#harmonic-tracks" );
+
+    factory = new Ajax.RequestFactory();
 
     $search.find( "input" ).keyup(function() {
       trackAutocomplete();
-      var keyword = $( this ).val();
-      if (keyword.length < 3) {
-        $( "#autocomplete" ).fadeOut();
-      }
+      GUI.search.hideAutocomplete();
     });
 
-      go();
+    go();
 
 }
 
@@ -59,10 +61,10 @@ function trackAutocomplete() {
 
           var keyword = $search.find( "input" ).val();
 
-          request = new Ajax.RequestFactory().getAjaxRequest("deezer", "/search/track");
+          request = factory.getAjaxRequest("deezer", "/search/track");
           request.addParam("q", keyword);
           request.addParam("limit", 10);
-          request.send(success, null);
+          request.send(success, error);
 
           function success(response) {
 
@@ -70,12 +72,30 @@ function trackAutocomplete() {
             var html = "";
 
             for (var i = 0, len = response.data.length; i < len; i++) {
-              var track = response.data[i];
-              html += GUI.template("autocomplete", track, null, null);
-              selectedTrack("autocomplete-" + track.id, track.id);
+              var track = response.data[i],
+                  customTrack = new Music.Track(
+                                                  track.id,
+                                                  track.title,
+                                                  track.artist.name,
+                                                  track.album.title,
+                                                  track.album.release_date,
+                                                  track.album.cover_medium,
+                                                  "",
+                                                  "",
+                                                  0,
+                                                  "",
+                                                  []
+                                                );
+
+              html += GUI.template("autocomplete", customTrack, null, null);
+              selectedTrack("autocomplete-" + track.id, customTrack);
             }
             $( "#autocomplete" ).append( html );
             $( "#autocomplete" ).show();
+          }
+
+          function error(response) {
+            console.log(response);
           }
         },
         minLength: 3
@@ -126,38 +146,63 @@ function searchTracks() {
 
     // Réinitialisation de la recherche
     if ($owl.is( ":visible" )) $owl.empty();
-    if (similarTracks.length > 0) similarTracks = [];
     GUI.cleanNotifications();
 
     var keyword = $search.find( "input" ).val();
 
     // Paramétrage et envoi de la requête
-    request = new Ajax.RequestFactory().getAjaxRequest("deezer", "/search/track");
+    request = factory.getAjaxRequest("deezer", "/search/track");
     request.addParam("q", keyword);
     request.addParam("limit", 20);
-    request.send(success, null);
+    request.send(success, error);
 
     // Traitement de la réponse au succès
     function success(response) {
         // On récupère toutes les informations sur chaque morceau
         for (var i = 0, len = response.data.length; i < len; i++) {
-            var track = response.data[i];
-            // On affiche les résultats
-            var html = GUI.template("base-track", track, null, null);
+            var track = response.data[i],
+                customTrack = new Music.Track(
+                                                track.id,
+                                                track.title,
+                                                track.artist.name,
+                                                track.album.title,
+                                                track.album.release_date,
+                                                track.album.cover_medium,
+                                                "",
+                                                "",
+                                                0,
+                                                "",
+                                                []
+                                              );
+            // On construit le template
+            var html = GUI.template("base-track", customTrack, null, null);
             $owl.data('owlCarousel').addItem(html);
-            if (!$owl.is( ":visible" )) {
-              $owl.fadeIn();
-            }
             // On ajoute un écouteur d'événement de type clic pour chaque morceau
-            selectedTrack("submit-" + track.id, track.id);
+            selectedTrack("submit-" + track.id, customTrack);
         }
+        // On affiche les résultats
+        $( "#toggle-carousel i" )
+          .switchClass( "down", "up" )
+          .css( "border-color", "#188AE3" );
+    }
+
+    function error(response) {
+      console.log(response);
     }
 
 }
 
 // Gestion du clic sur un élément de la liste de suggestions
-function selectedTrack(eltId, trackId) {
+function selectedTrack(eltId, track) {
+    $( document ).off( "click", "#" + eltId );
     $( document ).on( "click", "#" + eltId, function() {
+        // On remet les compteurs à 0...
+        if (similarTracks.length > 0) similarTracks = [];
+        // On désactive la recherche
+        GUI.search.off();
+        // On définit la référence
+        refId = eltId;
+        refTrack = track;
         // Affectation d'un algorithme de tri
         setSortingStrategy();
         // On efface les notifications
@@ -165,9 +210,9 @@ function selectedTrack(eltId, trackId) {
         // On affiche un loader pour faire patienter l'internaute
         GUI.loading.on();
         // On récupère le résumé audio du morceau sélectionné sur Echo Nest
-        getInitialAudioSummary(trackId);
+        getInitialAudioSummary(track.getId());
         // On récupère les informations détaillées du morceau sur Deezer
-        getTrackInfos(trackId);
+        getTrackInfo(track.getId());
     });
 }
 
@@ -175,9 +220,10 @@ function selectedTrack(eltId, trackId) {
 function getInitialAudioSummary(trackId) {
 
     // Paramétrage et envoi de la requête
-    request = new Ajax.RequestFactory().getAjaxRequest("echonest", "/track/profile");
+    request = factory.getAjaxRequest("echonest", "/track/profile");
     request.addParam("id", "deezer:track:" + trackId);
-    request.send(success, null);
+    request.addParam("bucket", "audio_summary");
+    request.send(success, error);
 
     // Traitement de la réponse au succès
     function success(final) {
@@ -197,54 +243,76 @@ function getInitialAudioSummary(trackId) {
                     tempo = Math.round(track.audio_summary.tempo);
 
                 // On construit le profil du morceau de référence
-                buildRefTrackProfile(trackId, title, artist, "", key, mode, tempo);
+                buildRefTrackProfile(key, mode, tempo);
 
-                GUI.alert("message", "« " + title + " » par " + artist, 0);
-                GUI.alert("message", "Tonalité : " + key + " " + mode, 0);
-                GUI.alert("message", "Tempo : " + tempo + " BPM", 0);
+                // On affiche tout ça à l'utilisateur
+                var info = "<strong>« " + title + " »</strong><br>";
+                    info += "<em>" + artist + "</em><br>";
+                    info += "<u>Tonalité</u> : " + key + " " + mode + "<br>";
+                    info += "<u>Tempo</u> : " + tempo + " BPM";
+
+                GUI.alert("message", info, 0);
             } else {
-              buildRefTrackProfile(trackId, "", "", "", "", "", 0);
+              buildRefTrackProfile("", "", 0);
               GUI.alert("error", "Le résumé audio de ce morceau n'est pas disponible sur Echo Nest.", 10);
               GUI.alert("error", "Suggestion harmonique impossible", 10);
             }
         } else {
-          buildRefTrackProfile(trackId, "", "", "", "", "", 0);
+          buildRefTrackProfile("", "", 0);
           GUI.alert("error", "Ce morceau n'a pas été trouvé sur Echo Nest.", 10);
           GUI.alert("error", "Suggestion harmonique impossible", 10);
         }
     }
 
+    function error(response) {
+      console.log(response);
+    }
+
 }
 
 // Construction du profil du morceau de référence
-function buildRefTrackProfile(id, title, artist, cover, key, mode, tempo) {
+function buildRefTrackProfile(key, mode, tempo) {
 
-    // On détermine le tag de Camelot et les harmonies à partir des infos à disposition
-    if (title != "") {
+    // On met à jour le morceau de référence avec les données musicales
+    if (key != "" && mode != "" && tempo != 0) {
       var camelotTag = Vocabulary.harmonicMix[mode][key].tag,
           harmonies = Vocabulary.camelotWheel[camelotTag].matches;
+
+      refTrack.setKey(key);
+      refTrack.setMode(mode);
+      refTrack.setTempo(tempo);
+      refTrack.setCamelotTag(camelotTag);
+      refTrack.setHarmonies(harmonies);
     }
 
-    refTrack = new Music.Track(id, title, artist, cover, key, mode, tempo, camelotTag, harmonies);
+    // On ajoute le morceau à la playlist
+    $( "#" + refId ).next().val(encodeURIComponent(JSON.stringify(refTrack)));
+    GUI.playlist.addTrack(refId);
+
+    // On en profite pour construire l'harmonie de base
     buildHarmonyProfile(refTrack);
 
 }
 
-// Construction du profil de l'harmonie recherchée
+// Construction du profil de base de l'harmonie recherchée
 function buildHarmonyProfile(track) {
-    harmony = new Music.Harmony(track, GUI.tempoVariation, true);
+    harmony = new Music.Harmony(track, null, GUI.tempoVariation);
 }
 
 // Récupération des informations sur un morceau, notamment pour avoir l'id de l'artiste (Deezer)
-function getTrackInfos(trackId) {
+function getTrackInfo(trackId) {
 
     // Paramétrage et envoi de la requête
-    request = new Ajax.RequestFactory().getAjaxRequest("deezer", "/track/" + trackId);
-    request.send(success, null);
+    request = factory.getAjaxRequest("deezer", "/track/" + trackId);
+    request.send(success, error);
 
     // Traitement de la réponse au succès
     function success(response) {
         getSimilarArtists(response.artist.id);
+    }
+
+    function error(response) {
+      console.log(response);
     }
 
 }
@@ -253,9 +321,9 @@ function getTrackInfos(trackId) {
 function getSimilarArtists(artistId) {
 
     // Paramétrage et envoi de la requête
-    request = new Ajax.RequestFactory().getAjaxRequest("deezer", "/artist/" + artistId + "/related");
+    request = factory.getAjaxRequest("deezer", "/artist/" + artistId + "/related");
     request.addParam("limit", 10);
-    request.send(success, null);
+    request.send(success, error);
 
     // Traitement de la réponse au succès
     function success(response) {
@@ -270,62 +338,98 @@ function getSimilarArtists(artistId) {
         getTopTracks(artists);
     }
 
+    function error(response) {
+      console.log(response);
+    }
+
 }
 
 // Récupération des chansons les plus populaires de chaque artiste similaire (Deezer)
 function getTopTracks(similarArtists) {
 
     // Paramétrage et envoi de la requête
-    request = new Ajax.RequestFactory().getAjaxRequest("deezer", "/batch");
+    request = factory.getAjaxRequest("deezer", "/batch");
     request.addParam("limit", 10);
     request.addParam("methods", similarArtists);
-    request.send(success, null);
+    request.send(success, error);
 
     // Traitement de la réponse au succès
     function success(response) {
+        // var ids = [];
         for (var i = 0, len = response.batch_result.length; i < len; i++) {
             var artist = response.batch_result[i];
             $.each(artist.data, function(i, item) {
                 var topTrack = item,
-                    cover = item.album.cover_medium;
+                    album = item.album;
 
-                getTopTrackInfos(topTrack.id, cover);
+                // ids.push(topTrack.id);
+                getTopTrackInfo(topTrack.id, album);
             });
         }
+        // getTopTracksInfo(ids);
+    }
+
+    function error(response) {
+      console.log(response);
     }
 
 }
 
 // Récupération des informations de tempo et de tonalité pour tous les top morceaux (Echo Nest)
-function getTopTrackInfos(topTrackId, cover) {
+function getTopTrackInfo(id, album) {
 
     // Paramétrage et envoi de la requête
-    request = new Ajax.RequestFactory().getAjaxRequest("echonest", "/track/profile");
-    request.addParam("id", "deezer:track:" + topTrackId);
-    request.send(success, null);
+    request = factory.getAjaxRequest("echonest", "/track/profile"); // song...
+    /* var tracksIds = [];
+    for (var i = 0, len = ids.length; i < len; i++) {
+      tracksIds.push("deezer:track:" + ids[i]);
+    } */
+    request.addParam("bucket", "audio_summary");
+    request.addParam("id", "deezer:track:" + id);
+    // request.addParam("track_id", tracksIds);
+    request.send(success, error);
 
     // Traitement de la réponse au succès
     function success(final) {
         // Il faut que les morceaux soient trouvés sur Echo Nest
-        if (final.response.track !== undefined) {
-            // Il faut que les morceaux possèdent un résumé audio sur Echo Nest
-            if (!$.isEmptyObject(final.response.track.audio_summary)) {
-                //  On récupère toutes les informations utiles
-                var track = final.response.track,
-                    title = track.title,
-                    artist = track.artist,
-                    keyIndex = track.audio_summary.key,
-                    key = Vocabulary.keys[keyIndex],
-                    modeIndex = track.audio_summary.mode,
-                    mode = Vocabulary.modes[modeIndex],
-                    tempo = Math.round(track.audio_summary.tempo),
-                    camelotTag = Vocabulary.harmonicMix[mode][key].tag;
+       if (final.response.track !== undefined) {
+           // Il faut que les morceaux possèdent un résumé audio sur Echo Nest
+           if (!$.isEmptyObject(final.response.track.audio_summary)) {
+          // var ids = [];
+          // for (var i = 0, len = final.response.songs.length; i < len; i++) {
+            //  On récupère toutes les informations utiles
+            var track = final.response.track, // final.response.songs[i]
+                title = track.title,
+                artist = track.artist, // track.artist_name
+                keyIndex = track.audio_summary.key,
+                key = Vocabulary.keys[keyIndex],
+                modeIndex = track.audio_summary.mode,
+                mode = Vocabulary.modes[modeIndex],
+                tempo = Math.round(track.audio_summary.tempo),
+                camelotTag = Vocabulary.harmonicMix[mode][key].tag;
 
-                // On alimente un tableau de morceaux pour des tris ultérieurs
-                var topTrack = new Music.Track(topTrackId, title, artist, cover, key, mode, tempo, camelotTag, []);
-                similarTracks.push(topTrack);
-            }
+            // ids.push(track.id);
+            // On alimente un tableau de morceaux pour des tris ultérieurs
+            var topTrack = new Music.Track(
+                                            id,
+                                            title,
+                                            artist,
+                                            album.title,
+                                            album.release_date,
+                                            album.cover_medium,
+                                            key,
+                                            mode,
+                                            tempo,
+                                            camelotTag, []
+                                          );
+            similarTracks.push(topTrack);
+          // }
         }
+      }
+    }
+
+    function error(response) {
+      console.log(response);
     }
 
 }
@@ -344,6 +448,7 @@ $( document ).ajaxStop(function() {
 // Affichage des morceaux selon un ordre déterminé par le tri
 function displayTracks(tracks) {
 
+  $( "#autocomplete" ).hide();
   GUI.scroll.destroy($harmonicTracks);
   $harmonicTracks.empty();
 
@@ -353,21 +458,14 @@ function displayTracks(tracks) {
   iterator = new Iterator(tracks);
   while (iterator.hasNext()) {
 
-    var track = iterator.next(),
-        isTempoCompatible = false,
-        isKeyCompatible = false;
+    var track = iterator.next();
 
-    // On signale les morceaux compatibles en termes de tempo
-    if (track.getTempo() >= harmony.tempoMin() && track.getTempo() <= harmony.tempoMax()) {
-      isTempoCompatible = true;
-    }
-
-    // On signale les morceaux compatibles en termes de tonalité
-    if ($.inArray(track.getCamelotTag(), refTrack.getHarmonies()) != -1) {
-      isKeyCompatible = true;
-    }
+    harmony.setOtherTrack(track);
+    isTempoCompatible = harmony.tempoCompatibility(),
+    isKeyCompatible = harmony.keyCompatibility();
 
     html += GUI.template("harmonic-track", track, isTempoCompatible, isKeyCompatible);
+    selectedTrack("suggestion-" + track.getId(), track);
 
   }
 

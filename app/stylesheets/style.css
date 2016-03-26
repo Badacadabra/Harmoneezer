@@ -148,7 +148,7 @@ form#search {
   border-bottom-color: white !important;
 }
 
-#search input + .search.icon {
+#search input + .icon {
   margin-right: 25px;
 }
 
@@ -159,6 +159,8 @@ form#search {
   font-weight: bold;
   width: 243px;
   border: solid 10px #EEEEEE;
+  position: absolute;
+  top: 72px;
 }
 #autocomplete div {
   cursor: pointer;
@@ -226,6 +228,25 @@ form#search {
 
 .owl-item figure:hover figcaption {
   opacity: 1;
+}
+
+#toggle-carousel {
+  display: flex;
+  justify-content: center;
+}
+#toggle-carousel i {
+  color: white;
+  background-color: #131619;
+  padding-top: 4px;
+  height: 30px;
+  width: 250px;
+  margin: 0;
+  font-size: x-large;
+  float: right;
+  cursor: pointer;
+  border: solid 3px #F04A3C;
+  border-top: 0;
+  border-radius: 0 0 30px 30px;
 }
 
 /* ========================================== */
@@ -439,7 +460,8 @@ form#search {
   align-items: center;
 }
 #playlist .item img {
-  width: 56px !important;
+  width: 45px !important;
+  height: 45px !important;
   margin-right: 20px !important;
 }
 #playlist .item .playlist-track {

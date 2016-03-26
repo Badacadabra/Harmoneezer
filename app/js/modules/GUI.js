@@ -27,6 +27,14 @@ module.exports = GUI = {
    */
   user: null,
   /**
+   * Attribut indiquant si la recherche est autorisée
+   *
+   * @property searchAllowed
+   * @type {Boolean}
+   * @default true
+   */
+  searchAllowed: true,
+  /**
    * Attribut indiquant si les infobulles sont autorisées
    *
    * @property tooltipAllowed
@@ -155,14 +163,13 @@ module.exports = GUI = {
   tooltips: function() {
     if (GUI.tooltipAllowed) {
       $( "[data-title != ''], [data-content != '']" ).popup(); // Semantic UI
-      /* $( "area" ).on( "mouseover", function() {
-        $( ".popup" ).eq(0).addClass( "top left visible" );
-      }); */
-      /* $( "area" ).qtip({ // qTip²
-        style: {
-            classes: 'qtip-dark'
-        }
-      }); */
+      $( document ).tooltip({ // jQuery UI
+        position: {
+          my: "center top",
+          at: "center bottom+5",
+          within: "#ipod-wrapper"
+        },
+      });
     }
   },
   /**
@@ -212,8 +219,7 @@ module.exports = GUI = {
                             [".pause-btn", "click", GUI.playlist.pause],
                             [".play-pause-btn", "click", GUI.playlist.playPause],
                             [".forth-btn", "click", GUI.playlist.forth],
-                            [".next-btn", "click", GUI.playlist.next],
-                            [".harmonic-track", "click", GUI.playlist.addTrack, "async"]
+                            [".next-btn", "click", GUI.playlist.next]
                          ];
 
     // Écouteurs d'événements des favoris
@@ -254,6 +260,8 @@ module.exports = GUI = {
     // Écouteurs d'événements divers
     var otherEvents = [
                         ["#logo", "click", GUI.misc.logo],
+                        ["#request", "click", GUI.search.warning],
+                        ["#toggle-carousel", "click", GUI.misc.toggleCarousel],
                         ["#tracks-help", "click", GUI.misc.help, "async"],
                         [window, "resize", GUI.css]
                       ];
@@ -290,7 +298,7 @@ module.exports = GUI = {
   template: function(type, track, isTempoCompatible, isKeyCompatible) {
     if (type == "base-track") { // Morceau de base
 
-      var artistName = track.artist.name,
+      var artistName = track.getArtist(),
           maxStringLength = 100;
 
       // Si le nom de l'artiste est exagérément long, on le tronque à l'affichage
@@ -298,16 +306,17 @@ module.exports = GUI = {
         artistName = artistName.substr(0, maxStringLength) + " ...";
       }
 
-      var html = '<div id="submit-' + track.id + '" class="track" itemscope itemtype="https://schema.org/MusicRecording">';
-          html += ' <figure>';
-          html += '   <img class="lazyOwl" data-src="' + track.album.cover_medium + '" alt="' + track.title + '">';
+      var html = '<div class="track" itemscope itemtype="https://schema.org/MusicRecording">';
+          html += ' <figure id="submit-' + track.getId() + '">';
+          html += '   <img class="lazyOwl" data-src="' + track.getCover() + '" alt="' + track.getTitle() + '">';
           html += '   <figcaption>';
           html += '     <div>';
-          html += '       <h3 class="track-title" itemprop="name">' + track.title + '</h3>';
+          html += '       <h3 class="track-title" itemprop="name">' + track.getTitle() + '</h3>';
           html += '       <p class="artist-name" itemprop="byArtist">' + artistName + "</p>";
           html += '     </div>';
           html += '   </figcaption>';
           html += ' </figure>';
+          html += ' <input type="hidden" value="' + encodeURIComponent(JSON.stringify(track)) + '">';
           html += '</div>';
 
       return html;
@@ -335,7 +344,7 @@ module.exports = GUI = {
       }
 
       var html = '<a class="harmonic-track" itemscope itemtype="https://schema.org/MusicComposition">';
-          html += ' <figure>';
+          html += ' <figure id="suggestion-' + track.getId() + '">';
           html += '   <img src="' + track.getCover() + '" alt="' + track.getTitle() + '">';
           html += '   <figcaption>';
           html += '     <div>';
@@ -353,9 +362,9 @@ module.exports = GUI = {
 
     } else if (type == "autocomplete") { // Autocomplétion
 
-      var html = '<div id="autocomplete-' + track.id + '">';
-          html += ' <strong>' + track.title + '</strong><br>';
-          html += ' <em>' + track.artist.name + '</em>';
+      var html = '<div id="autocomplete-' + track.getId() + '">';
+          html += ' <strong>' + track.getTitle() + '</strong><br>';
+          html += ' <em>' + track.getArtist() + '</em>';
           html += '</div>';
 
       return html;
@@ -418,6 +427,67 @@ module.exports = GUI = {
       .sidebar( "show" );
   },
   /**
+   * Mini-classe de gestion de la barre de recherche
+   *
+   * @class GUI.search
+   */
+  search: {
+    /**
+     * Activation du moteur de recherche
+     *
+     * @method on
+     */
+    on: function() {
+      $( "#request" )
+        .val( "" )
+        .prop( "readonly", false )
+        .next()
+        .switchClass( "ban", "search" );
+      GUI.searchAllowed = true;
+    },
+    /**
+     * Désactivation du moteur de recherche
+     *
+     * @method off
+     */
+    off: function() {
+      $( "#request" )
+        .val( "Utilisez les suggestions harmoniques !" )
+        .prop( "readonly", true )
+        .next()
+        .switchClass( "search", "ban" );
+      GUI.searchAllowed = false;
+    },
+    /**
+     * Gestion de l'alerte concernant l'état de la recherche
+     *
+     * @method warning
+     */
+    warning: function() {
+      if (!GUI.searchAllowed) {
+        console.log("OK");
+        var message = "Voulez-vous vraiment lancer une nouvelle recherche ?<br>";
+            message += "La progression harmonique de votre playlist ne sera plus garantie...";
+
+        alertify.defaults.glossary.title = "Attention !";
+        alertify.confirm(message, function() {
+          GUI.search.on();
+        }).set("labels", { ok:"Oui", cancel:"Non" });
+      }
+    },
+    /**
+     * Invisibilité de l'autocomplétion en dessous de 3 caractères
+     *
+     * @method hideAutocomplete
+     */
+    hideAutocomplete: function() {
+      var keyword = $( "#request" ).val();
+      if (keyword.length < 3) {
+        $( "#autocomplete" ).slideUp();
+      }
+    }
+  },
+  /**
    * Mini-classe de gestion des scrollbars.
    * Les scrollbars dépendent du plugin mCustomScrollbar.
    *
@@ -441,7 +511,9 @@ module.exports = GUI = {
      * @method reset
      */
     reset: function($container) {
-      $container.mCustomScrollbar();
+      $container.mCustomScrollbar({
+        mouseWheelPixels: 300
+      });
     },
     /**
      * Destruction d'une scrollbar
@@ -814,8 +886,8 @@ module.exports = GUI = {
      *
      * @method addTrack
      */
-    addTrack: function() {
-      var track = JSON.parse(decodeURIComponent($( this ).children().eq(1).val()));
+    addTrack: function(eltId) {
+      var track = JSON.parse(decodeURIComponent($( "#" + eltId ).next().val()));
       Playlist.addTrack(track);
       GUI.player.tracksLoaded = false;
       GUI.alert("success", "Morceau ajouté à votre playlist", 5);
@@ -988,22 +1060,24 @@ module.exports = GUI = {
      * @method vegas
      */
     backgrounds: function() {
-      $( "#main" ).vegas({
-          transition: 'fade',
-          slide: 0,
-          slides: [
-              { src: "./images/background/neutral.jpg" },
-              { src: "./images/background/rock.jpg" },
-              { src: "./images/background/electro.jpg" },
-              { src: "./images/background/hiphop.jpg" },
-              { src: "./images/background/folk.jpg" },
-              { src: "./images/background/classical.jpg" },
-              { src: "./images/background/jazz.jpg" },
-              { src: "./images/background/metal.jpg" }
-          ],
-          animation: 'kenburns'
-      });
-      $( "#main" ).vegas('pause');
+      if ($( window ).width() > 600) {
+        $( "#main" ).vegas({
+            transition: 'fade',
+            slide: 0,
+            slides: [
+                { src: "./images/background/neutral.jpg" },
+                { src: "./images/background/rock.jpg" },
+                { src: "./images/background/electro.jpg" },
+                { src: "./images/background/hiphop.jpg" },
+                { src: "./images/background/folk.jpg" },
+                { src: "./images/background/classical.jpg" },
+                { src: "./images/background/jazz.jpg" },
+                { src: "./images/background/metal.jpg" }
+            ],
+            animation: 'kenburns'
+        });
+        $( "#main" ).vegas('pause');
+      }
     },
     /**
      * Changement d'ambiance
@@ -1187,6 +1261,31 @@ module.exports = GUI = {
      */
     showModal: function($selector) {
       $selector.modal( "show" );
+    },
+    /**
+     * Affichage ou non du carousel de résultats
+     *
+     * @method toggleCarousel
+     */
+    toggleCarousel: function() {
+      var $tracks = $( "#tracks" ),
+          $toggle = $( "#toggle-carousel i" );
+
+      if (!$tracks.is( ":empty" ) && $tracks.is( ":visible" )) {
+        $tracks.slideUp();
+        $toggle
+          .switchClass( "up", "down" )
+          .css( "border-color", "#F04A3C" );
+      } else {
+        if (!$tracks.is( ":empty" )) {
+          $tracks.slideDown();
+          $toggle
+            .switchClass( "down", "up")
+            .css( "border-color", "#188AE3" );
+        } else {
+          GUI.alert("error", "Aucune recherche effectuée !", 5);
+        }
+      }
     }
   }
 }

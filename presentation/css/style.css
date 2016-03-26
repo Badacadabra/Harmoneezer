@@ -112,6 +112,14 @@ h1 {
     align-items: center;
 }
 
+#demo-link {
+    color: white !important;
+}
+
+#demo-link:hover {
+    color: black !important;
+}
+
 /* ========================================== */
 /* ================ Pop-ups ================ */
 /* ======================================== */
@@ -206,23 +214,23 @@ h1 {
 /* ======== Main (Noir & Blanc) ========= */
 
 .microphone {
-    background-image: url('../../app/images/background/microphone.jpg');
+    background-image: url('../assets/img/microphone.jpg');
 }
 
 .headphones {
-    background-image: url('../../app/images/background/headphones.jpg');
+    background-image: url('../assets/img/headphones.jpg');
 }
 
 .piano {
-    background-image: url('../../app/images/background/piano.jpg');
+    background-image: url('../assets/img/piano.jpg');
 }
 
 .rec {
-    background-image: url('../../app/images/background/rec.jpg');
+    background-image: url('../assets/img/rec.jpg');
 }
 
 .cassette {
-    background-image: url('../../app/images/background/cassette.jpg');
+    background-image: url('../assets/img/cassette.jpg');
 }
 
 /* ========= Contexte (Vert) ========== */
@@ -236,29 +244,29 @@ h1 {
 }
 
 .studio {
-    background-image: url('../../app/images/background/studio.jpg');
+    background-image: url('../assets/img/studio.jpg');
 }
 
 .crowd {
-    background-image: url('../../app/images/background/crowd.jpg');
+    background-image: url('../assets/img/crowd.jpg');
 }
 
 /* ========= Projet (Jaune) ========== */
 
-.overlay-link {
+.overlay-link, blockquote a {
     color: #FF9900 !important;
 }
 
 .marshall {
-    background-image: url('../../app/images/background/marshall.jpg');
+    background-image: url('../assets/img/marshall.jpg');
 }
 
 .speaker {
-    background-image: url('../../app/images/background/speaker.jpg');
+    background-image: url('../assets/img/speaker.jpg');
 }
 
 .vinyl {
-    background-image: url('../../app/images/background/vinyl.jpg');
+    background-image: url('../assets/img/vinyl.jpg');
 }
 
 /* ===== Technique (Bleu/Violet) ===== */
@@ -272,11 +280,11 @@ h1 {
 }
 
 .drums {
-    background-image: url('../../app/images/background/drums.jpg');
+    background-image: url('../assets/img/drums.jpg');
 }
 
 .mixer {
-    background-image: url('../../app/images/background/mixer.jpg');
+    background-image: url('../assets/img/mixer.jpg');
 }
 
 .mixer strong {
@@ -291,7 +299,7 @@ h1 {
     color: #AE63E4 !important;
 }
 
-/* ============= Conclusion ============= */
+/* ======== Conclusion (Rouge) ======== */
 
 .conclusion strong {
     color: #131619 !important;
@@ -303,9 +311,13 @@ h1 {
 }
 
 .sunset {
-    background-image: url('../../app/images/background/sunset.jpg');
+    background-image: url('../assets/img/sunset.jpg');
+}
+
+.earphones {
+    background-image: url('../assets/img/earphones.jpg');
 }
 
 .fire-guitar {
-    background-image: url('../../app/images/background/fire-guitar.jpg');
+    background-image: url('../assets/img/fire-guitar.jpg');
 }

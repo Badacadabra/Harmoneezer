@@ -70,8 +70,7 @@ module.exports = Ajax = {
   EchoNestAPIRequest: function(path) {
       Ajax.Request.call(this, "GET", "http://developer.echonest.com/api/v4" + path, "jsonp", {
                     "api_key": "VUSUA1HN4HMWUIN5P",
-                    "format": "jsonp",
-                    "bucket": "audio_summary"
+                    "format": "jsonp"
                   });
   },
   /**
@@ -129,11 +128,12 @@ module.exports = Ajax = {
          url: this._url,
          dataType: this._dataType,
          data: this._data,
+         traditional: true,
          success: function(response) {
-             success(response);
+           success(response);
          },
          error: function(response) {
-             error(response);
+           error(response);
          }
      });
    }

@@ -168,7 +168,7 @@ form#search {
     }
 }
 
-#search input + .search.icon {
+#search input + .icon {
     margin-right: 25px;
 }
 
@@ -179,6 +179,8 @@ form#search {
   font-weight: bold;
   width: 243px;
   border: solid 10px #EEEEEE;
+  position: absolute;
+  top: 72px;
 
   div {
     cursor: pointer;
@@ -254,6 +256,26 @@ form#search {
 
 .owl-item figure:hover figcaption {
   opacity: 1;
+}
+
+#toggle-carousel {
+  display: flex;
+  justify-content: center;
+
+  i {
+    color: white;
+    background-color: $dark;
+    padding-top: 4px;
+    height: 30px;
+    width: 250px;
+    margin: 0;
+    font-size: x-large;
+    float: right;
+    cursor: pointer;
+    border: solid 3px $red;
+    border-top: 0;
+    border-radius: 0 0 30px 30px;
+  }
 }
 
 /* ========================================== */
@@ -498,7 +520,8 @@ form#search {
     align-items: center;
 
     img {
-      width: 56px !important;
+      width: 45px !important;
+      height: 45px !important;
       margin-right: 20px !important;
     }
 

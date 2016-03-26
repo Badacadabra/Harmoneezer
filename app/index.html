@@ -6,6 +6,7 @@
         <title>Créez vos playlists harmoniques avec HARMONEEZER !</title>
         <meta name="description" content="HARMONEEZER vous aide à construire vos playlists, sous l'angle de l'harmonie musicale. Venez découvrir votre prochain coup de cœur !">
         <meta name="author" content="Baptiste Vannesson">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Open Graph (Facebook) -->
         <meta property="og:locale" content="fr_FR">
         <meta property="og:type" content="website">
@@ -114,29 +115,31 @@
                 <strong>Ajoutez-y des morceaux !</strong>
               </div>
             </a>
-            <a class="item playlist-item" v-for="selectedTrack in selectedTracks" itemprop="track">
+            <a class="item playlist-item" v-for="selectedTrack in selectedTracks" itemprop="track" data-title="{{ selectedTrack._tempo + ' BPM' }}">
                 <img v-bind:src="selectedTrack._cover" alt="{{ selectedTrack._title }}">
                 <div class="playlist-track" itemscope itemtype="https://schema.org/MusicRecording">
                   <em itemprop="name">{{ selectedTrack._title }}</em><br>
                   <strong itemprop="byArtist">{{ selectedTrack._artist }}</strong>
                   <input id="playlist-track-index" type="hidden" value="{{ $index }}">
                 </div>
-                <i class="remove circle outline icon" v-on:click="removeTrack($index)"></i>
+                <i class="remove circle outline icon" v-on:mousedown="removeTrack($index)"></i>
             </a>
             <!-- Playlist sous forme de tableau (pour l'export CSV) -->
             <table id="csv-export" style="display:none;">
               <tr>
                 <th>Titre</th>
                 <th>Artiste</th>
+                <th>Album</th>
+                <!-- <th>Date de sortie</th> -->
                 <th>Tonalité</th>
-                <th>Mode</th>
                 <th>Tempo</th>
               </tr>
               <tr v-for="selectedTrack in selectedTracks" itemscope itemtype="https://schema.org/MusicComposition">
                 <td itemprop="name">{{ selectedTrack._title }}</td>
                 <td itemprop="composer">{{ selectedTrack._artist }}</td>
-                <td itemprop="musicalKey">{{ selectedTrack._key }}</td>
-                <td itemprop="musicalKey">{{ selectedTrack._mode }}</td>
+                <td itemscope itemtype="http://schema.org/MusicAlbum" itemprop="name">{{ selectedTrack._album }}</td>
+                <!-- <td itemprop="datePublished">{{ selectedTrack._date }}</td> -->
+                <td itemprop="musicalKey">{{ selectedTrack._key + ' ' + selectedTrack._mode }}</td>
                 <td itemprop="musicalKey">{{ selectedTrack._tempo }}</td>
               </tr>
             </table>
@@ -201,24 +204,6 @@
                 <span>5 %</span>
               </div>
             </a>
-            <!--
-            <a id="fav-default-search" class="item">
-              <div class="field">
-                <div class="ui radio checkbox">
-                  <input class="hidden" name="search" type="radio" checked>
-                   <label>Recherche par défaut</label>
-                </div>
-              </div>
-            </a>
-            <a id="fav-graph-search" class="item">
-              <div class="field">
-                <div class="ui radio checkbox">
-                  <input class="hidden" name="search" type="radio">
-                   <label>Recherche par graphe</label>
-                </div>
-              </div>
-            </a>
-            -->
             <a class="item title red-item">
               <h3>Tri des suggestions</h3>
             </a>
@@ -320,11 +305,11 @@
           <div id="ipod-wrapper">
               <img id="ipod" src="images/foreground/ipod.png" alt="iPod" usemap="#map">
               <map name="map">
-                <area shape="rect" coords="53,110,72,119" data-title="Menu" class="toggle-menu">
-                <area shape="rect" coords="25,141,38,151" data-title="Précédent" class="previous-btn">
-                <area shape="rect" coords="85,142,99,151" data-title="Suivant" class="next-btn">
-                <area shape="rect" coords="54,174,70,183" data-title="Play/Pause" class="play-pause-btn">
-                <area shape="circle" coords="62,146,14" data-title="Tableau de bord" class="toggle-all">
+                <area shape="rect" coords="53,110,72,119" title="Menu" class="toggle-menu">
+                <area shape="rect" coords="25,141,38,151" title="Précédent" class="previous-btn">
+                <area shape="rect" coords="85,142,99,151" title="Suivant" class="next-btn">
+                <area shape="rect" coords="54,174,70,183" title="Play/Pause" class="play-pause-btn">
+                <area shape="circle" coords="62,146,14" title="Dashboard" class="toggle-all">
               </map>
               <div id="player" itemprop="audio"></div>
           </div>
@@ -335,15 +320,18 @@
                       <div id="logo">
                         <h1>HARMONEEZER</h1>
                       </div>
-                      <input type="text" name="keyword" class="prompt" placeholder="Vous cherchez un morceau ?" autocomplete="off" autofocus>
+                      <input id="request" type="text" name="keyword" class="prompt" placeholder="Vous cherchez un morceau ?" autocomplete="off" autofocus>
                       <i class="search icon"></i>
                   </div>
               </form>
           </div>
           <!-- Carousel de résultats -->
           <div id="results">
-              <div id="tracks" class="owl-carousel"></div>
+              <div id="tracks" class="owl-carousel" style="display:none;"></div>
               <div id="autocomplete" style="display:none;"></div>
+              <div id="toggle-carousel">
+                <i class="angle double down icon"></i>
+              </div>
           </div>
           <div id="dz-root"></div>
           <!-- Loader -->
@@ -368,9 +356,13 @@
                 <a href="http://www.badacadabra.net" target="_blank" itemprop="author">Baptiste Vannesson</a>
                 dans le cadre du M2-DNR2I à l'université de Caen Normandie.
               </p>
+              <p>Les données musicales proviennent des APIs de
+                <a href="https://developers.deezer.com/api" target="_blank">Deezer</a>
+                et
+                <a href="http://developer.echonest.com/docs/v4" target="_blank">Echo Nest</a>.
+              </p>
               <p>
-                Le projet est sur GitHub :
-                <a href="https://github.com/Badacadabra/Harmoneezer" target="_blank" itemprop="name">HARMONEEZER</a>
+                Retrouvez le projet sur <a href="https://github.com/Badacadabra/Harmoneezer" target="_blank" itemprop="name">GitHub</a> !
               </p>
             </div>
             <div class="actions">
