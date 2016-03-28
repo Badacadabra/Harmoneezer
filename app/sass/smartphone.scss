@@ -74,36 +74,45 @@ $maroon: #B66F2F;
   display: none;
 }
 
-#user-not-connected {
-  flex-direction: column;
-
-  #user-msg {
-    font-size: small;
-    margin-bottom: 5px !important;
-  }
-
-  #login {
-    width: 70%;
-  }
-}
-
 #menu {
   overflow: hidden;
 }
 
 #autocomplete {
   width: 100%;
+  top: 100px;
 }
 
-#favorites a:first-child,
 #fav-ipod,
-#fav-tooltip,
-#fav-notify,
 #fav-sound,
-#fav-autocomplete {
+#fav-autocomplete,
+#atmospheres {
   display: none;
 }
 
 #toggle-carousel {
   display: none;
+}
+
+#playlist, #favorites {
+  margin-top: 0 !important;
+  padding-bottom: 80px !important;
+}
+
+#user {
+  height: 100% !important;
+
+  #user-connected, #user-not-connected {
+    flex-direction: column;
+
+    #user-msg {
+      font-size: medium;
+      margin-bottom: 5px !important;
+    }
+
+    #login {
+      width: 70%;
+    }
+  }
+
 }

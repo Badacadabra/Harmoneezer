@@ -53,6 +53,8 @@
             
                 <li><a href="../classes/GUI.html">GUI</a></li>
             
+                <li><a href="../classes/GUI.account.html">GUI.account</a></li>
+            
                 <li><a href="../classes/GUI.atmospheres.html">GUI.atmospheres</a></li>
             
                 <li><a href="../classes/GUI.favorites.html">GUI.favorites</a></li>
@@ -67,7 +69,7 @@
             
                 <li><a href="../classes/GUI.scroll.html">GUI.scroll</a></li>
             
-                <li><a href="../classes/GUI.user.html">GUI.user</a></li>
+                <li><a href="../classes/GUI.search.html">GUI.search</a></li>
             
                 <li><a href="../classes/Harmony.html">Harmony</a></li>
             
@@ -84,6 +86,8 @@
                 <li><a href="../classes/Request.html">Request</a></li>
             
                 <li><a href="../classes/RequestFactory.html">RequestFactory</a></li>
+            
+                <li><a href="../classes/Sorting.utils.html">Sorting.utils</a></li>
             
                 <li><a href="../classes/Strategy.html">Strategy</a></li>
             
@@ -158,6 +162,7 @@
     <pre class="code prettyprint linenums">
 var Player = require(&#x27;./Player.js&#x27;),
     Playlist = require(&#x27;./Playlist.js&#x27;),
+    Sorting = require(&#x27;./Sorting.js&#x27;),
     User = require(&#x27;./User.js&#x27;);
 
 /**
@@ -167,6 +172,31 @@ var Player = require(&#x27;./Player.js&#x27;),
  * @class GUI
  */
 module.exports = GUI = {
+  /**
+   * Lecteur manipulé par l&#x27;interface graphique.
+   * C&#x27;est à la fois un Singleton et un Adapter.
+   *
+   * @property player
+   * @type {Object}
+   * @default null
+   */
+  player: null,
+  /**
+   * Utilisateur courant
+   *
+   * @property user
+   * @type {Object}
+   * @default null
+   */
+  user: null,
+  /**
+   * Attribut indiquant si la recherche est autorisée
+   *
+   * @property searchAllowed
+   * @type {Boolean}
+   * @default true
+   */
+  searchAllowed: true,
   /**
    * Attribut indiquant si les infobulles sont autorisées
    *
@@ -200,14 +230,6 @@ module.exports = GUI = {
    */
   autocompleteAllowed: true,
   /**
-   * Attribut indiquant si les doublons sont autorisés dans les suggestions
-   *
-   * @property duplicatesAllowed
-   * @type {Boolean}
-   * @default false
-   */
-  duplicatesAllowed: false,
-  /**
    * Attribut indiquant la variation courante du tempo (entre 0 et 1)
    *
    * @property tempoVariation
@@ -224,14 +246,13 @@ module.exports = GUI = {
    */
   selectedSorting: &quot;default&quot;,
   /**
-   * Lecteur manipulé par l&#x27;interface graphique.
-   * C&#x27;est à la fois un Singleton et un Adapter.
+   * Attribut indiquant si les sidebars ont été initialisées
    *
-   * @property player
-   * @type {Object}
-   * @default null
+   * @property sidebarInitialized
+   * @type {Boolean}
+   * @default false
    */
-  player: null,
+  sidebarInitialized: false,
   /**
    * Méthode chargée d&#x27;initialiser l&#x27;interface graphique.
    * Cette méthode s&#x27;inspire du pattern Template dans sa conception.
@@ -239,18 +260,24 @@ module.exports = GUI = {
    * @method init
    */
   init: function() {
-    GUI.atmospheres.backgrounds(); // À charger en premier pour éviter les bugs
+    GUI.atmospheres.backgrounds(); // Position idéale pour éviter les bugs !?
     GUI.css();
     GUI.carousel();
     GUI.drag();
     GUI.tooltips();
     GUI.checkboxes();
     GUI.listeners();
+    GUI.menu.configSidebar(&quot;#playlist&quot;, &quot;blue&quot;);
+    GUI.menu.configSidebar(&quot;#favorites&quot;, &quot;red&quot;);
+    GUI.menu.configSidebar(&quot;#atmospheres&quot;, &quot;green&quot;);
+    GUI.menu.configSidebar(&quot;#harmonic-tracks&quot;, &quot;violet&quot;);
+    GUI.menu.configSidebar(&quot;#user&quot;, &quot;maroon&quot;);
     GUI.scroll.init();
     GUI.playlist.retrieve();
     GUI.player = Player.getPlayer();
     GUI.player.init();
-    DZ.logout();
+    GUI.playlist.autochange();
+    GUI.account.status();
   },
   /**
    * Hacks CSS
@@ -259,15 +286,11 @@ module.exports = GUI = {
    */
   css: function() {
     $( &quot;.pusher&quot; ).css(&quot;height&quot;, &quot;100%&quot;);
-    if ($( window ).width() &lt;= 600) {
+    if ($( window ).width() &lt; 600) {
       $( &quot;#menu&quot; ).switchClass( &quot;five&quot;, &quot;four&quot; );
-      GUI.tooltipAllowed = false;
-      GUI.notifAllowed = false;
       GUI.soundAllowed = false;
     } else {
       $( &quot;#menu&quot; ).switchClass( &quot;four&quot;, &quot;five&quot; );
-      GUI.tooltipAllowed = true;
-      GUI.notifAllowed = true;
       GUI.soundAllowed = true;
     }
   },
@@ -305,11 +328,13 @@ module.exports = GUI = {
   tooltips: function() {
     if (GUI.tooltipAllowed) {
       $( &quot;[data-title != &#x27;&#x27;], [data-content != &#x27;&#x27;]&quot; ).popup(); // Semantic UI
-      /* $( &quot;[title != &#x27;&#x27;]&quot; ).qtip({ // qTip²
-        style: {
-            classes: &#x27;qtip-dark&#x27;
-        }
-      }); */
+      $( document ).tooltip({ // jQuery UI
+        position: {
+          my: &quot;center top&quot;,
+          at: &quot;center bottom+5&quot;,
+          within: &quot;#ipod-wrapper&quot;
+        },
+      });
     }
   },
   /**
@@ -330,12 +355,12 @@ module.exports = GUI = {
 
     // Écouteurs d&#x27;événements des sidebars
     var menuEvents = [
-                        [&quot;.toggle-menu&quot;, &quot;click&quot;, GUI.menu.toggle],
-                        [&quot;#playlist-btn&quot;, &quot;click&quot;, GUI.menu.togglePlaylist],
-                        [&quot;#favorites-btn&quot;, &quot;click&quot;, GUI.menu.toggleFavorites],
-                        [&quot;#atmospheres-btn&quot;, &quot;click&quot;, GUI.menu.toggleAtmospheres],
-                        [&quot;#harmonic-tracks-btn&quot;, &quot;click&quot;, GUI.menu.toggleHarmonicTracks],
-                        [&quot;#user-btn&quot;, &quot;click&quot;, GUI.menu.toggleUser],
+                        [&quot;.toggle-menu&quot;, &quot;click&quot;, GUI.menu.toggleSidebar],
+                        [&quot;#playlist-btn&quot;, &quot;click&quot;, GUI.menu.toggleSidebar],
+                        [&quot;#favorites-btn&quot;, &quot;click&quot;, GUI.menu.toggleSidebar],
+                        [&quot;#atmospheres-btn&quot;, &quot;click&quot;, GUI.menu.toggleSidebar],
+                        [&quot;#harmonic-tracks-btn&quot;, &quot;click&quot;, GUI.menu.toggleSidebar],
+                        [&quot;#user-btn&quot;, &quot;click&quot;, GUI.menu.toggleSidebar],
                         [&quot;.toggle-all&quot;, &quot;click&quot;, GUI.menu.toggleAll]
                       ];
 
@@ -360,7 +385,8 @@ module.exports = GUI = {
                             [&quot;.play-pause-btn&quot;, &quot;click&quot;, GUI.playlist.playPause],
                             [&quot;.forth-btn&quot;, &quot;click&quot;, GUI.playlist.forth],
                             [&quot;.next-btn&quot;, &quot;click&quot;, GUI.playlist.next],
-                            [&quot;.harmonic-track&quot;, &quot;click&quot;, GUI.playlist.addTrack, &quot;async&quot;]
+                            [&quot;#playlist&quot;, &quot;trackChanged&quot;, GUI.playlist.icon],
+                            [&quot;#playlist&quot;, &quot;trackRemoved&quot;, GUI.playlist.removeTrack]
                          ];
 
     // Écouteurs d&#x27;événements des favoris
@@ -392,15 +418,17 @@ module.exports = GUI = {
                               [&quot;#metal-atmo&quot;, &quot;click&quot;, GUI.atmospheres.metal]
                             ];
 
-    // Écouteurs d&#x27;événements relatifs à l&#x27;utilisateur
+    // Écouteurs d&#x27;événements relatifs au compte utilisateur
     var userEvents = [
-                        [&quot;#login&quot;, &quot;click&quot;, GUI.user.login],
-                        [&quot;#logout&quot;, &quot;click&quot;, GUI.user.logout],
+                        [&quot;#login&quot;, &quot;click&quot;, GUI.account.login],
+                        [&quot;#logout&quot;, &quot;click&quot;, GUI.account.logout],
                       ];
 
     // Écouteurs d&#x27;événements divers
     var otherEvents = [
                         [&quot;#logo&quot;, &quot;click&quot;, GUI.misc.logo],
+                        [&quot;#request&quot;, &quot;click&quot;, GUI.search.warning],
+                        [&quot;#toggle-carousel&quot;, &quot;click&quot;, GUI.misc.toggleCarousel],
                         [&quot;#tracks-help&quot;, &quot;click&quot;, GUI.misc.help, &quot;async&quot;],
                         [window, &quot;resize&quot;, GUI.css]
                       ];
@@ -435,35 +463,42 @@ module.exports = GUI = {
    * @param {Boolean} isKeyCompatible Compatibilité ou non de la tonalité
    */
   template: function(type, track, isTempoCompatible, isKeyCompatible) {
+
+    var html = &quot;&quot;,
+        artistName = &quot;&quot;,
+        maxStringLength = 0;
+
     if (type == &quot;base-track&quot;) { // Morceau de base
 
-      var artistName = track.artist.name,
-          maxStringLength = 100;
+      artistName = track.getArtist();
+      maxStringLength = 100;
 
       // Si le nom de l&#x27;artiste est exagérément long, on le tronque à l&#x27;affichage
       if (artistName.length &gt; maxStringLength) {
         artistName = artistName.substr(0, maxStringLength) + &quot; ...&quot;;
       }
 
-      var html = &#x27;&lt;div id=&quot;submit-&#x27; + track.id + &#x27;&quot; class=&quot;track&quot; itemscope itemtype=&quot;https://schema.org/MusicRecording&quot;&gt;&#x27;;
-          html += &#x27; &lt;figure&gt;&#x27;;
-          html += &#x27;   &lt;img class=&quot;lazyOwl&quot; data-src=&quot;&#x27; + track.album.cover_medium + &#x27;&quot; alt=&quot;&#x27; + track.title + &#x27;&quot;&gt;&#x27;;
-          html += &#x27;   &lt;figcaption&gt;&#x27;;
-          html += &#x27;     &lt;div&gt;&#x27;;
-          html += &#x27;       &lt;h3 class=&quot;track-title&quot; itemprop=&quot;name&quot;&gt;&#x27; + track.title + &#x27;&lt;/h3&gt;&#x27;;
-          html += &#x27;       &lt;p class=&quot;artist-name&quot; itemprop=&quot;byArtist&quot;&gt;&#x27; + artistName + &quot;&lt;/p&gt;&quot;;
-          html += &#x27;     &lt;/div&gt;&#x27;;
-          html += &#x27;   &lt;/figcaption&gt;&#x27;;
-          html += &#x27; &lt;/figure&gt;&#x27;;
-          html += &#x27;&lt;/div&gt;&#x27;;
+      html += &#x27;&lt;div class=&quot;track&quot; itemscope itemtype=&quot;https://schema.org/MusicRecording&quot;&gt;&#x27;;
+      html += &#x27; &lt;figure id=&quot;submit-&#x27; + track.getId() + &#x27;&quot;&gt;&#x27;;
+      html += &#x27;   &lt;img class=&quot;lazyOwl&quot; data-src=&quot;&#x27; + track.getCover() + &#x27;&quot; alt=&quot;&#x27; + track.getTitle() + &#x27;&quot;&gt;&#x27;;
+      html += &#x27;   &lt;figcaption&gt;&#x27;;
+      html += &#x27;     &lt;div&gt;&#x27;;
+      html += &#x27;       &lt;h3 class=&quot;track-title&quot; itemprop=&quot;name&quot;&gt;&#x27; + track.getTitle() + &#x27;&lt;/h3&gt;&#x27;;
+      html += &#x27;       &lt;p class=&quot;artist-name&quot; itemprop=&quot;byArtist&quot;&gt;&#x27; + artistName + &quot;&lt;/p&gt;&quot;;
+      html += &#x27;     &lt;/div&gt;&#x27;;
+      html += &#x27;   &lt;/figcaption&gt;&#x27;;
+      html += &#x27; &lt;/figure&gt;&#x27;;
+      html += &#x27; &lt;input type=&quot;hidden&quot; value=&quot;&#x27; + encodeURIComponent(JSON.stringify(track)) + &#x27;&quot;&gt;&#x27;;
+      html += &#x27;&lt;/div&gt;&#x27;;
 
       return html;
 
     } else if (type == &quot;harmonic-track&quot;) { // Morceau harmonique
 
-      var artistName = track.getArtist(),
-          maxStringLength = 100,
-          tempoCssClass = &quot;red&quot;,
+      artistName = track.getArtist();
+      maxStringLength = 100;
+
+      var tempoCssClass = &quot;red&quot;,
           tonalityCssClass = &quot;red&quot;;
 
       // On gère le cas où le nom de l&#x27;artiste est exagérément long
@@ -471,50 +506,44 @@ module.exports = GUI = {
         artistName = artistName.substr(0, maxStringLength) + &quot; ...&quot;;
       }
 
-      // On signale les morceaux compatibles en termes de tempo
-      if (isTempoCompatible) {
-        tempoCssClass = &quot;green&quot;;
-      }
+      // On signale les morceaux compatibles
+      if (isTempoCompatible) { tempoCssClass = &quot;green&quot;; }
+      if (isKeyCompatible) { tonalityCssClass = &quot;green&quot;; }
 
-      // On signale les morceaux compatibles en termes de tonalité
-      if (isKeyCompatible) {
-        tonalityCssClass = &quot;green&quot;;
-      }
-
-      var html = &#x27;&lt;a class=&quot;harmonic-track&quot; itemscope itemtype=&quot;https://schema.org/MusicComposition&quot;&gt;&#x27;;
-          html += &#x27; &lt;figure&gt;&#x27;;
-          html += &#x27;   &lt;img src=&quot;&#x27; + track.getCover() + &#x27;&quot; alt=&quot;&#x27; + track.getTitle() + &#x27;&quot;&gt;&#x27;;
-          html += &#x27;   &lt;figcaption&gt;&#x27;;
-          html += &#x27;     &lt;div&gt;&#x27;;
-          html += &#x27;      &lt;h3 itemprop=&quot;name&quot;&gt;&#x27; + track.getTitle() + &#x27;&lt;/h3&gt;&#x27;;
-          html += &#x27;      &lt;p class=&quot;artist-name&quot; itemprop=&quot;composer&quot;&gt;&#x27; + artistName + &#x27;&lt;/p&gt;&#x27;;
-          html += &#x27;      &lt;p class=&quot;&#x27; + tempoCssClass + &#x27;&quot; itemprop=&quot;musicalKey&quot;&gt;Tempo : &#x27; + track.getTempo() + &#x27; BPM&lt;/p&gt;&#x27;;
-          html += &#x27;      &lt;p class=&quot;&#x27; + tonalityCssClass + &#x27;&quot; itemprop=&quot;musicalKey&quot;&gt;Tonalité : &#x27; + track.getKey() + &#x27; &#x27; + track.getMode() + &#x27;&lt;/p&gt;&#x27;;
-          html += &#x27;     &lt;/div&gt;&#x27;;
-          html += &#x27;   &lt;/figcaption&gt;&#x27;;
-          html += &#x27; &lt;/figure&gt;&#x27;;
-          html += &#x27; &lt;input type=&quot;hidden&quot; value=&quot;&#x27; + encodeURIComponent(JSON.stringify(track)) + &#x27;&quot;&gt;&#x27;;
-          html += &#x27;&lt;/a&gt;&#x27;;
+      html += &#x27;&lt;a class=&quot;harmonic-track&quot; itemscope itemtype=&quot;https://schema.org/MusicComposition&quot;&gt;&#x27;;
+      html += &#x27; &lt;figure id=&quot;suggestion-&#x27; + track.getId() + &#x27;&quot;&gt;&#x27;;
+      html += &#x27;   &lt;img src=&quot;&#x27; + track.getCover() + &#x27;&quot; alt=&quot;&#x27; + track.getTitle() + &#x27;&quot;&gt;&#x27;;
+      html += &#x27;   &lt;figcaption&gt;&#x27;;
+      html += &#x27;     &lt;div&gt;&#x27;;
+      html += &#x27;      &lt;h3 itemprop=&quot;name&quot;&gt;&#x27; + track.getTitle() + &#x27;&lt;/h3&gt;&#x27;;
+      html += &#x27;      &lt;p class=&quot;artist-name&quot; itemprop=&quot;composer&quot;&gt;&#x27; + artistName + &#x27;&lt;/p&gt;&#x27;;
+      html += &#x27;      &lt;p class=&quot;&#x27; + tempoCssClass + &#x27;&quot; itemprop=&quot;musicalKey&quot;&gt;Tempo : &#x27; + track.getTempo() + &#x27; BPM&lt;/p&gt;&#x27;;
+      html += &#x27;      &lt;p class=&quot;&#x27; + tonalityCssClass + &#x27;&quot; itemprop=&quot;musicalKey&quot;&gt;Tonalité : &#x27; + track.getKey() + &#x27; &#x27; + track.getMode() + &#x27;&lt;/p&gt;&#x27;;
+      html += &#x27;     &lt;/div&gt;&#x27;;
+      html += &#x27;   &lt;/figcaption&gt;&#x27;;
+      html += &#x27; &lt;/figure&gt;&#x27;;
+      html += &#x27; &lt;input type=&quot;hidden&quot; value=&quot;&#x27; + encodeURIComponent(JSON.stringify(track)) + &#x27;&quot;&gt;&#x27;;
+      html += &#x27;&lt;/a&gt;&#x27;;
 
       return html;
 
     } else if (type == &quot;autocomplete&quot;) { // Autocomplétion
 
-      var html = &#x27;&lt;div id=&quot;autocomplete-&#x27; + track.id + &#x27;&quot;&gt;&#x27;;
-          html += &#x27; &lt;strong&gt;&#x27; + track.title + &#x27;&lt;/strong&gt;&lt;br&gt;&#x27;;
-          html += &#x27; &lt;em&gt;&#x27; + track.artist.name + &#x27;&lt;/em&gt;&#x27;;
-          html += &#x27;&lt;/div&gt;&#x27;;
+      html += &#x27;&lt;div id=&quot;autocomplete-&#x27; + track.getId() + &#x27;&quot;&gt;&#x27;;
+      html += &#x27; &lt;strong&gt;&#x27; + track.getTitle() + &#x27;&lt;/strong&gt;&lt;br&gt;&#x27;;
+      html += &#x27; &lt;em&gt;&#x27; + track.getArtist() + &#x27;&lt;/em&gt;&#x27;;
+      html += &#x27;&lt;/div&gt;&#x27;;
 
       return html;
 
     } else { // Case d&#x27;aide
 
-      var html = &#x27;&lt;a class=&quot;item title&quot;&gt;&#x27;;
-          html += &#x27; &lt;h2&gt;Suggestions&lt;/h2&gt;&#x27;;
-          html += &#x27;&lt;/a&gt;&#x27;;
-          html += &#x27;&lt;a id=&quot;tracks-help&quot; href=&quot;#&quot;&gt;&#x27;;
-          html += &#x27;  &lt;i class=&quot;help circle icon&quot;&gt;&lt;/i&gt;&#x27;;
-          html += &#x27;&lt;/a&gt;&#x27;;
+      html += &#x27;&lt;a class=&quot;item title&quot;&gt;&#x27;;
+      html += &#x27; &lt;h2&gt;Suggestions&lt;/h2&gt;&#x27;;
+      html += &#x27;&lt;/a&gt;&#x27;;
+      html += &#x27;&lt;a id=&quot;tracks-help&quot; href=&quot;#&quot;&gt;&#x27;;
+      html += &#x27;  &lt;i class=&quot;help circle icon&quot;&gt;&lt;/i&gt;&#x27;;
+      html += &#x27;&lt;/a&gt;&#x27;;
 
       return html;
 
@@ -529,21 +558,23 @@ module.exports = GUI = {
    * @param {Number} timer Durée de vie de la notification
    */
   alert: function(type, message, timer) {
+    var notification = null;
     if (GUI.notifAllowed) {
       switch (type) {
         case &quot;success&quot;:
-          return alertify.success(message, timer);
+          notification = alertify.success(message, timer);
           break;
         case &quot;error&quot;:
-          return alertify.error(message, timer);
+          notification = alertify.error(message, timer);
           break;
         case &quot;warning&quot;:
-          return alertify.warning(message, timer);
+          notification = alertify.warning(message, timer);
           break;
         case &quot;message&quot;:
-          return alertify.message(message, timer);
+          notification = alertify.message(message, timer);
           break;
       }
+      return notification;
     }
   },
   /**
@@ -563,6 +594,67 @@ module.exports = GUI = {
     $( &quot;#harmonic-tracks&quot; )
       .sidebar( &quot;setting&quot;, &quot;transition&quot;, &quot;scale down&quot; )
       .sidebar( &quot;show&quot; );
+  },
+  /**
+   * Mini-classe de gestion de la barre de recherche
+   *
+   * @class GUI.search
+   */
+  search: {
+    /**
+     * Activation du moteur de recherche
+     *
+     * @method on
+     */
+    on: function() {
+      $( &quot;#request&quot; )
+        .val( &quot;&quot; )
+        .prop( &quot;readonly&quot;, false )
+        .next()
+        .switchClass( &quot;ban&quot;, &quot;search&quot; );
+      GUI.searchAllowed = true;
+    },
+    /**
+     * Désactivation du moteur de recherche
+     *
+     * @method off
+     */
+    off: function() {
+      $( &quot;#request&quot; )
+        .val( &quot;Utilisez les suggestions harmoniques !&quot; )
+        .prop( &quot;readonly&quot;, true )
+        .next()
+        .switchClass( &quot;search&quot;, &quot;ban&quot; );
+      GUI.searchAllowed = false;
+    },
+    /**
+     * Gestion de l&#x27;alerte concernant l&#x27;état de la recherche
+     *
+     * @method warning
+     */
+    warning: function() {
+      if (!GUI.searchAllowed) {
+        console.log(&quot;OK&quot;);
+        var message = &quot;Voulez-vous vraiment lancer une nouvelle recherche ?&lt;br&gt;&quot;;
+            message += &quot;La progression harmonique de votre playlist ne sera plus garantie...&quot;;
+
+        alertify.defaults.glossary.title = &quot;Attention !&quot;;
+        alertify.confirm(message, function() {
+          GUI.search.on();
+        }).set(&quot;labels&quot;, { ok:&quot;Oui&quot;, cancel:&quot;Non&quot; });
+      }
+    },
+    /**
+     * Invisibilité de l&#x27;autocomplétion en dessous de 3 caractères
+     *
+     * @method hideAutocomplete
+     */
+    hideAutocomplete: function() {
+      var keyword = $( &quot;#request&quot; ).val();
+      if (keyword.length &lt; 3) {
+        $( &quot;#autocomplete&quot; ).slideUp();
+      }
+    }
   },
   /**
    * Mini-classe de gestion des scrollbars.
@@ -588,7 +680,9 @@ module.exports = GUI = {
      * @method reset
      */
     reset: function($container) {
-      $container.mCustomScrollbar();
+      $container.mCustomScrollbar({
+        mouseWheelPixels: 300
+      });
     },
     /**
      * Destruction d&#x27;une scrollbar
@@ -629,59 +723,11 @@ module.exports = GUI = {
    */
   menu: {
     /**
-     * Afficher/Cacher le menu (sidebar)
+     * Configuration d&#x27;une sidebar
      *
-     * @method toggle
+     * @method configSidebar
      */
-    toggle: function() {
-      $( &quot;#menu&quot; ).sidebar( &quot;toggle&quot; );
-    },
-    /**
-     * Afficher/Cacher la playlist (sidebar)
-     *
-     * @method togglePlaylist
-     */
-    togglePlaylist: function() {
-      GUI.menu.toggleSidebar( &quot;#playlist&quot;, &quot;blue&quot; );
-    },
-    /**
-     * Afficher/Cacher les favoris (sidebar)
-     *
-     * @method toggleFavorites
-     */
-    toggleFavorites: function() {
-      GUI.menu.toggleSidebar( &quot;#favorites&quot;, &quot;red&quot; );
-    },
-    /**
-     * Afficher/Cacher les ambiances (sidebar)
-     *
-     * @method toggleAtmospheres
-     */
-    toggleAtmospheres: function() {
-      GUI.menu.toggleSidebar( &quot;#atmospheres&quot;, &quot;green&quot; );
-    },
-    /**
-     * Afficher/Cacher les morceaux harmoniques (sidebar)
-     *
-     * @method toggleHarmonicTracks
-     */
-    toggleHarmonicTracks: function() {
-      GUI.menu.toggleSidebar( &quot;#harmonic-tracks&quot;, &quot;violet&quot; );
-    },
-    /**
-     * Afficher/Cacher l&#x27;utilisateur (sidebar)
-     *
-     * @method toggleUser
-     */
-    toggleUser: function() {
-      GUI.menu.toggleSidebar( &quot;#user&quot;, &quot;maroon&quot; );
-    },
-    /**
-     * Afficher/Cacher une sidebar
-     *
-     * @method toggleSidebar
-     */
-    toggleSidebar: function(id, color) {
+    configSidebar: function(id, color) {
       $( id )
         .sidebar({
           onShow: function() {
@@ -691,8 +737,24 @@ module.exports = GUI = {
             $( id + &quot;-btn&quot; ).removeClass( color + &quot;-item&quot; );
           }
         })
-        .sidebar( &quot;setting&quot;, &quot;transition&quot;, &quot;overlay&quot; )
-        .sidebar( &quot;toggle&quot; );
+        .sidebar( &quot;setting&quot;, &quot;transition&quot;, &quot;overlay&quot; );
+    },
+    /**
+     * Afficher/Cacher une sidebar
+     *
+     * @method toggleSidebar
+     */
+    toggleSidebar: function() {
+      // Comme il y a plusieurs boutons pour le menu, c&#x27;est géré par une classe
+      if ($( this ).hasClass(&quot;toggle-menu&quot;)) {
+        $( &quot;#menu&quot; ).sidebar( &quot;toggle&quot; );
+      } else {
+        // Le pattern de nommage est le suivant : sidebarname-btn
+        var btnId = $( this ).attr( &quot;id&quot; ),
+            sidebarId = btnId.substr(0, btnId.lastIndexOf(&quot;-&quot;));
+
+        $( &quot;#&quot; + sidebarId ).sidebar( &quot;toggle&quot; );
+      }
     },
     /**
      * Afficher/Cacher toutes les sidebars
@@ -700,14 +762,7 @@ module.exports = GUI = {
      * @method toggleAll
      */
     toggleAll: function() {
-      // On affiche le menu du bas
-      GUI.menu.toggle();
-      // On affiche toutes les autres sidebars
-      var colors = [&quot;blue&quot;, &quot;red&quot;, &quot;green&quot;, &quot;violet&quot;, &quot;maroon&quot;];
-      $( &quot;.sidebar&quot; ).not( &quot;#menu&quot; ).each(function(i, elt) {
-        var id = $( elt ).attr( &quot;id&quot; );
-        GUI.menu.toggleSidebar( &quot;#&quot; + id, colors[i]);
-      });
+      $( &quot;.sidebar&quot; ).sidebar( &quot;toggle&quot; );
     }
   },
   /**
@@ -826,12 +881,16 @@ module.exports = GUI = {
      * @method saveOnDeezer
      */
     saveOnDeezer: function() {
-      DZ.api(&quot;user/me/playlists&quot;, &quot;POST&quot;, {title : &quot;HARMONEEZER&quot;}, function(response) {
-         Playlist.deezerId = response.id;
-         DZ.api(&quot;playlist/&quot; + response.id + &quot;/tracks&quot;, &quot;POST&quot;, {songs: Playlist.tracksIds.join()}, function(response) {
-            GUI.alert(&quot;success&quot;, &quot;Votre playlist est sur Deezer !&quot;, 5);
-         });
-      });
+      if (user !== null) {
+        DZ.api(&quot;user/me/playlists&quot;, &quot;POST&quot;, {title : &quot;HARMONEEZER&quot;}, function(response) {
+           Playlist.deezerId = response.id;
+           DZ.api(&quot;playlist/&quot; + response.id + &quot;/tracks&quot;, &quot;POST&quot;, {songs: Playlist.tracksIds.join()}, function(response) {
+              GUI.alert(&quot;success&quot;, &quot;Votre playlist est sur Deezer !&quot;, 5);
+           });
+        });
+      } else {
+        GUI.alert(&quot;error&quot;, &quot;Vous n&#x27;êtes pas connecté(e) !&quot;, 5);
+      }
     },
     /**
      * Export CSV de la playlist courante
@@ -877,12 +936,23 @@ module.exports = GUI = {
       }
     },
     /**
+     * Changement automatique de morceau
+     *
+     * @method autochange
+     */
+     autochange: function() {
+       DZ.Event.subscribe(&quot;track_end&quot;, function() {
+         GUI.playlist.next();
+       });
+     },
+    /**
      * Passage au morceau précédent
      *
      * @method previous
      */
     previous: function() {
       GUI.player.prev();
+      $( &quot;#playlist&quot; ).trigger( &quot;trackChanged&quot; );
     },
     /**
      * Aller en arrière dans le morceau
@@ -904,8 +974,10 @@ module.exports = GUI = {
       if (GUI.player.tracksLoaded) {
         GUI.player.play();
       } else {
-        GUI.player.playTracks(Playlist.tracksIds);
-        GUI.player.tracksLoaded = true;
+        GUI.player.playTracks(Playlist.tracksIds, function() {
+          GUI.player.tracksLoaded = true;
+          $( &quot;#playlist&quot; ).trigger( &quot;trackChanged&quot; );
+        });
       }
     },
     /**
@@ -916,6 +988,7 @@ module.exports = GUI = {
     playFrom: function() {
       var index = parseInt($( this ).find( &quot;#playlist-track-index&quot; ).val());
       GUI.player.playTracks(Playlist.tracksIds, index);
+      $( &quot;#playlist&quot; ).trigger( &quot;trackChanged&quot; );
     },
     /**
      * Mettre en pause un morceau
@@ -931,7 +1004,7 @@ module.exports = GUI = {
      * @method playPause
      */
     playPause: function() {
-      DZ.player.isPlaying ? GUI.playlist.pause() : GUI.playlist.play();
+      GUI.player.isPlaying() ? GUI.playlist.pause() : GUI.playlist.play();
     },
     /**
      * Aller en avant dans le morceau
@@ -951,17 +1024,41 @@ module.exports = GUI = {
      */
     next: function() {
       GUI.player.next();
+      $( &quot;#playlist&quot; ).trigger( &quot;trackChanged&quot; );
     },
     /**
      * Ajout d&#x27;un morceau à la playlist
      *
      * @method addTrack
      */
-    addTrack: function() {
-      var track = JSON.parse(decodeURIComponent($( this ).children().eq(1).val()));
+    addTrack: function(eltId) {
+      var track = JSON.parse(decodeURIComponent($( &quot;#&quot; + eltId ).next().val()));
       Playlist.addTrack(track);
-      GUI.player.tracksLoaded = false;
+      GUI.player.addToQueue([track._id]);
       GUI.alert(&quot;success&quot;, &quot;Morceau ajouté à votre playlist&quot;, 5);
+    },
+    /**
+     * Actions à effectuer après suppression d&#x27;un morceau de la playlist
+     *
+     * @method removeTrack
+     */
+    removeTrack: function() {
+      GUI.player.tracksLoaded = false;
+      GUI.player.isPlaying() ? GUI.playlist.play() : GUI.player.playTracks([]);
+      GUI.alert(&quot;success&quot;, &quot;Morceau supprimé !&quot;, 5);
+    },
+    /**
+     * Gestion de l&#x27;icône de lecture
+     *
+     * @method icon
+     */
+    icon: function() {
+      // On utilise setTimeout car Deezer ne propose pas de callback pour les contrôles
+      setTimeout(function() {
+        var index = DZ.player.getCurrentIndex();
+        $( &quot;.playlist-item&quot;, &quot;#playlist&quot; ).find( &quot;.spinner&quot; ).fadeOut();
+        $( &quot;#track-&quot; + index ).find( &quot;.spinner&quot; ).fadeIn();
+      }, 1000);
     }
   },
   /**
@@ -1027,9 +1124,9 @@ module.exports = GUI = {
       var $autocompleteState = $( &quot;#fav-autocomplete .state&quot; );
       if (GUI.autocompleteAllowed) {
         $( &quot;#autocomplete&quot; ).fadeOut();
-        GUI.autocompleteAllowed = false
+        GUI.autocompleteAllowed = false;
       } else {
-        GUI.autocompleteAllowed = true
+        GUI.autocompleteAllowed = true;
       }
       GUI.favorites.changeState($autocompleteState, &quot;Autocomplétion activée !&quot;, &quot;Autocomplétion désactivée !&quot;);
     },
@@ -1040,7 +1137,7 @@ module.exports = GUI = {
      */
     duplicate: function() {
       var $duplicateState = $( &quot;#fav-duplicate .state&quot; );
-      GUI.duplicatesAllowed ? (GUI.duplicatesAllowed = false) : (GUI.duplicatesAllowed = true);
+      Sorting.duplicatesAllowed ? (Sorting.duplicatesAllowed = false) : (Sorting.duplicatesAllowed = true);
       GUI.favorites.changeState($duplicateState, &quot;Doublons activés !&quot;, &quot;Doublons désactivés !&quot;);
     },
     /**
@@ -1131,22 +1228,23 @@ module.exports = GUI = {
      * @method vegas
      */
     backgrounds: function() {
-      $( &quot;#main&quot; ).vegas({
-          transition: &#x27;fade&#x27;,
-          slide: 0,
-          slides: [
-              { src: &quot;./images/background/neutral.jpg&quot; },
-              { src: &quot;./images/background/rock.jpg&quot; },
-              { src: &quot;./images/background/electro.jpg&quot; },
-              { src: &quot;./images/background/hiphop.jpg&quot; },
-              { src: &quot;./images/background/folk.jpg&quot; },
-              { src: &quot;./images/background/classical.jpg&quot; },
-              { src: &quot;./images/background/jazz.jpg&quot; },
-              { src: &quot;./images/background/metal.jpg&quot; }
-          ],
-          animation: &#x27;kenburns&#x27;
-      });
-      $( &quot;#main&quot; ).vegas(&#x27;pause&#x27;);
+      if ($( window ).width() &gt;= 600) {
+        $( &quot;#main&quot; ).vegas({
+            transition: &quot;swirlLeft&quot;,
+            slide: 0,
+            slides: [
+                { src: &quot;./images/background/neutral.jpg&quot; },
+                { src: &quot;./images/background/rock.jpg&quot; },
+                { src: &quot;./images/background/electro.jpg&quot; },
+                { src: &quot;./images/background/hiphop.jpg&quot; },
+                { src: &quot;./images/background/folk.jpg&quot; },
+                { src: &quot;./images/background/classical.jpg&quot; },
+                { src: &quot;./images/background/jazz.jpg&quot; },
+                { src: &quot;./images/background/metal.jpg&quot; }
+            ]
+        });
+        $( &quot;#main&quot; ).vegas(&#x27;pause&#x27;);
+      }
     },
     /**
      * Changement d&#x27;ambiance
@@ -1231,43 +1329,40 @@ module.exports = GUI = {
     }
   },
   /**
-   * Classe interne gérant les éléments relatifs à l&#x27;utilisateur
+   * Classe interne gérant les éléments relatifs au compte utilisateur
    *
-   * @class GUI.user
+   * @class GUI.account
    */
-  user: {
+  account: {
+    /**
+     * Vérification visant à connaître le statut de connexion
+     *
+     * @method status
+     */
+    status: function() {
+      DZ.getLoginStatus(function(response) {
+      	if (response.authResponse) {
+          GUI.account.info();
+      	}
+      });
+    },
     /**
      * Gestion de la connexion d&#x27;un utilisateur
      *
      * @method login
      */
     login: function() {
-      // DZ.getLoginStatus(function(response) {
-        // if (response.status != &quot;connected&quot;) { // Si l&#x27;utilisateur n&#x27;est pas connecté
-          DZ.login(function(response) {
-            if (response.authResponse &amp;&amp; response.status == &quot;connected&quot;) { // Si tout se passe bien
-              DZ.api(&quot;/user/me&quot;, function(response) {
-                var user = new User(
-                                      response.id,
-                                      response.name,
-                                      response.inscription_date,
-                                      response.link,
-                                      response.picture_small
-                                    );
-                $( &quot;#user-img&quot; ).attr({ src:user.getPicture(), alt:user.getName() });
-                $( &quot;#user-name&quot; ).text( user.getName() ).attr( &quot;href&quot;, user.getLink() );
-                $( &quot;#user-date&quot; ).text( &quot;Inscrit le &quot; + user.getInscriptionDate() );
-                $( &quot;#user-not-connected&quot; ).hide();
-                $( &quot;#user-connected&quot; ).show();
-              });
-              GUI.alert(&quot;success&quot;, &quot;Connexion OK !&quot;, 3);
-              GUI.menu.toggleSidebar( &quot;#user&quot;, &quot;maroon&quot; );
-            } else { // Si la connexion échoue
-              GUI.alert(&quot;error&quot;, &quot;Connexion refusée !&quot;, 5);
-            }
-          }, { perms: &quot;basic_access,manage_library,delete_library&quot; });
-        // }
-      // });
+      if (GUI.user === null) {
+        DZ.login(function(response) {
+          if (response.authResponse &amp;&amp; response.status == &quot;connected&quot;) { // Si tout se passe bien
+            GUI.account.info();
+            GUI.alert(&quot;success&quot;, &quot;Connexion OK !&quot;, 3);
+            GUI.menu.toggleSidebar( &quot;#user&quot;, &quot;maroon&quot; );
+          } else { // Si la connexion échoue
+            GUI.alert(&quot;error&quot;, &quot;Connexion refusée !&quot;, 5);
+          }
+        }, { perms: &quot;basic_access,manage_library,delete_library&quot; });
+      }
     },
     /**
      * Gestion de la déconnexion d&#x27;un utilisateur
@@ -1280,6 +1375,28 @@ module.exports = GUI = {
       $( &quot;#user-not-connected&quot; ).show();
       GUI.alert(&quot;success&quot;, &quot;Déconnexion OK !&quot;, 3);
       $( &quot;#user&quot; ).sidebar( &quot;toggle&quot; );
+    },
+    /**
+     * Récupération des informations d&#x27;un utilisateur
+     *
+     * @method info
+     */
+    info: function() {
+      DZ.api(&quot;/user/me&quot;, function(response) {
+        var user = new User(
+                              response.id,
+                              response.name,
+                              response.inscription_date,
+                              response.link,
+                              response.picture_small
+                            );
+        GUI.user = user;
+        $( &quot;#user-img&quot; ).attr({ src:user.getPicture(), alt:user.getName() });
+        $( &quot;#user-name&quot; ).text( user.getName() ).attr( &quot;href&quot;, user.getLink() );
+        $( &quot;#user-date&quot; ).text( &quot;Inscrit le &quot; + user.getInscriptionDate() );
+        $( &quot;#user-not-connected&quot; ).hide();
+        $( &quot;#user-connected&quot; ).show();
+      });
     }
   },
   /**
@@ -1311,9 +1428,34 @@ module.exports = GUI = {
      */
     showModal: function($selector) {
       $selector.modal( &quot;show&quot; );
+    },
+    /**
+     * Affichage ou non du carousel de résultats
+     *
+     * @method toggleCarousel
+     */
+    toggleCarousel: function() {
+      var $tracks = $( &quot;#tracks&quot; ),
+          $toggle = $( &quot;#toggle-carousel i&quot; );
+
+      if (!$tracks.is( &quot;:empty&quot; ) &amp;&amp; $tracks.is( &quot;:visible&quot; )) {
+        $tracks.slideUp();
+        $toggle
+          .switchClass( &quot;up&quot;, &quot;down&quot; )
+          .css( &quot;border-color&quot;, &quot;#F04A3C&quot; );
+      } else {
+        if (!$tracks.is( &quot;:empty&quot; )) {
+          $tracks.slideDown();
+          $toggle
+            .switchClass( &quot;down&quot;, &quot;up&quot;)
+            .css( &quot;border-color&quot;, &quot;#188AE3&quot; );
+        } else {
+          GUI.alert(&quot;error&quot;, &quot;Aucune recherche effectuée !&quot;, 5);
+        }
+      }
     }
   }
-}
+};
 
     </pre>
 </div>

@@ -624,7 +624,7 @@ Avec Browserify, il est possible d'utiliser des modules Node.js directement dans
 
 En développement, on n'est jamais à l'abri d'un problème ou d'une mauvaise manipulation qui remet en cause tout le code déjà produit. Il est donc important d'ajouter des fonctionnalités par itérations successives, tout en gardant intacts les différents paliers franchis.
 
-Mais naturellement, mettre en place un tel système à la main en gérant ses propres archives n'a rien de trivial. Heureusement, il existe des outils fiables qui nous accompagnent dans le processus de développement. On peut citer notamment citer Git et SVN.
+Mais naturellement, mettre en place un tel système à la main en gérant ses propres archives n'a rien de trivial. Heureusement, il existe des outils fiables qui nous accompagnent dans le processus de développement. On peut citer notamment Git et SVN.
 
 HARMONEEZER s'appuie sur Git pour la gestion des versions, ainsi que sur GitHub pour l'hébergement distant du code source.
 
@@ -901,7 +901,7 @@ On remarquera, au passage, que notre Adapter est aussi notre Singleton !
 
 \begin{figure}[!h]
   \begin{center}
-    \includegraphics[scale=0.4]{Adapter.png}
+    \includegraphics[scale=0.35]{Adapter.png}
     \caption{Diagramme UML d'un Adapter de lecteur audio (Deezer)}
   \end{center}
 \end{figure}
@@ -1136,7 +1136,7 @@ Comme nous avons pu le voir précédemment dans ce rapport, les APIs de Deezer e
 
 Deezer et Echo Nest sont donc deux APIs agencées selon l'architecture REST. Le mode d'interrogation reste fatalement identique, mais chaque API a tout de même ses spécificités...
 
-Si l'on se lance dans un rapide comparatif, du point de vue du développeur, l'API de Deezer est plus simple à utiliser et offre une plus grande liberté. Les données techniques telles que le tempo ou la tonalité y sont globalement moins précises, mais le développeur a un accès illimité et sans restriction à l'API.
+Si l'on se lance dans un rapide comparatif, du point de vue du développeur, l'API de Deezer est plus simple à utiliser et offre une plus grande liberté. Les données techniques telles que le tempo ou la tonalité y sont globalement moins précises, voire absentes, mais le développeur a un accès illimité et sans restriction à l'API.
 
 Avec Echo Nest, la réalité est un peu différente car il faut renvoyer sa clé d'API à chaque requête, et de surcroît, il y a une limite assez embarrassante de 120 requêtes par minute (surtout quand on est contraint d'envoyer 50 requêtes par clic...). L'interaction entre Deezer et Echo Nest est une réussite car Echo Nest reconnaît de nombreux identifiants de morceaux Deezer. Cependant, à l'heure actuelle, les requêtes batch impliquant Deezer renvoient systématiquement une erreur 403 (Forbidden) sur Echo Nest, ce qui ne permet pas d'optimiser ses requêtes.
 
@@ -1166,7 +1166,7 @@ L'interface graphique de l'application s'appuie sur un framework peu connu mais 
 
 Semantic UI est un framework front-end complet constituant une base de travail pour tout ce qui a trait au trio HTML/CSS/JS. Il est doté d'un ensemble de classes CSS réutilisables, d'un catalogue d'icônes professionnelles, de grilles pour un design responsive, et de fonctions JavaScript facilitant la conception d'interfaces graphiques.
 
-HARMONEEZER utilise Semantic UI comme simple support pour le visuel, ce qui signifie que le style des composants natifs du framework est généralement surchargé par la feuille de style principale de l'application. Cela explique notamment la présence fréquente de la règle «~!important~» dans style.css, justement pour écraser la configuration par défaut.
+HARMONEEZER utilise Semantic UI comme simple support pour le visuel, ce qui signifie que le style des composants natifs du framework est généralement surchargé par la feuille de style principale de l'application. Cela explique notamment la présence fréquente de la règle «~!important~» dans notre feuille de style principale, justement pour écraser la configuration par défaut.
 
 \subsection{Balisage sémantique avec métadonnées}
 

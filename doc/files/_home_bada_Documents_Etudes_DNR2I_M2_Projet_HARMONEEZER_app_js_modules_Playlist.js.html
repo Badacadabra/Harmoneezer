@@ -53,6 +53,8 @@
             
                 <li><a href="../classes/GUI.html">GUI</a></li>
             
+                <li><a href="../classes/GUI.account.html">GUI.account</a></li>
+            
                 <li><a href="../classes/GUI.atmospheres.html">GUI.atmospheres</a></li>
             
                 <li><a href="../classes/GUI.favorites.html">GUI.favorites</a></li>
@@ -67,7 +69,7 @@
             
                 <li><a href="../classes/GUI.scroll.html">GUI.scroll</a></li>
             
-                <li><a href="../classes/GUI.user.html">GUI.user</a></li>
+                <li><a href="../classes/GUI.search.html">GUI.search</a></li>
             
                 <li><a href="../classes/Harmony.html">Harmony</a></li>
             
@@ -84,6 +86,8 @@
                 <li><a href="../classes/Request.html">Request</a></li>
             
                 <li><a href="../classes/RequestFactory.html">RequestFactory</a></li>
+            
+                <li><a href="../classes/Sorting.utils.html">Sorting.utils</a></li>
             
                 <li><a href="../classes/Strategy.html">Strategy</a></li>
             
@@ -211,6 +215,7 @@ module.exports = Playlist = new Vue({
     removeTrack: function(i) {
       this.tracksIds.splice(i, 1);
       this.selectedTracks.splice(i, 1);
+      $( &quot;#playlist&quot; ).trigger( &quot;trackRemoved&quot; );
     },
     /**
      * Réinitialiser la playlist

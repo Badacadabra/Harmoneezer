@@ -53,6 +53,7 @@ module.exports = Playlist = new Vue({
     removeTrack: function(i) {
       this.tracksIds.splice(i, 1);
       this.selectedTracks.splice(i, 1);
+      $( "#playlist" ).trigger( "trackRemoved" );
     },
     /**
      * Réinitialiser la playlist

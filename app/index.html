@@ -25,8 +25,9 @@
         <meta name="twitter:domain" content="http://localhost:8000/app/">
         <!-- Style -->
         <link rel="shortcut icon" href="images/foreground/favicon.png" type="image/png">
-        <link rel="stylesheet" href="stylesheets/style.css" media="screen">
-        <link rel="stylesheet" href="stylesheets/mobile.css" media="screen and (max-width: 600px)">
+        <link rel="stylesheet" href="stylesheets/desktop.css" media="screen">
+        <link rel="stylesheet" href="stylesheets/tablet.css" media="screen and (max-width: 800px)">
+        <link rel="stylesheet" href="stylesheets/smartphone.css" media="screen and (max-width: 600px)">
         <link rel="stylesheet" href="semantic/dist/semantic.min.css">
         <link rel="stylesheet" href="/dist/css/bower.css">
     </head>
@@ -65,6 +66,9 @@
             <a class="item title blue-item">
               <h3>Ma playlist</h3>
               <div id="options">
+                <span id="playlist-warning" data-title="Attention !" data-content="Si vous supprimez un morceau pendant que le lecteur est actif, la playlist devra être rechargée...">
+                  <i class="yellow warning sign icon"></i>
+                </span>
                 <span id="not-random-btn" data-title="Lecture aléatoire">
                   <i class="minus icon"></i>
                 </span>
@@ -115,13 +119,14 @@
                 <strong>Ajoutez-y des morceaux !</strong>
               </div>
             </a>
-            <a class="item playlist-item" v-for="selectedTrack in selectedTracks" itemprop="track" data-title="{{ selectedTrack._tempo + ' BPM' }}">
+            <a id="track-{{ $index }}" class="item playlist-item" v-for="selectedTrack in selectedTracks" itemprop="track" data-title="{{ selectedTrack._tempo + ' BPM' }}">
                 <img v-bind:src="selectedTrack._cover" alt="{{ selectedTrack._title }}">
                 <div class="playlist-track" itemscope itemtype="https://schema.org/MusicRecording">
                   <em itemprop="name">{{ selectedTrack._title }}</em><br>
                   <strong itemprop="byArtist">{{ selectedTrack._artist }}</strong>
                   <input id="playlist-track-index" type="hidden" value="{{ $index }}">
                 </div>
+                <i class="spinner icon" style="display:none;"></i>
                 <i class="remove circle outline icon" v-on:mousedown="removeTrack($index)"></i>
             </a>
             <!-- Playlist sous forme de tableau (pour l'export CSV) -->
@@ -160,7 +165,7 @@
             </a>
             <a id="fav-tooltip" class="item">
               <div class="inline field">
-                <div class="ui toggle checkbox" data-content="Indications utiles au survol de la souris." data-variation="inverted">
+                <div class="ui toggle checkbox" data-content="Indications utiles au survol." data-variation="inverted">
                   <input class="hidden" type="checkbox" checked>
                   <label>Infobulles</label>
                   <input type="hidden" class="state" value="on">
@@ -169,7 +174,7 @@
             </a>
             <a id="fav-notify" class="item">
               <div class="inline field">
-                <div class="ui toggle checkbox" data-content="Alertes en temps réel, à droite de l'écran." data-variation="inverted">
+                <div class="ui toggle checkbox" data-content="Alertes en temps réel." data-variation="inverted">
                   <input class="hidden" type="checkbox" checked>
                   <label>Notifications</label>
                   <input type="hidden" class="state" value="on">
@@ -342,10 +347,10 @@
               </div>
           </div>
           <!-- Icône permettant d'afficher le menu du bas -->
-          <div id="bottom-chevron" class="toggle-menu">
+          <div id="menu-btn" class="toggle-menu">
               <i class="huge chevron up icon"></i>
           </div>
-          <!-- Pop-ups -->
+          <!-- Pop-ups (modals) -->
           <div id="about" class="ui huge basic modal transition" style="display:none;" itemprop="about">
             <div class="ui icon header">
               <i class="code icon"></i>

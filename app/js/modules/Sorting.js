@@ -1,3 +1,5 @@
+var Music = require('./Music.js');
+
 /**
  * Classe mettant en œuvre le pattern Strategy.
  * Cette classe fournit un moyen d'encapsuler une série d'algorithmes de tri.
@@ -5,6 +7,14 @@
  * @module Sorting
  */
 module.exports = Sorting = {
+  /**
+   * Attribut indiquant si les doublons sont autorisés dans les suggestions
+   *
+   * @property duplicatesAllowed
+   * @type {Boolean}
+   * @default false
+   */
+  duplicatesAllowed: false,
   /**
    * Classe générique représentant la stratégie de tri
    *
@@ -17,9 +27,9 @@ module.exports = Sorting = {
      *
      * @property algorithm
      * @type {Object}
-     * @default undefined
+     * @default null
      */
-    this._algorithm;
+    this._algorithm = null;
   },
   /**
    * Classe encapsulant l'algorithme de tri par défaut.
@@ -35,59 +45,34 @@ module.exports = Sorting = {
      * Méthode de tri par défaut
      *
      * @method sort
-     * @param {Object} refTrack Morceau de référence
      * @param {Object} harmony Harmonie recherchée
      * @param {Array} similarTracks Morceaux similaires
      * @return {Array} Tableau de morceaux trié
      */
-    this.sort = function(refTrack, harmony, similarTracks) {
-      var nbPerfectMatches = 0, // Correspondances en tempo et en tonalité
-          artists = [], // Tous les artistes rencontrés dans les résultats
-          tracks = [], // Les morceaux à renvoyer à l'issue du tri
-          rearrange = function(removeIndex, insertIndex, track) {
-            similarTracks.splice(removeIndex, 1);
-            similarTracks.splice(insertIndex, 0, track);
-          };
+    this.sort = function(harmony, similarTracks) {
+      var nbPerfectMatches = 0; // Correspondances en tempo et en tonalité
 
       for (var i = 0, len = similarTracks.length; i < len; i++) {
+
         // Pour chaque morceau, on récupère toutes les infos indispensables
-        var track = similarTracks[i],
-            artist = track.getArtist(),
-            tempo = track.getTempo(),
-            tempoMin = harmony.tempoMin(),
-            tempoMax = harmony.tempoMax(),
-            isMatching = ($.inArray(track.getCamelotTag(), refTrack.getHarmonies()) != -1);
+        var info = Sorting.utils.getTrackInfo(harmony, similarTracks[i]);
 
         // Si un morceau remplit toutes les conditions du mix harmonique...
-        if (tempo >= tempoMin && tempo <= tempoMax && isMatching) {
+        if (info.currentTempo >= info.tempoMin && info.currentTempo <= info.tempoMax && info.isMatching) {
             nbPerfectMatches++;
             // ... on le met en début de tableau
-            rearrange(i, 0, track);
+            Sorting.utils.rearrange(similarTracks, i, 0, similarTracks[i]);
           // Si un morceau remplit une condition (tempo ou tonalité) du mix harmonique...
-        } else if ((tempo >= tempoMin && tempo <= tempoMax) || isMatching) {
+        } else if ((info.currentTempo >= info.tempoMin && info.currentTempo <= info.tempoMax) || info.isMatching) {
             // ... on le met juste après les morceaux les plus pertinents
-            rearrange(i, nbPerfectMatches, track);
+            Sorting.utils.rearrange(similarTracks, i, nbPerfectMatches, similarTracks[i]);
         }
+
       }
 
       // Si les doublons ne sont pas autorisés, on filtre
-      if (!GUI.duplicatesAllowed) {
-        for (var i = 0, len = similarTracks.length; i < len; i++) {
+      return Sorting.utils.duplicateFilter(similarTracks);
 
-          var track = similarTracks[i],
-              artist = track.getArtist();
-
-          // Si l'artiste n'a pas été rencontré dans les suggestions précédentes...
-          if ($.inArray(artist, artists) == -1) {
-            artists.push(artist);
-            tracks.push(track);
-          }
-        }
-      } else {
-        tracks = similarTracks;
-      }
-
-      return tracks;
     };
   },
   /**
@@ -104,66 +89,40 @@ module.exports = Sorting = {
      * Méthode de tri valorisant le tempo
      *
      * @method sort
-     * @param {Object} refTrack Morceau de référence
      * @param {Object} harmony Harmonie recherchée
      * @param {Array} similarTracks Morceaux similaires
      * @return {Array} Tableau de morceaux trié
      */
-    this.sort = function(refTrack, harmony, similarTracks) {
+    this.sort = function(harmony, similarTracks) {
       var nbPerfectMatches = 0, // Correspondances en tempo et en tonalité
-          nbTempoMatches = 0, // Correspondances en tempo
-          artists = [], // Tous les artistes rencontrés dans les résultats
-          tracks = [], // Les morceaux à renvoyer à l'issue du tri
-          rearrange = function(removeIndex, insertIndex, track) {
-            similarTracks.splice(removeIndex, 1);
-            similarTracks.splice(insertIndex, 0, track);
-          };
+          nbTempoMatches = 0; // Correspondances en tempo
 
       for (var i = 0, len = similarTracks.length; i < len; i++) {
 
         // Pour chaque morceau, on récupère toutes les infos indispensables
-        var track = similarTracks[i],
-            currentTempo = track.getTempo(),
-            tempoMin = harmony.tempoMin(),
-            tempoMax = harmony.tempoMax(),
-            isMatching = ($.inArray(track.getCamelotTag(), refTrack.getHarmonies()) != -1);
+        var info = Sorting.utils.getTrackInfo(harmony, similarTracks[i]);
 
         // Si un morceau remplit toutes les conditions du mix harmonique...
-        if (currentTempo >= tempoMin && currentTempo <= tempoMax && isMatching) {
+        if (info.currentTempo >= info.tempoMin && info.currentTempo <= info.tempoMax && info.isMatching) {
             nbPerfectMatches++;
             // ... on le met en début de tableau
-            rearrange(i, 0, track);
+            Sorting.utils.rearrange(similarTracks, i, 0, similarTracks[i]);
           // Si un morceau est compatible en tempo...
-        } else if (currentTempo >= tempoMin && currentTempo <= tempoMax) {
+        } else if (info.currentTempo >= info.tempoMin && info.currentTempo <= info.tempoMax) {
             nbTempoMatches++;
             // ... on le met juste après les morceaux les plus pertinents
-            rearrange(i, nbPerfectMatches, track);
+            Sorting.utils.rearrange(similarTracks, i, nbPerfectMatches, similarTracks[i]);
           // Si un morceau est compatible en tonalité...
-        } else if (isMatching) {
+        } else if (info.isMatching) {
             // ... on le met juste après les morceaux compatibles en tempo
-            rearrange(i, nbPerfectMatches + nbTempoMatches, track);
+            Sorting.utils.rearrange(similarTracks, i, nbPerfectMatches + nbTempoMatches, similarTracks[i]);
         }
 
       }
 
       // Si les doublons ne sont pas autorisés, on filtre
-      if (!GUI.duplicatesAllowed) {
-        for (var i = 0, len = similarTracks.length; i < len; i++) {
+      return Sorting.utils.duplicateFilter(similarTracks);
 
-          var track = similarTracks[i],
-              artist = track.getArtist();
-
-          // Si l'artiste n'a pas été rencontré dans les suggestions précédentes...
-          if ($.inArray(artist, artists) == -1) {
-            artists.push(artist);
-            tracks.push(track);
-          }
-        }
-      } else {
-        tracks = similarTracks;
-      }
-
-      return tracks;
     };
   },
   /**
@@ -180,66 +139,40 @@ module.exports = Sorting = {
      * Méthode de tri valorisant la tonalité
      *
      * @method sort
-     * @param {Object} refTrack Morceau de référence
      * @param {Object} harmony Harmonie recherchée
      * @param {Array} similarTracks Morceaux similaires
      * @return {Array} Tableau de morceaux trié
      */
-    this.sort = function(refTrack, harmony, similarTracks) {
+    this.sort = function(harmony, similarTracks) {
       var nbPerfectMatches = 0, // Correspondances en tempo et en tonalité
-          nbKeyMatches = 0, // Correspondances en tonalité
-          artists = [], // Tous les artistes rencontrés dans les résultats
-          tracks = [], // Les morceaux à renvoyer à l'issue du tri
-          rearrange = function(removeIndex, insertIndex, track) {
-            similarTracks.splice(removeIndex, 1);
-            similarTracks.splice(insertIndex, 0, track);
-          };
+          nbKeyMatches = 0; // Correspondances en tonalité
 
       for (var i = 0, len = similarTracks.length; i < len; i++) {
 
         // Pour chaque morceau, on récupère toutes les infos indispensables
-        var track = similarTracks[i],
-            currentTempo = track.getTempo(),
-            tempoMin = harmony.tempoMin(),
-            tempoMax = harmony.tempoMax(),
-            isMatching = ($.inArray(track.getCamelotTag(), refTrack.getHarmonies()) != -1);
+        var info = Sorting.utils.getTrackInfo(harmony, similarTracks[i]);
 
         // Si un morceau remplit toutes les conditions du mix harmonique...
-        if (currentTempo >= tempoMin && currentTempo <= tempoMax && isMatching) {
+        if (info.currentTempo >= info.tempoMin && info.currentTempo <= info.tempoMax && info.isMatching) {
             nbPerfectMatches++;
             // ... on le met en début de tableau
-            rearrange(i, 0, track);
+            Sorting.utils.rearrange(similarTracks, i, 0, similarTracks[i]);
           // Si un morceau est compatible en tonalité...
-        } else if (isMatching) {
+        } else if (info.isMatching) {
             nbKeyMatches++;
             // ... on le met juste après les morceaux les plus pertinents
-            rearrange(i, nbPerfectMatches, track);
+            Sorting.utils.rearrange(similarTracks, i, nbPerfectMatches, similarTracks[i]);
           // Si un morceau est compatible en tempo...
-        } else if (currentTempo >= tempoMin && currentTempo <= tempoMax) {
+        } else if (info.currentTempo >= info.tempoMin && info.currentTempo <= info.tempoMax) {
             // ... on le met juste après les morceaux compatibles en tonalité
-            rearrange(i, nbPerfectMatches + nbKeyMatches, track);
+            Sorting.utils.rearrange(similarTracks, i, nbPerfectMatches + nbKeyMatches, similarTracks[i]);
         }
 
       }
 
       // Si les doublons ne sont pas autorisés, on filtre
-      if (!GUI.duplicatesAllowed) {
-        for (var i = 0, len = similarTracks.length; i < len; i++) {
+      return Sorting.utils.duplicateFilter(similarTracks);
 
-          var track = similarTracks[i],
-              artist = track.getArtist();
-
-          // Si l'artiste n'a pas été rencontré dans les suggestions précédentes...
-          if ($.inArray(artist, artists) == -1) {
-            artists.push(artist);
-            tracks.push(track);
-          }
-        }
-      } else {
-        tracks = similarTracks;
-      }
-
-      return tracks;
     };
   },
   /**
@@ -254,12 +187,11 @@ module.exports = Sorting = {
      * Méthode de tri croissant, en fonction du tempo
      *
      * @method sort
-     * @param {Object} refTrack Morceau de référence
      * @param {Object} harmony Harmonie recherchée
      * @param {Array} similarTracks Morceaux similaires
      * @return {Array} Tableau de morceaux trié
      */
-    this.sort = function(refTrack, harmony, similarTracks) {
+    this.sort = function(harmony, similarTracks) {
       return _.sortBy(similarTracks, '_tempo');
     };
   },
@@ -275,12 +207,11 @@ module.exports = Sorting = {
      * Méthode de tri décroissant, en fonction du tempo
      *
      * @method sort
-     * @param {Object} refTrack Morceau de référence
      * @param {Object} harmony Harmonie recherchée
      * @param {Array} similarTracks Morceaux similaires
      * @return {Array} Tableau de morceaux trié
      */
-    this.sort = function(refTrack, harmony, similarTracks) {
+    this.sort = function(harmony, similarTracks) {
       similarTracks = _.sortBy(similarTracks, '_tempo');
       return similarTracks.reverse();
     };
@@ -297,14 +228,77 @@ module.exports = Sorting = {
      * Méthode n'appliquant aucun tri
      *
      * @method sort
-     * @param {Object} refTrack Morceau de référence
      * @param {Object} harmony Harmonie recherchée
      * @param {Array} similarTracks Morceaux similaires
      * @return {Array} Tableau de morceaux trié
      */
-    this.sort = function(refTrack, harmony, similarTracks) {
+    this.sort = function(harmony, similarTracks) {
       return similarTracks;
     };
+  },
+  /**
+   * Mini-classe regroupant les méthodes utilitaires pour le tri
+   *
+   * @class Sorting.utils
+   */
+  utils: {
+    /**
+     * Retourne quelques informations importantes sur un morceau
+     *
+     * @method getTrackInfo
+     * @param {Object} harmony Harmonie de référence
+     * @param {Object} track Morceau courant
+     * @return {Object} Informations sur le morceau
+     */
+    getTrackInfo: function(harmony, track) {
+      return {
+        currentTempo: track.getTempo(),
+        tempoMin: harmony.tempoMin(),
+        tempoMax: harmony.tempoMax(),
+        isMatching: ($.inArray(track.getCamelotTag(), harmony.getRefTrack().getHarmonies()) != -1)
+      };
+    },
+    /**
+     * Filtre le tri initial en fonction du statut des doublons (autorisés ou non)
+     *
+     * @method duplicateFilter
+     * @param {Array} similarTracks Tableau de morceaux à filtrer
+     * @return {Array} Tableau de morceaux filtré
+     */
+    duplicateFilter: function(similarTracks) {
+      var tracks = [],
+          artists = [];
+
+      if (!Sorting.duplicatesAllowed) {
+        for (var i = 0, len = similarTracks.length; i < len; i++) {
+
+          var track = similarTracks[i],
+              artist = track.getArtist();
+
+          // Si l'artiste n'a pas été rencontré dans les suggestions précédentes...
+          if ($.inArray(artist, artists) == -1) {
+            artists.push(artist);
+            tracks.push(track);
+          }
+        }
+      } else {
+        tracks = similarTracks;
+      }
+      return tracks;
+    },
+    /**
+     * Réagencement des morceaux dans un tableau
+     *
+     * @method rearrange
+     * @param {Object} similarTracks Morceaux similaires
+     * @param {Number} removeIndex Index du morceau à bouger
+     * @param {Number} insertIndex Index où insérer le morceau
+     * @return {Object} Morceau courant
+     */
+    rearrange: function(similarTracks, removeIndex, insertIndex, track) {
+      similarTracks.splice(removeIndex, 1);
+      similarTracks.splice(insertIndex, 0, track);
+    }
   }
 };
 
@@ -340,7 +334,7 @@ Sorting.Strategy.prototype = {
    * @param {Array} similarTracks Morceaux similaires
    * @return {Array} Tableau de morceaux trié, selon l'algorithme courant
    */
-  sort: function(refTrack, harmony, similarTracks) {
-    return this._algorithm.sort(refTrack, harmony, similarTracks);
+  sort: function(harmony, similarTracks) {
+    return this._algorithm.sort(harmony, similarTracks);
   }
 };

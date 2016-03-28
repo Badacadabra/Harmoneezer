@@ -68,34 +68,41 @@
   display: none;
 }
 
-#user-not-connected {
-  flex-direction: column;
-}
-#user-not-connected #user-msg {
-  font-size: small;
-  margin-bottom: 5px !important;
-}
-#user-not-connected #login {
-  width: 70%;
-}
-
 #menu {
   overflow: hidden;
 }
 
 #autocomplete {
   width: 100%;
+  top: 100px;
 }
 
-#favorites a:first-child,
 #fav-ipod,
-#fav-tooltip,
-#fav-notify,
 #fav-sound,
-#fav-autocomplete {
+#fav-autocomplete,
+#atmospheres {
   display: none;
 }
 
 #toggle-carousel {
   display: none;
+}
+
+#playlist, #favorites {
+  margin-top: 0 !important;
+  padding-bottom: 80px !important;
+}
+
+#user {
+  height: 100% !important;
+}
+#user #user-connected, #user #user-not-connected {
+  flex-direction: column;
+}
+#user #user-connected #user-msg, #user #user-not-connected #user-msg {
+  font-size: medium;
+  margin-bottom: 5px !important;
+}
+#user #user-connected #login, #user #user-not-connected #login {
+  width: 70%;
 }

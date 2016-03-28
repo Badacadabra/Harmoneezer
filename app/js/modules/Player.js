@@ -57,6 +57,24 @@ module.exports = Player = (function() {
           });
         },
         /**
+         * Lecture en cours ?
+         *
+         * @method isPlaying
+         * @return {Boolean} Vrai si la lecture est en cours, faux sinon
+         */
+        this.isPlaying = function() {
+          return DZ.player.isPlaying();
+        },
+        /**
+         * Ajouter des morceaux à la file d'attente
+         *
+         * @method addToQueue
+         * @param {Array} ids Tableau contenant les identifiants des morceaux
+         */
+        this.addToQueue = function(ids) {
+          DZ.player.addToQueue(ids);
+        },
+        /**
          * Chargement et lecture des morceaux
          *
          * @method playTracks
@@ -133,7 +151,7 @@ module.exports = Player = (function() {
          */
         this.repeat = function(code) {
           DZ.player.setRepeat(code);
-        }
+        };
       };
 
   return new function() {

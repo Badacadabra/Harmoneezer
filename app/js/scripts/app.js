@@ -36,8 +36,8 @@ function init() {
 
     GUI.init();
 
-    $search = $( "#search" ),
-    $owl = $( "#tracks" ),
+    $search = $( "#search" );
+    $owl = $( "#tracks" );
     $harmonicTracks = $( "#harmonic-tracks" );
 
     factory = new Ajax.RequestFactory();
@@ -274,7 +274,7 @@ function getInitialAudioSummary(trackId) {
 function buildRefTrackProfile(key, mode, tempo) {
 
     // On met à jour le morceau de référence avec les données musicales
-    if (key != "" && mode != "" && tempo != 0) {
+    if (key !== "" && mode !== "" && tempo !== 0) {
       var camelotTag = Vocabulary.harmonicMix[mode][key].tag,
           harmonies = Vocabulary.camelotWheel[camelotTag].matches;
 
@@ -440,7 +440,7 @@ $( document ).ajaxStop(function() {
   GUI.loading.off();
   // ... et on lance le tri des morceaux récupérés (s'il y en a)
   if (similarTracks.length > 0) {
-    similarTracks = sortingStrategy.sort(refTrack, harmony, similarTracks);
+    similarTracks = sortingStrategy.sort(harmony, similarTracks);
     displayTracks(similarTracks);
   }
 });
@@ -461,8 +461,8 @@ function displayTracks(tracks) {
     var track = iterator.next();
 
     harmony.setOtherTrack(track);
-    isTempoCompatible = harmony.tempoCompatibility(),
-    isKeyCompatible = harmony.keyCompatibility();
+    var isTempoCompatible = harmony.tempoCompatibility(),
+        isKeyCompatible = harmony.keyCompatibility();
 
     html += GUI.template("harmonic-track", track, isTempoCompatible, isKeyCompatible);
     selectedTrack("suggestion-" + track.getId(), track);
@@ -472,5 +472,6 @@ function displayTracks(tracks) {
   $harmonicTracks.append(html);
   GUI.scroll.reset($harmonicTracks);
   GUI.displayFinalTracklist();
+  similarTracks = [];
 
 }
