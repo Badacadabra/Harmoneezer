@@ -28,16 +28,15 @@
         <link rel="stylesheet" href="stylesheets/desktop.css" media="screen">
         <link rel="stylesheet" href="stylesheets/tablet.css" media="screen and (max-width: 800px)">
         <link rel="stylesheet" href="stylesheets/smartphone.css" media="screen and (max-width: 600px)">
+        <!-- PROD
+          <link rel="stylesheet" href="/dist/css/desktop.min.css" media="screen">
+          <link rel="stylesheet" href="/dist/css/tablet.min.css" media="screen and (max-width: 800px)">
+          <link rel="stylesheet" href="/dist/css/smartphone.min.css" media="screen and (max-width: 600px)">
+        -->
         <link rel="stylesheet" href="semantic/dist/semantic.min.css">
         <link rel="stylesheet" href="/dist/css/bower.css">
     </head>
     <body id="app" itemscope itemtype="https://schema.org/WebPage">
-<!--
-        <video autoplay loop poster="../images/background/equalizer.png">
-            <source src="../videos/concert.mp4" type="video/mp4">
-            <source src="../videos/concert.webm" type="video/webm">
-        </video>
--->
         <!-- Menu principal -->
         <nav id="menu" class="ui bottom inverted horizontal sidebar labeled icon menu five item">
             <a id="playlist-btn" class="item">
@@ -119,7 +118,7 @@
                 <strong>Ajoutez-y des morceaux !</strong>
               </div>
             </a>
-            <a id="track-{{ $index }}" class="item playlist-item" v-for="selectedTrack in selectedTracks" itemprop="track" data-title="{{ selectedTrack._tempo + ' BPM' }}">
+            <a id="track-{{ $index }}" class="item playlist-item" v-for="selectedTrack in selectedTracks" itemprop="track">
                 <img v-bind:src="selectedTrack._cover" alt="{{ selectedTrack._title }}">
                 <div class="playlist-track" itemscope itemtype="https://schema.org/MusicRecording">
                   <em itemprop="name">{{ selectedTrack._title }}</em><br>
@@ -296,7 +295,7 @@
           </div>
           <div id="user-connected">
             <img id="user-img">
-            <a id="user-name"></a>
+            <a id="user-name" target="_blank"></a>
             <div id="user-date"></div>
             <button id="logout" class="ui brown inverted button">
               <i class="sign out icon"></i>
@@ -402,7 +401,9 @@
         <script src="/dist/js/bower.js"></script>
         <script src="semantic/dist/semantic.min.js"></script>
         <script src="https://cdns-files.dzcdn.net/js/min/dz.js"></script>
-        <script src="js/bundle/app.js"></script>
-        <!-- <script src="/dist/js/app.min.js"></script> -->
+        <!-- DEV 
+          <script src="js/bundle/app.js"></script>
+        -->
+        <script src="/dist/js/app.min.js"></script>
     </body>
 </html>

@@ -432,7 +432,9 @@ module.exports = GUI = {
    * @method displayFinalTracklist
    */
   displayFinalTracklist: function() {
-    $( "#toggle-carousel" ).trigger( "click" );
+    if ($( "#tracks" ).is( ":visible" )) {
+      $( "#toggle-carousel" ).trigger( "click" );
+    }
     $( "#harmonic-tracks" )
       .sidebar( "setting", "transition", "scale down" )
       .sidebar( "show" );
@@ -593,8 +595,10 @@ module.exports = GUI = {
         $( "#menu" ).sidebar( "toggle" );
       } else {
         // Le pattern de nommage est le suivant : sidebarname-btn
-        var btnId = $( this ).attr( "id" ),
-            sidebarId = btnId.substr(0, btnId.lastIndexOf("-"));
+        var btnId = $( this ).attr( "id" );
+        if (btnId !== undefined) {
+          sidebarId = btnId.substr(0, btnId.lastIndexOf("-"));
+        }
 
         $( "#" + sidebarId ).sidebar( "toggle" );
       }
@@ -939,7 +943,7 @@ module.exports = GUI = {
       if (GUI.tooltipAllowed) {
         GUI.tooltipAllowed = false;
         $( "[data-title != ''], [data-content != '']" ).popup( "destroy" ); // Semantic UI
-        $( "[title != '']" ).tooltip( "destroy" ); // jQuery UI
+        $( document ).tooltip( "destroy" ); // jQuery UI
       } else {
         GUI.tooltipAllowed = true;
         GUI.tooltips();

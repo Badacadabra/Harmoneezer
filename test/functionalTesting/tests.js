@@ -3,7 +3,7 @@ casper.test.begin("Lancement de l'application", 5, function suite(test) {
     casper.start("http://localhost:8000/app", function() {
         test.assertTitle("Créez vos playlists harmoniques avec HARMONEEZER !", "Titre de l'application OK");
         test.assertVisible("#search", "Le moteur de recherche visible");
-        test.assertVisible("#bottom-chevron", "Le bouton principal (chevron) est visible");
+        test.assertVisible("#menu-btn", "Le bouton principal (chevron) est visible");
         test.assertNotVisible("#tracks", "Le carousel de morceaux est invisible");
         test.assertNotVisible(".sidebar", "Les sidebars sont invisibles");
         this.viewport(1920, 1080);
@@ -17,7 +17,7 @@ casper.test.begin("Lancement de l'application", 5, function suite(test) {
 
 /* ========================================================================== */
 
-casper.test.begin("Moteur de recherche", 3, function suite(test) {
+casper.test.begin("Moteur de recherche", 2, function suite(test) {
 
     casper.start("http://localhost:8000/app", function() {
         test.assertExists("#search input", "Champ de saisie identifié");
@@ -35,12 +35,6 @@ casper.test.begin("Moteur de recherche", 3, function suite(test) {
         this.click(".track:first-of-type");
     });
 
-    casper.wait(3000).then(function() {
-        test.assertVisible("#harmonic-tracks");
-        this.viewport(1920, 1080);
-        this.capture("test/functionalTesting/screenshots/3.png");
-    });
-
     casper.run(function() {
         test.done();
     });
@@ -52,7 +46,7 @@ casper.test.begin("Moteur de recherche", 3, function suite(test) {
 casper.test.begin("Navigation", 18, function suite(test) {
 
     casper.start("http://localhost:8000/app", function() {
-        this.click("#bottom-chevron");
+        this.click("#menu-btn");
     });
 
     casper.wait(2000).then(function() {

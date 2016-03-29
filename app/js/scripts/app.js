@@ -11,7 +11,7 @@ var Vocabulary = require('../modules/Vocabulary.js'),
 var similarTracks = [],
     refId,
     refTrack,
-    baseHarmony,
+    harmony,
     factory;
 
 // Sélecteurs jQuery

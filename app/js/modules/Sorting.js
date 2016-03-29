@@ -192,7 +192,7 @@ module.exports = Sorting = {
      * @return {Array} Tableau de morceaux trié
      */
     this.sort = function(harmony, similarTracks) {
-      return _.sortBy(similarTracks, '_tempo');
+      return Sorting.utils.duplicateFilter(_.sortBy(similarTracks, '_tempo'));
     };
   },
   /**
@@ -213,7 +213,7 @@ module.exports = Sorting = {
      */
     this.sort = function(harmony, similarTracks) {
       similarTracks = _.sortBy(similarTracks, '_tempo');
-      return similarTracks.reverse();
+      return Sorting.utils.duplicateFilter(similarTracks.reverse());
     };
   },
   /**
@@ -233,7 +233,7 @@ module.exports = Sorting = {
      * @return {Array} Tableau de morceaux trié
      */
     this.sort = function(harmony, similarTracks) {
-      return similarTracks;
+      return Sorting.utils.duplicateFilter(similarTracks);
     };
   },
   /**

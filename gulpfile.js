@@ -31,13 +31,29 @@ gulp.task('browserify', function() {
       .pipe(gulp.dest('app/js/bundle'));
 });
 
-// Minification du code
-gulp.task('uglify', ['browserify'], function() {
+// Minification du JavaScript
+gulp.task('uglify-js', ['browserify'], function() {
   return gulp.src('app/js/bundle/app.js')
     .pipe(plugins.rename('app.min.js'))
     .pipe(plugins.uglify())
     .pipe(gulp.dest('./dist/js'));
 });
+
+// Minification des feuilles de style
+gulp.task('uglify-css', function () {
+  gulp.src('app/stylesheets/*.css')
+    .pipe(plugins.uglifycss({
+      'maxLineLen': 80,
+      'uglyComments': true
+    }))
+    .pipe(plugins.rename({
+       suffix: '.min'
+     }))
+    .pipe(gulp.dest('./dist/css'));
+});
+
+// Minification de tout le code
+gulp.task('uglify', ['uglify-js', 'uglify-css']);
 
 // Concaténation des fichiers CSS provenant de Bower
 gulp.task('bower-css', function() {
